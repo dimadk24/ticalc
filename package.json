@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "PORT=10888 react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "keywords": [],
   "author": "",
@@ -20,5 +22,8 @@
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.4",
     "react-scripts": "^1.1.4"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
   }
 }
