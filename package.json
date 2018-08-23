@@ -1,0 +1,24 @@
+{
+  "name": "ticalc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "PORT=10888 react-scripts start",
+    "build": "react-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vkontakte/icons": "^1.2.0",
+    "@vkontakte/vkui": "^2.9.1",
+    "@vkontakte/vkui-connect": "^1.0.0",
+    "prettier": "^1.14.2",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-hot-loader": "^4.3.4",
+    "react-scripts": "^1.1.4"
+  }
+}
