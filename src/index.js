@@ -4,7 +4,6 @@ import { AppContainer } from 'react-hot-loader';
 import * as VKConnect from '@vkontakte/vkui-connect';
 import App from './App';
 import registerServiceWorker from './sw';
-import './style.css';
 
 const root = document.getElementById('root');
 
