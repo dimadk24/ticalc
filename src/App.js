@@ -22,16 +22,6 @@ class App extends React.Component {
         return (
             <Root activeView={this.state.activeView}>
                 <Home id="home" />
-
-                {/*<Home*/}
-                {/*id="home"*/}
-                {/*fetchedUser={this.state.fetchedUser}*/}
-                {/*clickHandler={() => this.setState({activePanel: 'persik'})}*/}
-                {/*/>*/}
-                {/*<Persik*/}
-                {/*id="persik"*/}
-                {/*clickHandler={() => this.setState({activePanel: 'home'})}*/}
-                {/*/>*/}
             </Root>
         )
     }
