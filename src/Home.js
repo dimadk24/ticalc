@@ -1,19 +1,21 @@
 import React from 'react'
 import {
+    Button,
     Cell,
+    Div,
     Group,
+    HeaderButton,
+    Input,
     List,
     Panel,
     PanelHeader,
-    HeaderButton,
-    View,
-    Button,
-    Div
+    View
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
 import BackButton from './BackButton'
 import './Home.css'
+import Icon24VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 
 class Home extends React.Component {
     constructor(props) {
@@ -134,6 +136,62 @@ class Home extends React.Component {
                     >
                         Отправить заявку
                     </PanelHeader>
+                    <Group>
+                        <Div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <Button
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <div>
+                                    <span
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center'
+                                        }}
+                                    >
+                                        <Icon24VKLogo />
+                                        <span>
+                                            Отправить заявку с данными профиля
+                                        </span>
+                                    </span>
+                                </div>
+                            </Button>
+                            <Div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center'
+                                }}
+                            >
+                                <span>или</span>
+                            </Div>
+                        </Div>
+                        <div>
+                            <Cell>
+                                <span>Имя</span>
+                                <Input type={'text'} placeholder={'Иван'} />
+                            </Cell>
+                            <Cell>
+                                <span>Телефон</span>
+                                <Input
+                                    type={'tel'}
+                                    placeholder={'+79211234567'}
+                                />
+                            </Cell>
+                            <Cell>
+                                <Button stretched size={'l'}>
+                                    Отправить заявку
+                                </Button>
+                            </Cell>
+                        </div>
+                    </Group>
                 </Panel>
             </View>
         )
