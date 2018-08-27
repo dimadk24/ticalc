@@ -1,15 +1,7 @@
 import React from 'react'
-import {
-    HeaderButton,
-    Panel,
-    PanelHeader,
-    Search,
-    Cell,
-    List,
-    Div
-} from '@vkontakte/vkui'
-import BackButton from './BackButton'
+import {Cell, Div, List, Panel, Search} from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
+import {HeaderWithBackButton} from 'HeaderWithBackButton'
 
 class SweetSelect extends React.Component {
     static propTypes = {
@@ -41,21 +33,18 @@ class SweetSelect extends React.Component {
         )
     }
 
+    notFoundComponent = <Div style={{textAlign: 'center'}}>
+        <p>Не найдено</p>
+    </Div>
+
     render() {
         return (
             <Panel id={this.props.id}>
-                <PanelHeader
-                    noShadow={true}
-                    left={
-                        <HeaderButton
-                            onClick={() => this.props.backClickHandler()}
-                        >
-                            <BackButton />
-                        </HeaderButton>
-                    }
-                >
-                    {this.props.header}
-                </PanelHeader>
+                <HeaderWithBackButton
+                    onBackButtonClick={() => this.props.backClickHandler()}
+                    text={this.props.header}
+                    panelHeaderProps={{noShadow: true}}
+                />
                 <Search onChange={this.onSearchChange.bind(this)} />
                 {this.items.length > 0 && (
                     <List>
@@ -73,9 +62,7 @@ class SweetSelect extends React.Component {
                     </List>
                 )}
                 {!this.items.length && (
-                    <Div style={{textAlign: 'center'}}>
-                        <p>Не найдено</p>
-                    </Div>
+                    this.notFoundComponent
                 )}
             </Panel>
         )

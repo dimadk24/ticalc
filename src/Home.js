@@ -4,8 +4,6 @@ import {
     Cell,
     Div,
     Group,
-    HeaderButton,
-    Input,
     List,
     Panel,
     PanelHeader,
@@ -13,9 +11,8 @@ import {
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
-import BackButton from './BackButton'
 import './Home.css'
-import Icon24VKLogo from '@vkontakte/icons/dist/24/logo_vk'
+import {sendRequestPanel} from './sendRequestPanel'
 
 class Home extends React.Component {
     constructor(props) {
@@ -29,6 +26,10 @@ class Home extends React.Component {
 
     goHome() {
         this.changePanel('main')
+    }
+
+    get ctaText() {
+        return `Отправь заявку, мы свяжемся с тобой за час и подскажем, как привести твою ласточку в идеальное состояние :)`
     }
 
     render() {
@@ -88,11 +89,7 @@ class Home extends React.Component {
                         </Cell>
                     </Group>
                     <Div>
-                        <p>
-                            Отправь заявку, мы свяжемся с тобой за час и
-                            подскажем, как привести твою ласточку в идеальное
-                            состояние :)
-                        </p>
+                        <p>{this.ctaText}</p>
                         <Button
                             align="center"
                             stretched
@@ -126,73 +123,7 @@ class Home extends React.Component {
                     items={[{id: 1, value: '15000 или 1 год'}]}
                     onSelect={(item) => this.setSelectValue('oldness', item)}
                 />
-                <Panel id={'sendRequest'}>
-                    <PanelHeader
-                        left={
-                            <HeaderButton onClick={() => this.goHome()}>
-                                <BackButton />
-                            </HeaderButton>
-                        }
-                    >
-                        Отправить заявку
-                    </PanelHeader>
-                    <Group>
-                        <Div
-                            style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <Button
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <div>
-                                    <span
-                                        style={{
-                                            display: 'flex',
-                                            alignItems: 'center'
-                                        }}
-                                    >
-                                        <Icon24VKLogo />
-                                        <span>
-                                            Отправить заявку с данными профиля
-                                        </span>
-                                    </span>
-                                </div>
-                            </Button>
-                            <Div
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'center'
-                                }}
-                            >
-                                <span>или</span>
-                            </Div>
-                        </Div>
-                        <div>
-                            <Cell>
-                                <span>Имя</span>
-                                <Input type={'text'} placeholder={'Иван'} />
-                            </Cell>
-                            <Cell>
-                                <span>Телефон</span>
-                                <Input
-                                    type={'tel'}
-                                    placeholder={'+79211234567'}
-                                />
-                            </Cell>
-                            <Cell>
-                                <Button stretched size={'l'}>
-                                    Отправить заявку
-                                </Button>
-                            </Cell>
-                        </div>
-                    </Group>
-                </Panel>
+                <sendRequestPanel onBack={() => this.goHome()} />
             </View>
         )
     }
