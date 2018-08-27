@@ -74,7 +74,7 @@ class SweetSelect extends React.Component {
                 )}
                 {!this.items.length && (
                     <Div style={{textAlign: 'center'}}>
-                        <p>Not found</p>
+                        <p>Не найдено</p>
                     </Div>
                 )}
             </Panel>

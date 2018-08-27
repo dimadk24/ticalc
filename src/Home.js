@@ -104,15 +104,15 @@ class Home extends React.Component {
                 <SweetSelect
                     id="chooseModel"
                     backClickHandler={() => this.goHome()}
-                    header="Select model"
-                    items={[{id: 1, value: 'panamera'}]}
+                    header="Модель"
+                    items={[{id: 1, value: 'Almera Classic (2006-2013)'}]}
                     onSelect={(item) => this.setSelectValue('model', item)}
                 />
                 <SweetSelect
                     id="chooseModification"
                     backClickHandler={() => this.goHome()}
-                    header="Select modification"
-                    items={[{id: 1, value: 'cool'}]}
+                    header="Модификация"
+                    items={[{id: 1, value: 'лучшая'}]}
                     onSelect={(item) =>
                         this.setSelectValue('modification', item)
                     }
@@ -120,8 +120,8 @@ class Home extends React.Component {
                 <SweetSelect
                     id="chooseOldness"
                     backClickHandler={() => this.goHome()}
-                    header="Select Oldness"
-                    items={[{id: 1, value: '1k'}]}
+                    header="Пробег или время"
+                    items={[{id: 1, value: '15000 или 1 год'}]}
                     onSelect={(item) => this.setSelectValue('oldness', item)}
                 />
                 <Panel id={'sendRequest'}>
