@@ -35,7 +35,7 @@ class SweetSelect extends React.Component {
     }
 
     get items() {
-        const searchText = this.state.searchText
+        const searchText = this.state.searchText.toLocaleLowerCase()
         return this.props.items.filter(
             ({value}) => value.toLocaleLowerCase().indexOf(searchText) !== -1
         )
