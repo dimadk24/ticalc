@@ -12,7 +12,7 @@ import {
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
 import './Home.css'
-import {sendRequestPanel} from './sendRequestPanel'
+import {SendRequestPanel} from './SendRequestPanel'
 
 class Home extends React.Component {
     constructor(props) {
