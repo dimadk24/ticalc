@@ -4,12 +4,12 @@ import {Button, Cell, Div, Group, Input, Panel} from '@vkontakte/vkui'
 import Icon24VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
 
-export class sendRequestPanel extends Component {
-    static propTypes = {onBack: PropTypes.func}
+export class SendRequestPanel extends Component {
+    static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
 
     render() {
         return (
-            <Panel id={'sendRequest'}>
+            <Panel id={this.props.id}>
                 <HeaderWithBackButton
                     onBackButtonClick={this.props.onBack}
                     text={'Отправить заявку'}

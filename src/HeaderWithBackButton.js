@@ -9,7 +9,7 @@ export class HeaderWithBackButton extends Component {
     render() {
         return (
             <PanelHeader
-                {...props.panelHeaderProps}
+                {...this.props.panelHeaderProps}
                 left={
                     <HeaderButton onClick={this.props.onBackButtonClick}>
                         <BackButton/>

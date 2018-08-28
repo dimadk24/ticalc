@@ -94,7 +94,7 @@ class Home extends React.Component {
                             align="center"
                             stretched
                             size="l"
-                            onClick={() => this.changePanel('sendRequest')}
+                            onClick={() => this.changePanel('sendRequestPanel')}
                         >
                             Отправить заявку
                         </Button>
@@ -123,7 +123,7 @@ class Home extends React.Component {
                     items={[{id: 1, value: '15000 или 1 год'}]}
                     onSelect={(item) => this.setSelectValue('oldness', item)}
                 />
-                <sendRequestPanel onBack={() => this.goHome()} />
+                <SendRequestPanel id="sendRequestPanel" onBack={() => this.goHome()} />
             </View>
         )
     }
