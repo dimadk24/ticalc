@@ -184,9 +184,7 @@ class Home extends React.Component {
 
     setSelectValueAndTryToCalculateResults(key, item) {
         this.setState(
-            {
-                [key]: this.convertFromSweetSelectToHomeItemsFormat(item)
-            },
+            {[key]: this.convertFromSweetSelectToHomeItemsFormat(item)},
             this.tryToCalculateResults
         )
     }
