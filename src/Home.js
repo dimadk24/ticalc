@@ -71,7 +71,7 @@ class Home extends React.Component {
 
     panelHeader = <PanelHeader>Расчет ТО</PanelHeader>
 
-    getSelectIndicators() {
+    getSelectIndicatorList() {
         return (
             <List>
                 {this.getModelSelectIndicator()}
@@ -84,7 +84,7 @@ class Home extends React.Component {
     getCalculationSelectGroup() {
         return (
             <Group title="Рассчитайте стоимость технического обслуживания машины:">
-                {this.getSelectIndicators()}
+                {this.getSelectIndicatorList()}
             </Group>
         )
     }
