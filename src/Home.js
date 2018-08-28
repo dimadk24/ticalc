@@ -124,7 +124,8 @@ class Home extends React.Component {
                 <Panel id="main">
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.calculationResultGroups}
+                    {this.state.calculationResults.ready &&
+                        this.calculationResultGroups}
                     <Div>
                         <p>{this.ctaText}</p>
                         <Button
@@ -142,7 +143,12 @@ class Home extends React.Component {
                     backClickHandler={() => this.goHome()}
                     header="Модель"
                     items={this.models}
-                    onSelect={(item) => this.setSelectValue('model', item)}
+                    onSelect={(item) =>
+                        this.setSelectValueAndTryToCalculateResults(
+                            'model',
+                            item
+                        )
+                    }
                 />
                 <SweetSelect
                     id="chooseModification"
@@ -150,7 +156,10 @@ class Home extends React.Component {
                     header="Модификация"
                     items={this.modifications}
                     onSelect={(item) =>
-                        this.setSelectValue('modification', item)
+                        this.setSelectValueAndTryToCalculateResults(
+                            'modification',
+                            item
+                        )
                     }
                 />
                 <SweetSelect
@@ -158,7 +167,12 @@ class Home extends React.Component {
                     backClickHandler={() => this.goHome()}
                     header="Пробег или время"
                     items={this.oldnesses}
-                    onSelect={(item) => this.setSelectValue('oldness', item)}
+                    onSelect={(item) =>
+                        this.setSelectValueAndTryToCalculateResults(
+                            'oldness',
+                            item
+                        )
+                    }
                 />
                 <SendRequestPanel
                     id="sendRequestPanel"
@@ -168,15 +182,17 @@ class Home extends React.Component {
         )
     }
 
-    setSelectValue(key, item) {
-        this.setState({
-            [key]: this.convertFromSweetSelectToHomeItemsFormat(item)
-        })
+    setSelectValueAndTryToCalculateResults(key, item) {
+        this.setState(
+            {
+                [key]: this.convertFromSweetSelectToHomeItemsFormat(item)
+            },
+            this.tryToCalculateResults
+        )
     }
 
     getInitialState() {
-        const state = {}
-        state.activePanel = 'main'
+        const state = {activePanel: 'main', calculationResults: {ready: false}}
         Object.assign(state, this.getDefaultSelectState('Выбрать'))
         return state
     }
@@ -194,6 +210,32 @@ class Home extends React.Component {
             modification: {id: 0, text},
             oldness: {id: 0, text}
         }
+    }
+
+    tryToCalculateResults() {
+        if (this.allSelected()) {
+            this.setState({calculationResults: {ready: true}})
+        }
+    }
+
+    allSelected() {
+        return (
+            this.getSelectedModelId() &&
+            this.getSelectedModificationId() &&
+            this.getSelectedOldnessId()
+        )
+    }
+
+    getSelectedOldnessId() {
+        return this.state.oldness.id
+    }
+
+    getSelectedModificationId() {
+        return this.state.modification.id
+    }
+
+    getSelectedModelId() {
+        return this.state.model.id
     }
 }
 
