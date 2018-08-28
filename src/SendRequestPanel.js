@@ -14,52 +14,63 @@ export class SendRequestPanel extends Component {
         </Div>
     )
 
-    vkConnectButton = <Button className={'centered'}>
-        <span className={'centered'}>
-            <VKLogo />
-            <span>Отправить заявку с данными профиля</span>
-        </span>
-    </Button>
+    vkConnectButton = (
+        <Button className={'centered'}>
+            <span className={'centered'}>
+                <VKLogo />
+                <span>Отправить заявку с данными профиля</span>
+            </span>
+        </Button>
+    )
 
-    sendButton = <Button stretched size={'l'}>
-        Отправить заявку
-    </Button>
+    sendButton = (
+        <Button stretched size={'l'}>
+            Отправить заявку
+        </Button>
+    )
 
-    phoneComponent = <div><span>Телефон</span>
-        <Input type={'tel'} placeholder={'+79211234567'}/></div>
+    phoneComponent = (
+        <div>
+            <span>Телефон</span>
+            <Input type={'tel'} placeholder={'+79211234567'} />
+        </div>
+    )
 
-    nameComponent = <div><span>Имя</span>
-        <Input type={'text'} placeholder={'Иван'}/></div>
+    nameComponent = (
+        <div>
+            <span>Имя</span>
+            <Input type={'text'} placeholder={'Иван'} />
+        </div>
+    )
 
-    manualForm = <Div>
-        <Cell>
-            {this.nameComponent}
-        </Cell>
-        <Cell>
-            {this.phoneComponent}
-        </Cell>
-        <Cell>
-            {this.sendButton}
-        </Cell>
-    </Div>
+    manualForm = (
+        <Div>
+            <Cell>{this.nameComponent}</Cell>
+            <Cell>{this.phoneComponent}</Cell>
+            <Cell>{this.sendButton}</Cell>
+        </Div>
+    )
 
-    automaticButton = <Div
-        className={'centered'}
-        style={{flexDirection: 'column'}}
-    >
-        {this.vkConnectButton}
-    </Div>
+    automaticButton = (
+        <Div className={'centered'} style={{flexDirection: 'column'}}>
+            {this.vkConnectButton}
+        </Div>
+    )
 
-    panelHeader = <HeaderWithBackButton
-        onBackButtonClick={this.props.onBack}
-        text={'Отправить заявку'}
-    />
+    panelHeader = (
+        <HeaderWithBackButton
+            onBackButtonClick={this.props.onBack}
+            text={'Отправить заявку'}
+        />
+    )
 
-    form = <Group>
-        {this.automaticButton}
-        {this.orComponent}
-        {this.manualForm}
-    </Group>
+    form = (
+        <Group>
+            {this.automaticButton}
+            {this.orComponent}
+            {this.manualForm}
+        </Group>
+    )
 
     render() {
         return (
