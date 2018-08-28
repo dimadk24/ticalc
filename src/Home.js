@@ -11,8 +11,8 @@ import {
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
-import './Home.css'
 import {SendRequestPanel} from './SendRequestPanel'
+import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
 
 class Home extends React.Component {
     constructor(props) {
@@ -28,9 +28,91 @@ class Home extends React.Component {
         this.changePanel('main')
     }
 
-    get ctaText() {
-        return `Отправь заявку, мы свяжемся с тобой за час и подскажем, как привести твою ласточку в идеальное состояние :)`
+    ctaText = `Отправь заявку, мы свяжемся с тобой за час и подскажем, как привести твою ласточку в идеальное состояние :)`
+
+    models = [{id: 1, value: 'Almera Classic (2006-2013)'}]
+
+    modifications = [{id: 1, value: 'лучшая'}]
+
+    oldnesses = [{id: 1, value: '15000 или 1 год'}]
+
+    getModelSelectIndicator() {
+        return (
+            <Cell
+                indicator={this.state.model.text}
+                onClick={() => this.changePanel('chooseModel')}
+            >
+                Модель авто
+            </Cell>
+        )
     }
+
+    getModificationSelectIndicator() {
+        return (
+            <Cell
+                indicator={this.state.modification.text}
+                onClick={() => this.changePanel('chooseModification')}
+            >
+                Модификация
+            </Cell>
+        )
+    }
+
+    getOldnessSelectIndicator() {
+        return (
+            <Cell
+                indicator={this.state.oldness.text}
+                onClick={() => this.changePanel('chooseOldness')}
+            >
+                Пробег или время
+            </Cell>
+        )
+    }
+
+    panelHeader = <PanelHeader>Расчет ТО</PanelHeader>
+
+    getSelectIndicators() {
+        return (
+            <List>
+                {this.getModelSelectIndicator()}
+                {this.getModificationSelectIndicator()}
+                {this.getOldnessSelectIndicator()}
+            </List>
+        )
+    }
+
+    getCalculationSelectGroup() {
+        return (
+            <Group title="Рассчитайте стоимость технического обслуживания машины:">
+                {this.getSelectIndicators()}
+            </Group>
+        )
+    }
+
+    resultWorkGroup = (
+        <Group title={'Работы'}>
+            <MoneyIndicator text={'Покраска'} value={2000} />
+            <SummaryMoneyIndicator text={'Всего по работам'} value={2000} />
+        </Group>
+    )
+    resultMaterialGroup = (
+        <Group title={'Материалы'}>
+            <MoneyIndicator text={'Краска'} value={5000} />
+            <SummaryMoneyIndicator text={'Всего по материалам'} value={5000} />
+        </Group>
+    )
+    resultSummaryGroup = (
+        <Group>
+            <SummaryMoneyIndicator text={'Итого'} value={7000} />
+        </Group>
+    )
+    calculationResultGroups = (
+        <div>
+            {this.resultWorkGroup}
+            {this.resultMaterialGroup}
+            {this.resultSummaryGroup}
+        </div>
+    )
 
     render() {
         return (
@@ -40,54 +122,9 @@ class Home extends React.Component {
                 activePanel={this.state.activePanel}
             >
                 <Panel id="main">
-                    <PanelHeader>Расчет ТО</PanelHeader>
-                    <Group title="Рассчитайте стоимость технического обслуживания машины:">
-                        <List>
-                            <Cell
-                                indicator={this.state.model.text}
-                                onClick={() => this.changePanel('chooseModel')}
-                            >
-                                Модель авто
-                            </Cell>
-                            <Cell
-                                indicator={this.state.modification.text}
-                                onClick={() =>
-                                    this.changePanel('chooseModification')
-                                }
-                            >
-                                Модификация
-                            </Cell>
-                            <Cell
-                                indicator={this.state.oldness.text}
-                                onClick={() =>
-                                    this.changePanel('chooseOldness')
-                                }
-                            >
-                                Пробег или время
-                            </Cell>
-                        </List>
-                    </Group>
-                    <Group title={'Работы'}>
-                        <Cell indicator={'2000 руб'} className={'info'}>
-                            Покраска
-                        </Cell>
-                        <Cell indicator={'2000 руб'} className={'info summary'}>
-                            Всего по работам
-                        </Cell>
-                    </Group>
-                    <Group title={'материалы'}>
-                        <Cell indicator={'5000 руб'} className={'info'}>
-                            Краска
-                        </Cell>
-                        <Cell indicator={'5000 руб'} className={'info summary'}>
-                            Всего по материалам
-                        </Cell>
-                    </Group>
-                    <Group>
-                        <Cell indicator={'7000 руб'} className={'info summary'}>
-                            Итого
-                        </Cell>
-                    </Group>
+                    {this.panelHeader}
+                    {this.getCalculationSelectGroup()}
+                    {this.calculationResultGroups}
                     <Div>
                         <p>{this.ctaText}</p>
                         <Button
@@ -104,14 +141,14 @@ class Home extends React.Component {
                     id="chooseModel"
                     backClickHandler={() => this.goHome()}
                     header="Модель"
-                    items={[{id: 1, value: 'Almera Classic (2006-2013)'}]}
+                    items={this.models}
                     onSelect={(item) => this.setSelectValue('model', item)}
                 />
                 <SweetSelect
                     id="chooseModification"
                     backClickHandler={() => this.goHome()}
                     header="Модификация"
-                    items={[{id: 1, value: 'лучшая'}]}
+                    items={this.modifications}
                     onSelect={(item) =>
                         this.setSelectValue('modification', item)
                     }
@@ -120,10 +157,13 @@ class Home extends React.Component {
                     id="chooseOldness"
                     backClickHandler={() => this.goHome()}
                     header="Пробег или время"
-                    items={[{id: 1, value: '15000 или 1 год'}]}
+                    items={this.oldnesses}
                     onSelect={(item) => this.setSelectValue('oldness', item)}
                 />
-                <SendRequestPanel id="sendRequestPanel" onBack={() => this.goHome()} />
+                <SendRequestPanel
+                    id="sendRequestPanel"
+                    onBack={() => this.goHome()}
+                />
             </View>
         )
     }
