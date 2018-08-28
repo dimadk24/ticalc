@@ -31,33 +31,41 @@ export class SendRequestPanel extends Component {
     nameComponent = <div><span>Имя</span>
         <Input type={'text'} placeholder={'Иван'}/></div>
 
+    manualForm = <Div>
+        <Cell>
+            {this.nameComponent}
+        </Cell>
+        <Cell>
+            {this.phoneComponent}
+        </Cell>
+        <Cell>
+            {this.sendButton}
+        </Cell>
+    </Div>
+
+    automaticButton = <Div
+        className={'centered'}
+        style={{flexDirection: 'column'}}
+    >
+        {this.vkConnectButton}
+    </Div>
+
+    panelHeader = <HeaderWithBackButton
+        onBackButtonClick={this.props.onBack}
+        text={'Отправить заявку'}
+    />
+
+    form = <Group>
+        {this.automaticButton}
+        {this.orComponent}
+        {this.manualForm}
+    </Group>
+
     render() {
         return (
             <Panel id={this.props.id}>
-                <HeaderWithBackButton
-                    onBackButtonClick={this.props.onBack}
-                    text={'Отправить заявку'}
-                />
-                <Group>
-                    <Div
-                        className={'centered'}
-                        style={{flexDirection: 'column'}}
-                    >
-                        {this.vkConnectButton}
-                        {this.orComponent}
-                    </Div>
-                    <Div>
-                        <Cell>
-                            {this.nameComponent}
-                        </Cell>
-                        <Cell>
-                            {this.phoneComponent}
-                        </Cell>
-                        <Cell>
-                            {this.sendButton}
-                        </Cell>
-                    </Div>
-                </Group>
+                {this.panelHeader}
+                {this.form}
             </Panel>
         )
     }
