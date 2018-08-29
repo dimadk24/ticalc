@@ -6,6 +6,7 @@ import {
     Group,
     List,
     Panel,
+    Header,
     PanelHeader,
     View
 } from '@vkontakte/vkui'
@@ -83,7 +84,10 @@ class Home extends React.Component {
 
     getCalculationSelectGroup() {
         return (
-            <Group title="Рассчитайте стоимость технического обслуживания машины:">
+            <Group>
+                <Header>
+                    Рассчитайте стоимость технического обслуживания машины:
+                </Header>
                 {this.getSelectIndicatorList()}
             </Group>
         )
