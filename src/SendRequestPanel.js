@@ -9,6 +9,14 @@ import {PhoneInput} from './PhoneInput'
 export class SendRequestPanel extends Component {
     static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            name: '',
+            phone: ''
+        }
+    }
+
     orComponent = (
         <Div className={'centered'}>
             <span>или</span>
@@ -25,7 +33,14 @@ export class SendRequestPanel extends Component {
     )
 
     sendButton = (
-        <Button stretched size={'l'}>
+        <Button
+            stretched
+            size={'l'}
+            onClick={() => {
+                this.sendForm()
+                this.showFormSendedAlert()
+            }}
+        >
             Отправить заявку
         </Button>
     )
@@ -35,7 +50,7 @@ export class SendRequestPanel extends Component {
             <span>Телефон</span>
             <PhoneInput
                 placeholder={'+79211234567'}
-                onChange={(value) => console.log(value)}
+                onChange={(value) => this.setState({phone: value})}
             />
         </div>
     )
@@ -43,7 +58,11 @@ export class SendRequestPanel extends Component {
     nameComponent = (
         <div>
             <span>Имя</span>
-            <Input type={'text'} placeholder={'Иван'} />
+            <Input
+                type={'text'}
+                placeholder={'Иван'}
+                onChange={(e) => this.setState({name: e.target.value})}
+            />
         </div>
     )
 
@@ -83,5 +102,15 @@ export class SendRequestPanel extends Component {
                 {this.form}
             </Panel>
         )
+    }
+
+    sendForm() {
+        const {name, phone} = this.state
+        console.log(name)
+        console.log(phone)
+    }
+
+    showFormSendedAlert() {
+        console.log('alert')
     }
 }
