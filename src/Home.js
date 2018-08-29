@@ -4,9 +4,9 @@ import {
     Cell,
     Div,
     Group,
+    Header,
     List,
     Panel,
-    Header,
     PanelHeader,
     View
 } from '@vkontakte/vkui'
