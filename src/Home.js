@@ -149,7 +149,7 @@ class Home extends React.Component {
                 <Panel id="main">
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.state.calculationResults.ready && this.resultsAndCta}
+                    {this.ifCalculationResultsReady() && this.resultsAndCta}
                 </Panel>
                 <SweetSelect
                     id="chooseModel"
@@ -193,6 +193,10 @@ class Home extends React.Component {
                 />
             </View>
         )
+    }
+
+    ifCalculationResultsReady() {
+        return this.state.calculationResults.ready
     }
 
     setSelectValueAndTryToCalculateResults(key, item) {
