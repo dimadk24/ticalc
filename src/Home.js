@@ -114,6 +114,31 @@ class Home extends React.Component {
         </div>
     )
 
+    ctaButton = (
+        <Button
+            align="center"
+            stretched
+            size="l"
+            onClick={() => this.changePanel('sendRequestPanel')}
+        >
+            Отправить заявку
+        </Button>
+    )
+
+    ctaComponent = (
+        <Div>
+            <p>{this.ctaText}</p>
+            {this.ctaButton}
+        </Div>
+    )
+
+    resultsAndCta = (
+        <div>
+            {this.calculationResultGroups}
+            {this.ctaComponent}
+        </div>
+    )
+
     render() {
         return (
             <View
@@ -124,19 +149,7 @@ class Home extends React.Component {
                 <Panel id="main">
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.state.calculationResults.ready &&
-                        this.calculationResultGroups}
-                    <Div>
-                        <p>{this.ctaText}</p>
-                        <Button
-                            align="center"
-                            stretched
-                            size="l"
-                            onClick={() => this.changePanel('sendRequestPanel')}
-                        >
-                            Отправить заявку
-                        </Button>
-                    </Div>
+                    {this.state.calculationResults.ready && this.resultsAndCta}
                 </Panel>
                 <SweetSelect
                     id="chooseModel"
