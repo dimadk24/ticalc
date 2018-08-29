@@ -4,6 +4,7 @@ import {Button, Cell, Div, Group, Input, Panel} from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
 import './SendRequestPanel.css'
+import {PhoneInput} from './PhoneInput'
 
 export class SendRequestPanel extends Component {
     static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
@@ -32,7 +33,10 @@ export class SendRequestPanel extends Component {
     phoneComponent = (
         <div>
             <span>Телефон</span>
-            <Input type={'tel'} placeholder={'+79211234567'} />
+            <PhoneInput
+                placeholder={'+79211234567'}
+                onChange={(value) => console.log(value)}
+            />
         </div>
     )
 
