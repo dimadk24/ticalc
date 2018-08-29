@@ -138,7 +138,7 @@ class Home extends React.Component {
 
     resultsAndCta = (
         <div>
-            {this.calculationResultGroups}
+
             {this.ctaComponent}
         </div>
     )
@@ -153,7 +153,8 @@ class Home extends React.Component {
                 <Panel id="main">
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.ifCalculationResultsReady() && this.resultsAndCta}
+                    {this.ifCalculationResultsReady() && this.calculationResultGroups}
+                    {this.ctaComponent}
                 </Panel>
                 <SweetSelect
                     id="chooseModel"
