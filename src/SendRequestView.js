@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Cell, Div, Group, Input, Panel} from '@vkontakte/vkui'
+import {Button, Cell, Div, Group, Input, Panel, View} from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
 import './SendRequestPanel.css'
 import {PhoneInput} from './PhoneInput'
 
-export class SendRequestPanel extends Component {
+export class SendRequestView extends Component {
     static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
 
     constructor(props) {
@@ -97,10 +97,16 @@ export class SendRequestPanel extends Component {
 
     render() {
         return (
-            <Panel id={this.props.id}>
-                {this.panelHeader}
-                {this.form}
-            </Panel>
+            <View
+                id={this.props.id}
+                activePanel={this.props.id + 'main'}
+                header
+            >
+                <Panel id={this.props.id + 'main'}>
+                    {this.panelHeader}
+                    {this.form}
+                </Panel>
+            </View>
         )
     }
 

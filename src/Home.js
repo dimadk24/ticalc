@@ -12,21 +12,43 @@ import {
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
-import {SendRequestPanel} from './SendRequestPanel'
 import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
+import PropTypes from 'prop-types'
+
+let state = {
+    calculationResults: {ready: false}
+}
+Object.assign(state, getDefaultSelectState('Выбрать'))
+
+function getDefaultSelectState(text) {
+    return {
+        model: {id: 0, text},
+        modification: {id: 0, text},
+        oldness: {id: 0, text}
+    }
+}
 
 class Home extends React.Component {
+    static propTypes = {
+        onCtaClick: PropTypes.func
+    }
+
     constructor(props) {
         super(props)
-        this.state = this.getInitialState()
+        this.state = state
+        state.activePanel = this.props.id + 'main'
     }
 
     changePanel(id) {
         this.setState({activePanel: id})
     }
 
+    componentWillUnmount() {
+        state = this.state
+    }
+
     goHome() {
-        this.changePanel('main')
+        this.changePanel(this.props.id + 'main')
     }
 
     ctaText = `Отправь заявку, мы свяжемся с тобой за час и подскажем, как привести твою ласточку в идеальное состояние :)`
@@ -123,7 +145,7 @@ class Home extends React.Component {
             align="center"
             stretched
             size="l"
-            onClick={() => this.changePanel('sendRequestPanel')}
+            onClick={() => this.props.onCtaClick()}
         >
             Отправить заявку
         </Button>
@@ -145,10 +167,11 @@ class Home extends React.Component {
                 activePanel={this.state.activePanel}
                 header
             >
-                <Panel id="main">
+                <Panel id={this.props.id + 'main'}>
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.ifCalculationResultsReady() && this.calculationResultGroups}
+                    {this.ifCalculationResultsReady() &&
+                        this.calculationResultGroups}
                     {this.ctaComponent}
                 </Panel>
                 <SweetSelect
@@ -187,10 +210,6 @@ class Home extends React.Component {
                         )
                     }
                 />
-                <SendRequestPanel
-                    id="sendRequestPanel"
-                    onBack={() => this.goHome()}
-                />
             </View>
         )
     }
@@ -207,7 +226,10 @@ class Home extends React.Component {
     }
 
     getInitialState() {
-        const state = {activePanel: 'main', calculationResults: {ready: false}}
+        const state = {
+            activePanel: this.props.id + 'main',
+            calculationResults: {ready: false}
+        }
         Object.assign(state, this.getDefaultSelectState('Выбрать'))
         return state
     }

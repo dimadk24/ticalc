@@ -4,6 +4,7 @@ import {Root} from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 
 import Home from './Home'
+import {SendRequestView} from './SendRequestView'
 
 class App extends React.Component {
     constructor(props) {
@@ -18,12 +19,28 @@ class App extends React.Component {
         VKConnect.send('VKWebAppInit', {})
     }
 
+    goHome() {
+        this.changeView('home')
+    }
+
     render() {
         return (
             <Root activeView={this.state.activeView}>
-                <Home id="home" />
+                <Home id="home" onCtaClick={() => this.goToSendRequestView()} />
+                <SendRequestView
+                    id="sendRequest"
+                    onBack={() => this.goHome()}
+                />
             </Root>
         )
+    }
+
+    goToSendRequestView() {
+        this.changeView('sendRequest')
+    }
+
+    changeView(id) {
+        this.setState({activeView: id})
     }
 }
 
