@@ -1,6 +1,15 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Button, Cell, Div, Group, Input, Panel, View} from '@vkontakte/vkui'
+import {
+    Alert,
+    Button,
+    Cell,
+    Div,
+    Group,
+    Input,
+    Panel,
+    View
+} from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
 import './SendRequestView.css'
@@ -9,7 +18,8 @@ import {PhoneInput} from './PhoneInput'
 let state = {
     name: '',
     phone: '',
-    phoneNotValid: false
+    phoneNotValid: false,
+    popout: null
 }
 
 export class SendRequestView extends Component {
@@ -64,7 +74,9 @@ export class SendRequestView extends Component {
                         return this.setState({phone: value})
                     }}
                 />
-                {this.state.phoneNotValid && <p className={'error-hint'}>Введите телефон</p>}
+                {this.state.phoneNotValid && (
+                    <p className={'error-hint'}>Введите телефон</p>
+                )}
             </div>
         )
     }
@@ -122,6 +134,7 @@ export class SendRequestView extends Component {
                 id={this.props.id}
                 activePanel={this.props.id + 'main'}
                 header
+                popout={this.state.popout}
             >
                 <Panel id={this.props.id + 'main'}>
                     {this.panelHeader}
@@ -147,7 +160,27 @@ export class SendRequestView extends Component {
     }
 
     showFormSendedAlert() {
-        console.log('alert')
+        this.setState({
+            popout: this.getAlert()
+        })
+    }
+
+    getAlert() {
+        return (
+            <Alert
+                actions={[
+                    {
+                        title: 'OK',
+                        autoclose: true,
+                        style: 'primary'
+                    }
+                ]}
+                onClose={() => this.setState({popout: null})}
+            >
+                <h2>Отправлено!</h2>
+                <p>Мы свяжемся с вами в течении часа</p>
+            </Alert>
+        )
     }
 
     formIsValid() {
