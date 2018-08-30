@@ -157,6 +157,4 @@ export class SendRequestView extends Component {
     removePlus(phone) {
         return phone.replace(/[^0-9]/g, '')
     }
-
-    showErrorFields() {}
 }
