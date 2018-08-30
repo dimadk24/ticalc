@@ -158,8 +158,6 @@ class Home extends React.Component {
         </Div>
     )
 
-    resultsAndCta = <div>{this.ctaComponent}</div>
-
     render() {
         return (
             <View
@@ -224,28 +222,10 @@ class Home extends React.Component {
             this.tryToCalculateResults
         )
     }
-
-    getInitialState() {
-        const state = {
-            activePanel: this.props.id + 'main',
-            calculationResults: {ready: false}
-        }
-        Object.assign(state, this.getDefaultSelectState('Выбрать'))
-        return state
-    }
-
     convertFromSweetSelectToHomeItemsFormat(item) {
         return {
             id: item.id,
             text: item.value
-        }
-    }
-
-    getDefaultSelectState(text) {
-        return {
-            model: {id: 0, text},
-            modification: {id: 0, text},
-            oldness: {id: 0, text}
         }
     }
 
