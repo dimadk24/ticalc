@@ -136,19 +136,14 @@ class Home extends React.Component {
         </Div>
     )
 
-    resultsAndCta = (
-        <div>
-
-            {this.ctaComponent}
-        </div>
-    )
+    resultsAndCta = <div>{this.ctaComponent}</div>
 
     render() {
         return (
             <View
                 id={this.props.id}
-                header={true}
                 activePanel={this.state.activePanel}
+                header
             >
                 <Panel id="main">
                     {this.panelHeader}
