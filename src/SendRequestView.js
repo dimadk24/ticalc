@@ -8,6 +8,7 @@ import {
     Group,
     Input,
     Panel,
+    ScreenSpinner,
     View
 } from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
@@ -53,9 +54,8 @@ export class SendRequestView extends Component {
         <Button
             stretched
             size={'l'}
-            onClick={(e) => {
-                e.preventDefault()
-                this.validateAndShowErrorsAndSendForm()
+            onClick={async () => {
+                await this.validateAndShowErrorsAndSendForm()
             }}
         >
             Отправить заявку
@@ -144,22 +144,28 @@ export class SendRequestView extends Component {
         )
     }
 
-    validateAndShowErrorsAndSendForm() {
+    async validateAndShowErrorsAndSendForm() {
         const {name, phone} = this.state
         if (this.formIsValid()) {
-            this.sendRequest(name, phone)
-            this.showFormSendedAlert()
+            this.showSpinner()
+            await this.sendRequest(name, phone)
+            this.showFormSentAlert()
         } else {
             this.setState({phoneNotValid: true})
         }
     }
 
     sendRequest(name, phone) {
-        console.log(name)
-        console.log(phone)
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log(name)
+                console.log(phone)
+                resolve()
+            }, 1000)
+        })
     }
 
-    showFormSendedAlert() {
+    showFormSentAlert() {
         this.setState({
             popout: this.getAlert()
         })
@@ -189,5 +195,9 @@ export class SendRequestView extends Component {
 
     removePlus(phone) {
         return phone.replace(/[^0-9]/g, '')
+    }
+
+    showSpinner() {
+        this.setState({popout: <ScreenSpinner />})
     }
 }
