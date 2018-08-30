@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import {Button, Cell, Div, Group, Input, Panel, View} from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
-import './SendRequestPanel.css'
+import './SendRequestView.css'
 import {PhoneInput} from './PhoneInput'
 
 let state = {
     name: '',
-    phone: ''
+    phone: '',
+    phoneNotValid: false
 }
 
 export class SendRequestView extends Component {
@@ -42,45 +43,55 @@ export class SendRequestView extends Component {
         <Button
             stretched
             size={'l'}
-            onClick={() => {
-                this.sendForm()
-                this.showFormSendedAlert()
+            onClick={(e) => {
+                e.preventDefault()
+                this.validateAndShowErrorsAndSendForm()
             }}
         >
             Отправить заявку
         </Button>
     )
 
-    getPhoneComponent() {return (
-        <div>
-            <span>Телефон</span>
-            <PhoneInput
-                placeholder={'+79211234567'}
-                value = {this.state.phone}
-                onChange={(value) => this.setState({phone: value})}
-            />
-        </div>
-    )}
+    getPhoneComponent() {
+        return (
+            <div>
+                <span>Телефон</span>
+                <PhoneInput
+                    placeholder={'+79211234567'}
+                    value={this.state.phone}
+                    className={this.state.phoneNotValid ? 'error' : ''}
+                    onChange={(value) => {
+                        this.setState({phoneNotValid: false})
+                        return this.setState({phone: value})
+                    }}
+                />
+            </div>
+        )
+    }
 
-    getNameComponent(){return (
-        <div>
-            <span>Имя</span>
-            <Input
-                type={'text'}
-                placeholder={'Иван'}
-                value = {this.state.name}
-                onChange={(e) => this.setState({name: e.target.value})}
-            />
-        </div>
-    )}
+    getNameComponent() {
+        return (
+            <div>
+                <span>Имя</span>
+                <Input
+                    type={'text'}
+                    placeholder={'Иван'}
+                    value={this.state.name}
+                    onChange={(e) => this.setState({name: e.target.value})}
+                />
+            </div>
+        )
+    }
 
-    getManualForm() {return (
-        <Div>
-            <Cell>{this.getNameComponent()}</Cell>
-            <Cell>{this.getPhoneComponent()}</Cell>
-            <Cell>{this.sendButton}</Cell>
-        </Div>
-    )}
+    getManualForm() {
+        return (
+            <Div>
+                <Cell>{this.getNameComponent()}</Cell>
+                <Cell>{this.getPhoneComponent()}</Cell>
+                <Cell>{this.sendButton}</Cell>
+            </Div>
+        )
+    }
 
     automaticButton = (
         <Div className={'centered'} style={{flexDirection: 'column'}}>
@@ -95,13 +106,15 @@ export class SendRequestView extends Component {
         />
     )
 
-    getForm() {return (
-        <Group>
-            {this.automaticButton}
-            {this.orComponent}
-            {this.getManualForm()}
-        </Group>
-    )}
+    getForm() {
+        return (
+            <Group>
+                {this.automaticButton}
+                {this.orComponent}
+                {this.getManualForm()}
+            </Group>
+        )
+    }
 
     render() {
         return (
@@ -118,8 +131,17 @@ export class SendRequestView extends Component {
         )
     }
 
-    sendForm() {
+    validateAndShowErrorsAndSendForm() {
         const {name, phone} = this.state
+        if (this.formIsValid()) {
+            this.sendRequest(name, phone)
+            this.showFormSendedAlert()
+        } else {
+            this.setState({phoneNotValid: true})
+        }
+    }
+
+    sendRequest(name, phone) {
         console.log(name)
         console.log(phone)
     }
@@ -127,4 +149,14 @@ export class SendRequestView extends Component {
     showFormSendedAlert() {
         console.log('alert')
     }
+
+    formIsValid() {
+        return Boolean(this.removePlus(this.state.phone))
+    }
+
+    removePlus(phone) {
+        return phone.replace(/[^0-9]/g, '')
+    }
+
+    showErrorFields() {}
 }

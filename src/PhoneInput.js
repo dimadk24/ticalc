@@ -7,7 +7,8 @@ class PhoneInput extends React.Component {
     static propTypes = {
         placeholder: PropTypes.string,
         value: PropTypes.string,
-        onChange: PropTypes.func.isRequired
+        onChange: PropTypes.func.isRequired,
+        className: PropTypes.string
     }
 
     constructor(props) {
@@ -50,6 +51,7 @@ class PhoneInput extends React.Component {
                 placeholder={this.format(this.props.placeholder)}
                 onChange={(e) => this.onChange(e)}
                 value={this.state.value}
+                className={this.props.className}
             />
         )
     }
