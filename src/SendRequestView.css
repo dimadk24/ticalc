@@ -4,6 +4,6 @@
     align-items: center;
 }
 
-.error > * {
-    border-color: red !important;
+.error-hint {
+    color: red;
 }

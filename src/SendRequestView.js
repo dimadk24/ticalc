@@ -59,12 +59,12 @@ export class SendRequestView extends Component {
                 <PhoneInput
                     placeholder={'+79211234567'}
                     value={this.state.phone}
-                    className={this.state.phoneNotValid ? 'error' : ''}
                     onChange={(value) => {
                         this.setState({phoneNotValid: false})
                         return this.setState({phone: value})
                     }}
                 />
+                {this.state.phoneNotValid && <p className={'error-hint'}>Введите телефон</p>}
             </div>
         )
     }
