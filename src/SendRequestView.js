@@ -6,15 +6,21 @@ import {HeaderWithBackButton} from './HeaderWithBackButton'
 import './SendRequestPanel.css'
 import {PhoneInput} from './PhoneInput'
 
+let state = {
+    name: '',
+    phone: ''
+}
+
 export class SendRequestView extends Component {
     static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
 
     constructor(props) {
         super(props)
-        this.state = {
-            name: '',
-            phone: ''
-        }
+        this.state = state
+    }
+
+    componentWillUnmount() {
+        state = this.state
     }
 
     orComponent = (
@@ -45,34 +51,36 @@ export class SendRequestView extends Component {
         </Button>
     )
 
-    phoneComponent = (
+    getPhoneComponent() {return (
         <div>
             <span>Телефон</span>
             <PhoneInput
                 placeholder={'+79211234567'}
+                value = {this.state.phone}
                 onChange={(value) => this.setState({phone: value})}
             />
         </div>
-    )
+    )}
 
-    nameComponent = (
+    getNameComponent(){return (
         <div>
             <span>Имя</span>
             <Input
                 type={'text'}
                 placeholder={'Иван'}
+                value = {this.state.name}
                 onChange={(e) => this.setState({name: e.target.value})}
             />
         </div>
-    )
+    )}
 
-    manualForm = (
+    getManualForm() {return (
         <Div>
-            <Cell>{this.nameComponent}</Cell>
-            <Cell>{this.phoneComponent}</Cell>
+            <Cell>{this.getNameComponent()}</Cell>
+            <Cell>{this.getPhoneComponent()}</Cell>
             <Cell>{this.sendButton}</Cell>
         </Div>
-    )
+    )}
 
     automaticButton = (
         <Div className={'centered'} style={{flexDirection: 'column'}}>
@@ -87,13 +95,13 @@ export class SendRequestView extends Component {
         />
     )
 
-    form = (
+    getForm() {return (
         <Group>
             {this.automaticButton}
             {this.orComponent}
-            {this.manualForm}
+            {this.getManualForm()}
         </Group>
-    )
+    )}
 
     render() {
         return (
@@ -104,7 +112,7 @@ export class SendRequestView extends Component {
             >
                 <Panel id={this.props.id + 'main'}>
                     {this.panelHeader}
-                    {this.form}
+                    {this.getForm()}
                 </Panel>
             </View>
         )

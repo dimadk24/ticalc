@@ -6,12 +6,14 @@ import PropTypes from 'prop-types'
 class PhoneInput extends React.Component {
     static propTypes = {
         placeholder: PropTypes.string,
+        value: PropTypes.string,
         onChange: PropTypes.func.isRequired
     }
 
     constructor(props) {
         super(props)
-        this.state = {value: ''}
+        const value = this.props.value || ''
+        this.state = {value: value}
     }
 
     onChange(e) {
