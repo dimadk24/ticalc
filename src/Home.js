@@ -8,6 +8,7 @@ import {
     List,
     Panel,
     PanelHeader,
+    ScreenSpinner,
     View
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
@@ -16,7 +17,7 @@ import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
 import PropTypes from 'prop-types'
 
 let state = {
-    calculationResults: {ready: false}
+    calculationResults: {state: 'notSelected'}
 }
 Object.assign(state, getDefaultSelectState('Выбрать'))
 
@@ -168,8 +169,7 @@ class Home extends React.Component {
                 <Panel id={this.props.id + 'main'}>
                     {this.panelHeader}
                     {this.getCalculationSelectGroup()}
-                    {this.ifCalculationResultsReady() &&
-                        this.calculationResultGroups}
+                    {this.getCalculationResults()}
                     {this.ctaComponent}
                 </Panel>
                 <SweetSelect
@@ -212,16 +212,13 @@ class Home extends React.Component {
         )
     }
 
-    ifCalculationResultsReady() {
-        return this.state.calculationResults.ready
-    }
-
     setSelectValueAndTryToCalculateResults(key, item) {
         this.setState(
             {[key]: this.convertFromSweetSelectToHomeItemsFormat(item)},
             this.tryToCalculateResults
         )
     }
+
     convertFromSweetSelectToHomeItemsFormat(item) {
         return {
             id: item.id,
@@ -231,8 +228,16 @@ class Home extends React.Component {
 
     tryToCalculateResults() {
         if (this.allSelected()) {
-            this.setState({calculationResults: {ready: true}})
+            this.calculateResults()
         }
+    }
+
+    calculateResults() {
+        this.setState({calculationResults: {state: 'loading'}})
+        setTimeout(
+            () => this.setState({calculationResults: {state: 'ready'}}),
+            1000
+        )
     }
 
     allSelected() {
@@ -253,6 +258,23 @@ class Home extends React.Component {
 
     getSelectedModelId() {
         return this.state.model.id
+    }
+
+    getCalculationResults() {
+        const switcher = {
+            notSelected: null,
+            loading: this.getSpinner(),
+            ready: this.calculationResultGroups
+        }
+        return switcher[this.getCalculationResultsState()]
+    }
+
+    getCalculationResultsState() {
+        return this.state.calculationResults.state
+    }
+
+    getSpinner() {
+        return <ScreenSpinner />
     }
 }
 
