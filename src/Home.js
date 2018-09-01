@@ -17,7 +17,11 @@ import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
 import PropTypes from 'prop-types'
 
 let state = {
-    calculationResults: {state: 'notSelected'}
+    calculationResults: {
+        status: 'notSelected',
+        works: [],
+        materials: []
+    }
 }
 Object.assign(state, getDefaultSelectState('Выбрать'))
 
@@ -38,6 +42,10 @@ class Home extends React.Component {
         super(props)
         this.state = state
         state.activePanel = this.props.id + 'main'
+    }
+
+    get resultsStatus() {
+        return this.state.calculationResults.status
     }
 
     changePanel(id) {
@@ -116,30 +124,71 @@ class Home extends React.Component {
         )
     }
 
-    resultWorkGroup = (
-        <Group title={'Работы'}>
-            <MoneyIndicator text={'Покраска'} value={2000} />
-            <SummaryMoneyIndicator text={'Всего по работам'} value={2000} />
-        </Group>
-    )
-    resultMaterialGroup = (
-        <Group title={'Материалы'}>
-            <MoneyIndicator text={'Краска'} value={5000} />
-            <SummaryMoneyIndicator text={'Всего по материалам'} value={5000} />
-        </Group>
-    )
-    resultSummaryGroup = (
-        <Group>
-            <SummaryMoneyIndicator text={'Итого'} value={7000} />
-        </Group>
-    )
-    calculationResultGroups = (
-        <div>
-            {this.resultWorkGroup}
-            {this.resultMaterialGroup}
-            {this.resultSummaryGroup}
-        </div>
-    )
+    getResultWorkGroup() {
+        return (
+            <Group title={'Работы'}>
+                {this.state.calculationResults.works.map((item, index) => (
+                    <MoneyIndicator text={item.name} value={item.price} key={index}/>
+                ))}
+                {
+                    <SummaryMoneyIndicator
+                        text={'Всего по работам'}
+                        value={this.getSummaryValue('works')}
+                    />
+                }
+            </Group>
+        )
+    }
+
+    getResultMaterialGroup() {
+        return (
+            <Group title={'Материалы'}>
+                {this.state.calculationResults.materials.map((item, index) => (
+                    <MoneyIndicator text={item.name} value={item.price} key={index}/>
+                ))}
+
+                <SummaryMoneyIndicator
+                    text={'Всего по материалам'}
+                    value={this.getSummaryValue('materials')}
+                />
+            </Group>
+        )
+    }
+
+    getSummaryValue(thing) {
+        return this.state.calculationResults[thing].reduce(
+            (accumulator, currentValue) => accumulator + currentValue.price,
+            0
+        )
+    }
+
+    getResultSummaryGroup() {
+        return (
+            <Group>
+                <SummaryMoneyIndicator
+                    text={'Итого'}
+                    value={
+                        this.getSummaryValue('works') +
+                        this.getSummaryValue('materials')
+                    }
+                />
+            </Group>
+        )
+    }
+
+    getCalculationResultGroups() {
+        return (
+            <div>
+                {this.resultsStatus === 'ready' && (
+                    <div>
+                        {this.getResultWorkGroup()}
+                        {this.getResultMaterialGroup()}
+                        {this.getResultSummaryGroup()}
+                    </div>
+                )}
+            </div>
+        )
+    }
 
     ctaButton = (
         <Button
@@ -233,9 +282,19 @@ class Home extends React.Component {
     }
 
     calculateResults() {
-        this.setState({calculationResults: {state: 'loading'}})
+        this.setState((state) => {
+            Object.assign(state.calculationResults, {status: 'loading'})
+            return state
+        })
         setTimeout(
-            () => this.setState({calculationResults: {state: 'ready'}}),
+            () =>
+                this.setState({
+                    calculationResults: {
+                        status: 'ready',
+                        works: [{name: 'Покраска', price: 2000}],
+                        materials: [{name: 'Краска', price: 5000}]
+                    }
+                }),
             1000
         )
     }
@@ -264,13 +323,9 @@ class Home extends React.Component {
         const switcher = {
             notSelected: null,
             loading: this.getSpinner(),
-            ready: this.calculationResultGroups
+            ready: this.getCalculationResultGroups()
         }
-        return switcher[this.getCalculationResultsState()]
-    }
-
-    getCalculationResultsState() {
-        return this.state.calculationResults.state
+        return switcher[this.resultsStatus]
     }
 
     getSpinner() {
