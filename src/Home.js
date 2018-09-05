@@ -15,13 +15,15 @@ import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
 import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
 import PropTypes from 'prop-types'
+import {convertResults} from './helpers'
 
 let state = {
     calculationResults: {
         status: 'notSelected',
         works: [],
         materials: []
-    }
+    },
+    popout: null
 }
 Object.assign(state, getDefaultSelectState('Выбрать'))
 
@@ -222,6 +224,7 @@ class Home extends React.Component {
                 id={this.props.id}
                 activePanel={this.state.activePanel}
                 header
+                popout={this.state.popout}
             >
                 <Panel id={this.props.id + 'main'}>
                     {this.panelHeader}
@@ -234,12 +237,16 @@ class Home extends React.Component {
                     backClickHandler={() => this.goHome()}
                     header="Модель"
                     items={this.models}
-                    onSelect={(item) =>
+                    onSelect={async (item) => {
+                        this.showSpinner()
+                        this.resetModification()
+                        await this.setModifications(item.id)
                         this.setSelectValueAndTryToCalculateResults(
                             'model',
                             item
                         )
-                    }
+                        this.removeSpinner()
+                    }}
                 />
                 <SweetSelect
                     id="chooseModification"
@@ -269,6 +276,10 @@ class Home extends React.Component {
         )
     }
 
+    resetModification() {
+        this.setState({modification: {id: 0, text: 'Выбрать'}})
+    }
+
     setSelectValueAndTryToCalculateResults(key, item) {
         this.setState(
             {[key]: this.convertFromSweetSelectToHomeItemsFormat(item)},
@@ -283,28 +294,41 @@ class Home extends React.Component {
         }
     }
 
-    tryToCalculateResults() {
+    async tryToCalculateResults() {
         if (this.allSelected()) {
-            this.calculateResults()
+            await this.calculateResults()
         }
     }
 
-    calculateResults() {
+    async calculateResults() {
+        this.setLoadingStatus()
+        const results = await this.loadResults()
+        this.setCalculationResults(results)
+    }
+
+    async loadResults() {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                let results = [
+                    {
+                        MATERIAL_NAME: 'Моторное масло (DPF) 8л.',
+                        MATERIAL_PRICE: '5600',
+                        SERVICE_NAME:
+                            'Замена моторного масла (без снятия защиты ДВС)',
+                        SERVICE_PRICE: '600'
+                    }
+                ]
+                results = convertResults(results)
+                return resolve(results)
+            }, 1000)
+        })
+    }
+
+    setLoadingStatus() {
         this.setState((state) => {
             Object.assign(state.calculationResults, {status: 'loading'})
             return state
         })
-        setTimeout(
-            () =>
-                this.setState({
-                    calculationResults: {
-                        status: 'ready',
-                        works: [{name: 'Покраска', price: 2000}],
-                        materials: [{name: 'Краска', price: 5000}]
-                    }
-                }),
-            1000
-        )
     }
 
     allSelected() {
@@ -339,6 +363,61 @@ class Home extends React.Component {
     getSpinner() {
         return <ScreenSpinner />
     }
-}
 
-export default Home
+    async setModifications(modelId) {
+        let modifications = await this.loadModifications(modelId)
+        modifications = this.convertModifications(modifications)
+        this.modifications = modifications
+        this.setState({
+            modification: this.convertFromSweetSelectToHomeItemsFormat(
+                modifications[0]
+            )
+        })
+    }
+
+    async loadModifications(modelId) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    {67219: '1.6л., бензин, 107 л.с., АКПП'},
+                    {67267: '1.6л., бензин, 107 л.с., МКПП'}
+                ])
+            }, 1000)
+        })
+    }
+
+    convertModifications(modifications) {
+        return modifications.map((item) => {
+            return {
+                id: this.getItemId(item),
+                value: this.getItemValue(item)
+            }
+        })
+    }
+
+    getItemId(item) {
+        return Number.parseInt(Object.keys(item)[0], 10)
+    }
+
+    getItemValue(item) {
+        return Object.values(item)[0]
+    }
+
+    showSpinner() {
+        this.setState({popout: <ScreenSpinner />})
+    }
+
+    removeSpinner() {
+        this.setState({popout: null})
+    }
+
+    setCalculationResults(results) {
+        this.setState({
+            calculationResults: {
+                status: 'ready',
+                ...results
+            }
+        })
+    }
+}
+export {Home}
