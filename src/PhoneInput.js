@@ -57,7 +57,7 @@ class PhoneInput extends React.Component {
     }
 
     valueIsNice(value) {
-        return this.getPlainNumberredValue(value).length <= 12
+        return this.getPlainNumberredValue(value).length <= 11
     }
 
     getPlainNumberredValueWithPlus(value) {
