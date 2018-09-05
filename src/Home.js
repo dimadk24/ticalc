@@ -128,7 +128,11 @@ class Home extends React.Component {
         return (
             <Group title={'Работы'}>
                 {this.state.calculationResults.works.map((item, index) => (
-                    <MoneyIndicator text={item.name} value={item.price} key={index}/>
+                    <MoneyIndicator
+                        text={item.name}
+                        value={item.price}
+                        key={index}
+                    />
                 ))}
                 {
                     <SummaryMoneyIndicator
@@ -144,7 +148,11 @@ class Home extends React.Component {
         return (
             <Group title={'Материалы'}>
                 {this.state.calculationResults.materials.map((item, index) => (
-                    <MoneyIndicator text={item.name} value={item.price} key={index}/>
+                    <MoneyIndicator
+                        text={item.name}
+                        value={item.price}
+                        key={index}
+                    />
                 ))}
 
                 <SummaryMoneyIndicator
