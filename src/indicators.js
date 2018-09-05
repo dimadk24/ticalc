@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {Cell} from '@vkontakte/vkui'
+import {Div} from '@vkontakte/vkui'
 import './indicators.css'
 
 class MoneyIndicator extends Component {
@@ -12,12 +12,14 @@ class MoneyIndicator extends Component {
 
     render() {
         return (
-            <Cell
-                indicator={this.props.value + ' руб'}
-                className={`info + ${this.props.additionalClassesAsStr}`}
-            >
-                {this.props.text}
-            </Cell>
+            <Div className={`info ${this.props.additionalClassesAsStr || ''}`}>
+                <div>
+                    <p>{this.props.text}</p>
+                </div>
+                <div>
+                    <p className={'indicator'}>{this.props.value + ' руб'}</p>
+                </div>
+            </Div>
         )
     }
 }

@@ -5,3 +5,13 @@
 .info * {
     color: black;
 }
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+p.indicator {
+    white-space: nowrap;
+}
