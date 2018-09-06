@@ -14,10 +14,12 @@ class MoneyIndicator extends Component {
         return (
             <Div className={`info ${this.props.additionalClassesAsStr || ''}`}>
                 <div>
-                    <p>{this.props.text}</p>
+                    <span>{this.props.text}</span>
                 </div>
                 <div>
-                    <p className={'indicator'}>{this.props.value + ' руб'}</p>
+                    <span className={'indicator'}>
+                        {this.props.value + ' руб'}
+                    </span>
                 </div>
             </Div>
         )
