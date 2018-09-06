@@ -62,7 +62,7 @@ class Home extends React.Component {
         this.changePanel(this.props.id + 'main')
     }
 
-    ctaText = `Отправьте заявку, мы свяжемся с вами за час и подскажем, как привести вашу ласточку в идеальное состояние :)`
+    ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами и запишут на техническое обслуживание автомобиля Nissan`
 
     models = [{id: 1, value: 'Almera Classic (2006-2013)'}]
 
