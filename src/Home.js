@@ -1,7 +1,6 @@
 import React from 'react'
 import {
     Button,
-    Cell,
     Div,
     Group,
     Header,
@@ -13,7 +12,11 @@ import {
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from './SweetSelect'
-import {MoneyIndicator, SummaryMoneyIndicator} from './indicators'
+import {
+    MoneyIndicator,
+    Indicator,
+    SummaryMoneyIndicator
+} from './indicators'
 import PropTypes from 'prop-types'
 import {convertResults} from './helpers'
 
@@ -72,34 +75,31 @@ class Home extends React.Component {
 
     getModelSelectIndicator() {
         return (
-            <Cell
-                indicator={this.state.model.text}
+            <Indicator
+                text={'Модель авто'}
+                value={this.state.model.text}
                 onClick={() => this.changePanel('chooseModel')}
-            >
-                Модель авто
-            </Cell>
+            />
         )
     }
 
     getModificationSelectIndicator() {
         return (
-            <Cell
-                indicator={this.state.modification.text}
+            <Indicator
+                text={'Модификация'}
+                value={this.state.modification.text}
                 onClick={() => this.changePanel('chooseModification')}
-            >
-                Модификация
-            </Cell>
+            />
         )
     }
 
     getOldnessSelectIndicator() {
         return (
-            <Cell
-                indicator={this.state.oldness.text}
+            <Indicator
+                text={'Пробег или время'}
+                value={this.state.oldness.text}
                 onClick={() => this.changePanel('chooseOldness')}
-            >
-                Пробег или время
-            </Cell>
+            />
         )
     }
 
