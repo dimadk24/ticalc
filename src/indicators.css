@@ -1,19 +1,19 @@
-.summary * {
+.summary {
     font-weight:600;
 }
 
-.info * {
+.money > .value-wrapper > .value {
     color: black;
 }
 
-.info {
+.money {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
 
 .indicator {
-    white-space: nowrap;
+    white-space: normal;
 }
 
 .indicator {
@@ -33,9 +33,17 @@
     align-items: center;
 }
 
+.money > .text-wrapper {
+    max-width: 60%;
+}
+
 .value-wrapper {
     max-width: 40%;
     text-align: right;
     display: flex;
     align-items: center;
+}
+
+.money > .value-wrapper {
+    max-width: 30%;
 }
