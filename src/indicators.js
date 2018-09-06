@@ -42,7 +42,7 @@ class SummaryMoneyIndicator extends Component {
 class Indicator extends Component {
     static propTypes = {
         text: PropTypes.string,
-        value: PropTypes.number,
+        value: PropTypes.string,
         onClick: PropTypes.func,
         additionalClassesAsStr: PropTypes.string
     }
