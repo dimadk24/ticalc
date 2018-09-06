@@ -54,9 +54,7 @@ export class SendRequestView extends Component {
         <Button
             stretched
             size={'l'}
-            onClick={async () => {
-                await this.validateAndShowErrorsAndSendForm()
-            }}
+            onClick={() => this.validateAndShowErrorsAndSendForm()}
         >
             Отправить заявку
         </Button>
