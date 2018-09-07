@@ -165,11 +165,11 @@ export class SendRequestView extends Component {
 
     showFormSentAlert() {
         this.setState({
-            popout: this.getAlert()
+            popout: this.getAlert('Спасибо!', 'Наш менеджер свяжется с вами в ближайшее время')
         })
     }
 
-    getAlert() {
+    getAlert(header, text) {
         return (
             <Alert
                 actions={[
@@ -181,8 +181,8 @@ export class SendRequestView extends Component {
                 ]}
                 onClose={() => this.setState({popout: null})}
             >
-                <h2>Спасибо!</h2>
-                <p>Наш менеджер свяжется с вами в ближайшее время</p>
+                <h2>{header}</h2>
+                <p>{text}</p>
             </Alert>
         )
     }
