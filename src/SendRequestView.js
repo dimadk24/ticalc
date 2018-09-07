@@ -15,12 +15,47 @@ import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from './HeaderWithBackButton'
 import './SendRequestView.css'
 import {PhoneInput} from './PhoneInput'
+import connect from '@vkontakte/vkui-connect'
 
 let state = {
     name: '',
     phone: '',
     phoneNotValid: false,
     popout: null
+}
+
+function removePlus(phone) {
+    return phone.replace(/[^0-9]/g, '')
+}
+
+function formIsValid(phone) {
+    return Boolean(removePlus(phone))
+}
+
+function messageTypeIs(e, type) {
+    return e.type === type
+}
+
+function getUserInfo() {
+    return getInfoFromVKConnect('VKWebAppGetUserInfo')
+}
+
+function getPhoneInfo() {
+    return getInfoFromVKConnect('VKWebAppGetPhoneNumber')
+}
+
+function getInfoFromVKConnect(eventName) {
+    return new Promise((resolve, reject) => {
+        const subscriber = (e) => {
+            const response = e.detail
+            if (messageTypeIs(response, `${eventName}Result`))
+                resolve(response.data)
+            else if (messageTypeIs(response, `${eventName}Failed`))
+                reject(response.data)
+        }
+        connect.subscribe(subscriber)
+        connect.send(eventName, {})
+    })
 }
 
 export class SendRequestView extends Component {
@@ -42,7 +77,10 @@ export class SendRequestView extends Component {
     )
 
     vkConnectButton = (
-        <Button className={'centered'}>
+        <Button
+            className={'centered'}
+            onClick={() => this.sendAutomaticRequest()}
+        >
             <span className={'centered'}>
                 <VKLogo />
                 <span>Отправить заявку с данными профиля</span>
@@ -144,29 +182,26 @@ export class SendRequestView extends Component {
 
     async validateAndShowErrorsAndSendForm() {
         const {name, phone} = this.state
-        if (this.formIsValid()) {
+        if (formIsValid(phone)) {
             this.showSpinner()
             await this.sendRequest(name, phone)
-            this.showFormSentAlert()
+            setTimeout(() => this.showFormSentAlert(), 2500)
         } else {
             this.setState({phoneNotValid: true})
         }
     }
 
-    sendRequest(name, phone) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                console.log(name)
-                console.log(phone)
-                resolve()
-            }, 1000)
+    showAlert(header, text) {
+        this.setState({
+            popout: this.getAlert(header, text)
         })
     }
 
     showFormSentAlert() {
-        this.setState({
-            popout: this.getAlert('Спасибо!', 'Наш менеджер свяжется с вами в ближайшее время')
-        })
+        this.showAlert(
+            'Спасибо!',
+            'Наш менеджер свяжется с вами в ближайшее время'
+        )
     }
 
     getAlert(header, text) {
@@ -187,15 +222,27 @@ export class SendRequestView extends Component {
         )
     }
 
-    formIsValid() {
-        return Boolean(this.removePlus(this.state.phone))
-    }
-
-    removePlus(phone) {
-        return phone.replace(/[^0-9]/g, '')
-    }
-
     showSpinner() {
         this.setState({popout: <ScreenSpinner />})
+    }
+
+    async sendAutomaticRequest() {
+        // noinspection JSCheckFunctionSignatures
+        const [{first_name: name}, {phone_number: phone}] = await Promise.all([
+            getUserInfo(),
+            getPhoneInfo()
+        ])
+        this.showSpinner()
+        await this.sendRequest(name, phone)
+        setTimeout(() => this.showFormSentAlert(), 2500)
+    }
+
+    sendRequest(name, phone) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                this.showAlert('sended', `${name} ${phone}`)
+                resolve()
+            }, 1000)
+        })
     }
 }

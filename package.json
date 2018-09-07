@@ -17,6 +17,7 @@
     "@vkontakte/icons": "^1.2.0",
     "@vkontakte/vkui": "^2.9.1",
     "@vkontakte/vkui-connect": "^1.0.0",
+    "@vkontakte/vkui-connect-mock": "^1.0.5",
     "axios": "^0.18.0",
     "libphonenumber-js": "^1.4.2",
     "prettier": "^1.14.2",
