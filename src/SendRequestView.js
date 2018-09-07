@@ -181,8 +181,8 @@ export class SendRequestView extends Component {
                 ]}
                 onClose={() => this.setState({popout: null})}
             >
-                <h2>Отправлено!</h2>
-                <p>Мы свяжемся с вами в течении часа</p>
+                <h2>Спасибо!</h2>
+                <p>Наш менеджер свяжется с вами в ближайшее время</p>
             </Alert>
         )
     }
