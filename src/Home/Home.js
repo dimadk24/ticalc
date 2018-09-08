@@ -6,19 +6,19 @@ import {
     Header,
     List,
     Panel,
-    PanelHeader,
     ScreenSpinner,
     View
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from '../SweetSelect/SweetSelect'
 import {
-    MoneyIndicator,
     Indicator,
+    MoneyIndicator,
     SummaryMoneyIndicator
 } from '../Indicators/indicators'
 import PropTypes from 'prop-types'
 import {convertResults} from '../helpers/helpers'
+import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 
 let state = {
     calculationResults: {
@@ -40,7 +40,8 @@ function getDefaultSelectState(text) {
 
 class Home extends React.Component {
     static propTypes = {
-        onCtaClick: PropTypes.func
+        onCtaClick: PropTypes.func,
+        onBack: PropTypes.func
     }
 
     constructor(props) {
@@ -103,7 +104,12 @@ class Home extends React.Component {
         )
     }
 
-    panelHeader = <PanelHeader>Расчет ТО</PanelHeader>
+    panelHeader = (
+        <HeaderWithBackButton
+            text={'Расчет ТО Ниссан'}
+            onBackButtonClick={() => this.props.onBack()}
+        />
+    )
 
     getSelectIndicatorList() {
         return (

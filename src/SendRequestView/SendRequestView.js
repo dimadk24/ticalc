@@ -15,7 +15,7 @@ import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import {PhoneInput} from '../helpers/PhoneInput'
-import connect from '@vkontakte/vkui-connect'
+import {getInfoFromVKConnect, getUserInfo} from '../helpers/helpers'
 
 let state = {
     name: '',
@@ -32,30 +32,8 @@ function formIsValid(phone) {
     return Boolean(removePlus(phone))
 }
 
-function messageTypeIs(e, type) {
-    return e.type === type
-}
-
-function getUserInfo() {
-    return getInfoFromVKConnect('VKWebAppGetUserInfo')
-}
-
 function getPhoneInfo() {
     return getInfoFromVKConnect('VKWebAppGetPhoneNumber')
-}
-
-function getInfoFromVKConnect(eventName) {
-    return new Promise((resolve, reject) => {
-        const subscriber = (e) => {
-            const response = e.detail
-            if (messageTypeIs(response, `${eventName}Result`))
-                resolve(response.data)
-            else if (messageTypeIs(response, `${eventName}Failed`))
-                reject(response.data)
-        }
-        connect.subscribe(subscriber)
-        connect.send(eventName, {})
-    })
 }
 
 export class SendRequestView extends Component {

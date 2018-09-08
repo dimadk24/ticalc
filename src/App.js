@@ -5,13 +5,14 @@ import '@vkontakte/vkui/dist/vkui.css'
 
 import {Home} from './Home/Home'
 import {SendRequestView} from './SendRequestView/SendRequestView'
+import {StartView} from './StartView/StartView'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            activeView: 'home'
+            activeView: 'start'
         }
     }
 
@@ -26,21 +27,26 @@ class App extends React.Component {
     render() {
         return (
             <Root activeView={this.state.activeView}>
-                <Home id="home" onCtaClick={() => this.goToSendRequestView()} />
+                <Home id="home" onCtaClick={() => this.goToSendRequest()} onBack={()=> this.goToStart()}/>
                 <SendRequestView
                     id="sendRequest"
                     onBack={() => this.goHome()}
                 />
+                <StartView id={'start'} onGoHome={() => this.goHome()} />
             </Root>
         )
     }
 
-    goToSendRequestView() {
+    goToSendRequest() {
         this.changeView('sendRequest')
     }
 
     changeView(id) {
         this.setState({activeView: id})
+    }
+
+    goToStart() {
+        this.changeView('start')
     }
 }
 

@@ -1,3 +1,5 @@
+import connect from '@vkontakte/vkui-connect'
+
 function getPrice(string) {
     return Number.parseInt(string, 10) || 0
 }
@@ -31,4 +33,26 @@ function convertResults(results) {
     return converted
 }
 
-export {convertResults}
+function messageTypeIs(e, type) {
+    return e.type === type
+}
+
+function getInfoFromVKConnect(eventName) {
+    return new Promise((resolve, reject) => {
+        const subscriber = (e) => {
+            const response = e.detail
+            if (messageTypeIs(response, `${eventName}Result`))
+                resolve(response.data)
+            else if (messageTypeIs(response, `${eventName}Failed`))
+                reject(response.data)
+        }
+        connect.subscribe(subscriber)
+        connect.send(eventName, {})
+    })
+}
+
+function getUserInfo() {
+    return getInfoFromVKConnect('VKWebAppGetUserInfo')
+}
+
+export {convertResults, getInfoFromVKConnect, getUserInfo}
