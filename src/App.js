@@ -3,8 +3,8 @@ import * as VKConnect from '@vkontakte/vkui-connect'
 import {Root} from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 
-import {Home} from './Home'
-import {SendRequestView} from './SendRequestView'
+import {Home} from './Home/Home'
+import {SendRequestView} from './SendRequestView/SendRequestView'
 
 class App extends React.Component {
     constructor(props) {

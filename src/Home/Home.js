@@ -11,14 +11,14 @@ import {
     View
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
-import SweetSelect from './SweetSelect'
+import SweetSelect from '../SweetSelect/SweetSelect'
 import {
     MoneyIndicator,
     Indicator,
     SummaryMoneyIndicator
-} from './indicators'
+} from '../Indicators/indicators'
 import PropTypes from 'prop-types'
-import {convertResults} from './helpers'
+import {convertResults} from '../helpers/helpers'
 
 let state = {
     calculationResults: {

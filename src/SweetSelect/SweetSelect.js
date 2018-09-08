@@ -1,7 +1,7 @@
 import React from 'react'
 import {Cell, Div, List, Panel, Search} from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
-import {HeaderWithBackButton} from './HeaderWithBackButton'
+import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 
 class SweetSelect extends React.Component {
     static propTypes = {

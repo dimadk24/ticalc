@@ -12,9 +12,9 @@ import {
     View
 } from '@vkontakte/vkui'
 import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
-import {HeaderWithBackButton} from './HeaderWithBackButton'
+import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
-import {PhoneInput} from './PhoneInput'
+import {PhoneInput} from '../helpers/PhoneInput'
 import connect from '@vkontakte/vkui-connect'
 
 let state = {
