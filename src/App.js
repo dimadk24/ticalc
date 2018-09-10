@@ -10,10 +10,28 @@ import {StartView} from './StartView/StartView'
 class App extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {activeView: 'start'}
+        this.setStartHistoryState()
+        this.setOnPopStateEventHandler()
+    }
 
-        this.state = {
-            activeView: 'start'
-        }
+    setOnPopStateEventHandler() {
+        window.onpopstate = () => this.onPopHistoryState()
+    }
+
+    onPopHistoryState() {
+        const hash = window.location.hash
+        const viewId = this.convertHashLocationToId(hash)
+        this.changeView(viewId)
+        console.log(viewId)
+    }
+
+    changeView(viewId) {
+        this.setState({activeView: viewId})
+    }
+
+    setStartHistoryState() {
+        window.history.replaceState({}, '', '#start')
     }
 
     componentWillMount() {
@@ -21,32 +39,49 @@ class App extends React.Component {
     }
 
     goHome() {
-        this.changeView('home')
+        this.changeViewAndPushHistoryItem('home')
     }
 
     render() {
         return (
             <Root activeView={this.state.activeView}>
-                <Home id="home" onCtaClick={() => this.goToSendRequest()} onBack={()=> this.goToStart()}/>
+                <Home
+                    id="home"
+                    onCtaClick={() => this.goToSendRequest()}
+                    onBack={() => this.goBack()}
+                />
                 <SendRequestView
                     id="sendRequest"
-                    onBack={() => this.goHome()}
+                    onBack={() => this.goBack()}
                 />
                 <StartView id={'start'} onGoHome={() => this.goHome()} />
             </Root>
         )
     }
 
+    goBack() {
+        window.history.back()
+    }
+
     goToSendRequest() {
-        this.changeView('sendRequest')
+        this.changeViewAndPushHistoryItem('sendRequest')
     }
 
-    changeView(id) {
-        this.setState({activeView: id})
+    changeViewAndPushHistoryItem(viewId) {
+        this.pushHistoryItem(this.convertIdToHashLocation(viewId))
+        this.changeView(viewId)
     }
 
-    goToStart() {
-        this.changeView('start')
+    convertIdToHashLocation(id) {
+        return `#${id}`
+    }
+
+    convertHashLocationToId(hash) {
+        return hash.slice(1)
+    }
+
+    pushHistoryItem(location) {
+        window.history.pushState({}, '', location)
     }
 }
 
