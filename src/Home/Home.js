@@ -104,9 +104,10 @@ class Home extends React.Component {
         )
     }
 
+    headerText = 'Расчет ТО Ниссан'
     panelHeader = (
         <HeaderWithBackButton
-            text={'Расчет ТО Ниссан'}
+            text={this.headerText}
             onBackButtonClick={() => this.props.onBack()}
         />
     )

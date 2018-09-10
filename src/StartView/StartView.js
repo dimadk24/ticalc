@@ -32,24 +32,21 @@ class StartView extends React.Component {
         return (await getUserInfo()).first_name
     }
 
+    headerText = 'Расчет ТО Ниссан в СПб'
+
     render() {
         return (
             <View id={this.props.id} activePanel={this.state.activePanel}>
                 <Panel id={`${this.props.id}main`}>
-                    <PanelHeader>Калькулятор ТО Ниссан</PanelHeader>
+                    <PanelHeader>{this.headerText}</PanelHeader>
                     <Group>
                         <Div>
                             <div className={'centerring-wrapper'}>
                                 <img src={logo} alt="Логотип Я Сервис" />
                             </div>
                             <div>
-                                <p>{this.getPersonalizedGreeting()}</p>
-                                <p>
-                                    Здесь вы можете рассчитать стоимость и
-                                    записаться на техническое обслуживание (ТО)
-                                    автомобилей Ниссан (Nissan) в
-                                    Санкт-Петербурге.
-                                </p>
+                                {this.getGreeting()}
+                                {this.getText()}
                             </div>
                             <Button
                                 stretched
@@ -65,12 +62,23 @@ class StartView extends React.Component {
         )
     }
 
-    getPersonalizedGreeting() {
+    getText() {
         const name = this.state.name
+        let text
+        if (name) text = `${name}, выберите`
+        else text = `Выберите`
+        text +=
+            ' свой автомобиль Nissan и узнайте стоимость обслуживания согласно пробегу или году'
+        return <p>{text}</p>
+    }
+
+    getGreeting() {
+        const name = this.state.name
+        const greetingPhrase = 'Здравствуйте'
         const greeting = name
-            ? `Добро пожаловать, ${name}!`
-            : 'Добро пожаловать!'
-        return `${greeting} Вы из СПб, и у вас Ниссан?`
+            ? `${greetingPhrase}, ${name}!`
+            : `${greetingPhrase}!`
+        return <p>{greeting} Вы из СПб, и у вас Ниссан?</p>
     }
 }
 
