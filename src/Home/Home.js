@@ -47,23 +47,46 @@ class Home extends React.Component {
     constructor(props) {
         super(props)
         this.state = state
-        state.activePanel = this.props.id + 'main'
+        const viewId = this.props.id
+        state.activePanel = `${viewId}main`
+        window.onpopstate = () => this.onPopHistoryState()
+
+        window.history.replaceState({}, '', `#${viewId}/${viewId}main`)
+    }
+
+    onPopHistoryState() {
+        const hash = window.location.hash
+        if (!this.isHomeView(hash)) window.basePopHistoryStateHandler()
+        else this.viewPopStateHandler()
     }
 
     get resultsStatus() {
         return this.state.calculationResults.status
     }
 
-    changePanel(id) {
-        this.setState({activePanel: id})
+    changePanelAndPushHistoryState(panelId) {
+        this.pushHistoryItem(this.convertIdToHashLocation(panelId))
+        this.changePanel(panelId)
+    }
+
+    changePanel(panelId) {
+        this.setState({activePanel: panelId})
+    }
+
+    pushHistoryItem(location) {
+        window.history.pushState({}, '', location)
     }
 
     componentWillUnmount() {
         state = this.state
+        window.onpopstate = window.basePopHistoryStateHandler
+    }
+    goBack() {
+        window.history.back()
     }
 
     goHome() {
-        this.changePanel(this.props.id + 'main')
+        this.changePanelAndPushHistoryState(this.props.id + 'main')
     }
 
     ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами и запишут на техническое обслуживание автомобиля Nissan`
@@ -79,7 +102,9 @@ class Home extends React.Component {
             <Indicator
                 text={'Модель авто'}
                 value={this.state.model.text}
-                onClick={() => this.changePanel('chooseModel')}
+                onClick={() =>
+                    this.changePanelAndPushHistoryState('chooseModel')
+                }
             />
         )
     }
@@ -89,7 +114,9 @@ class Home extends React.Component {
             <Indicator
                 text={'Модификация'}
                 value={this.state.modification.text}
-                onClick={() => this.changePanel('chooseModification')}
+                onClick={() =>
+                    this.changePanelAndPushHistoryState('chooseModification')
+                }
             />
         )
     }
@@ -99,7 +126,9 @@ class Home extends React.Component {
             <Indicator
                 text={'Пробег или время'}
                 value={this.state.oldness.text}
-                onClick={() => this.changePanel('chooseOldness')}
+                onClick={() =>
+                    this.changePanelAndPushHistoryState('chooseOldness')
+                }
             />
         )
     }
@@ -241,7 +270,7 @@ class Home extends React.Component {
                 </Panel>
                 <SweetSelect
                     id="chooseModel"
-                    backClickHandler={() => this.goHome()}
+                    backClickHandler={() => this.goBack()}
                     header="Модель"
                     items={this.models}
                     onSelect={async (item) => {
@@ -257,7 +286,7 @@ class Home extends React.Component {
                 />
                 <SweetSelect
                     id="chooseModification"
-                    backClickHandler={() => this.goHome()}
+                    backClickHandler={() => this.goBack()}
                     header="Модификация"
                     items={this.modifications}
                     onSelect={(item) =>
@@ -269,7 +298,7 @@ class Home extends React.Component {
                 />
                 <SweetSelect
                     id="chooseOldness"
-                    backClickHandler={() => this.goHome()}
+                    backClickHandler={() => this.goBack()}
                     header="Пробег или время"
                     items={this.oldnesses}
                     onSelect={(item) =>
@@ -425,6 +454,24 @@ class Home extends React.Component {
                 ...results
             }
         })
+    }
+
+    isHomeView(url) {
+        return url.includes('home')
+    }
+
+    viewPopStateHandler() {
+        const hash = window.location.hash
+        const panelId = this.convertLocationToPanelId(hash)
+        this.changePanel(panelId)
+    }
+
+    convertIdToHashLocation(id) {
+        return `#home/${id}`
+    }
+
+    convertLocationToPanelId(url) {
+        return url.split('/', 2)[1]
     }
 }
 export {Home}

@@ -12,18 +12,21 @@ class App extends React.Component {
         super(props)
         this.state = {activeView: 'start'}
         this.setStartHistoryState()
-        this.setOnPopStateEventHandler()
+        this.setGlobalHistoryStateHandler();
+    }
+
+    setGlobalHistoryStateHandler() {
+        window.basePopHistoryStateHandler = () => this.onPopHistoryState();
     }
 
     setOnPopStateEventHandler() {
-        window.onpopstate = () => this.onPopHistoryState()
+        window.onpopstate = window.basePopHistoryStateHandler || (() => this.onPopHistoryState())
     }
 
     onPopHistoryState() {
         const hash = window.location.hash
         const viewId = this.convertHashLocationToId(hash)
         this.changeView(viewId)
-        console.log(viewId)
     }
 
     changeView(viewId) {
@@ -36,6 +39,7 @@ class App extends React.Component {
 
     componentWillMount() {
         VKConnect.send('VKWebAppInit', {})
+        this.setOnPopStateEventHandler()
     }
 
     goHome() {
@@ -77,7 +81,7 @@ class App extends React.Component {
     }
 
     convertHashLocationToId(hash) {
-        return hash.slice(1)
+        return hash.slice(1).split('/', 1)[0]
     }
 
     pushHistoryItem(location) {
