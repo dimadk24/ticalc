@@ -19,6 +19,8 @@
     "@vkontakte/vkui-connect": "^1.0.0",
     "@vkontakte/vkui-connect-mock": "^1.0.5",
     "axios": "^0.18.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
     "libphonenumber-js": "^1.4.2",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
