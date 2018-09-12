@@ -55,4 +55,12 @@ function getUserInfo() {
     return getInfoFromVKConnect('VKWebAppGetUserInfo')
 }
 
-export {convertResults, getInfoFromVKConnect, getUserInfo}
+function convertModifications(modifications) {
+    const new_array = []
+    for (const id in modifications) {
+        const obj = {id: Number.parseInt(id, 10), value: modifications[id]}
+        new_array.push(obj)
+    }
+    return new_array
+}
+export {convertResults, getInfoFromVKConnect, getUserInfo, convertModifications}

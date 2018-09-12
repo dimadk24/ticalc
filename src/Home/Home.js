@@ -17,8 +17,9 @@ import {
     SummaryMoneyIndicator
 } from '../Indicators/indicators'
 import PropTypes from 'prop-types'
-import {convertResults} from '../helpers/helpers'
+import {convertResults, convertModifications} from '../helpers/helpers'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
+import axios from 'axios'
 
 let state = {
     calculationResults: {
@@ -91,7 +92,7 @@ class Home extends React.Component {
 
     ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами и запишут на техническое обслуживание автомобиля Nissan`
 
-    models = [{id: 1, value: 'Almera Classic (2006-2013)'}]
+    models = [{id: 48, value: 'Almera Classic (2006-2013)'}]
 
     modifications = [{id: 1, value: 'лучшая'}]
 
@@ -402,32 +403,26 @@ class Home extends React.Component {
 
     async setModifications(modelId) {
         let modifications = await this.loadModifications(modelId)
-        modifications = this.convertModifications(modifications)
-        this.modifications = modifications
+        this.modifications = convertModifications(modifications)
         this.setState({
             modification: this.convertFromSweetSelectToHomeItemsFormat(
-                modifications[0]
+                this.modifications[0]
             )
         })
     }
 
-    async loadModifications(modelId) {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    {67219: '1.6л., бензин, 107 л.с., АКПП'},
-                    {67267: '1.6л., бензин, 107 л.с., МКПП'}
-                ])
-            }, 1000)
-        })
-    }
-
-    convertModifications(modifications) {
-        return modifications.map((item) => {
-            return {
-                id: this.getItemId(item),
-                value: this.getItemValue(item)
-            }
+    loadModifications(modelId) {
+        return new Promise(async (resolve, reject) => {
+           try {
+                const response = await axios.post(
+                    `https://dimadk.tk/proxy.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/model.php&ID=${modelId}`,
+                )
+                console.log(response);
+                resolve(response.data)
+           } catch (err) {
+               console.log(err)
+               reject(err)
+           }
         })
     }
 
