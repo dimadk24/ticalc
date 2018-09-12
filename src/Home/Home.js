@@ -444,7 +444,7 @@ class Home extends React.Component {
 
     async loadModifications(modelId) {
         return (await axios.post(
-            `https://dimadk.tk/proxy.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/model.php&ID=${modelId}`
+            `https://dimadk.tk/modifications.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/model.php&ID=${modelId}`
         )).data
     }
 
