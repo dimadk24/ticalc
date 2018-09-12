@@ -116,7 +116,18 @@ class Home extends React.Component {
 
     modifications = [{id: 1, value: 'лучшая'}]
 
-    oldnesses = [{id: 1, value: '15000 или 1 год'}]
+    oldnesses = [
+        {id: 1, value: '15000 или 1 год'},
+        {id: 2, value: '30000 или 2 года'},
+        {id: 3, value: '45000 или 3 года'},
+        {id: 4, value: '60000 или 4 года'},
+        {id: 5, value: '75000 или 5 лет'},
+        {id: 6, value: '90000 или 6 лет'},
+        {id: 7, value: '105000 или 7 лет'},
+        {id: 8, value: '120000 или 8 лет'},
+        {id: 9, value: '13500 или 9 лет'},
+        {id: 10, value: '150000 или 10 лет'}
+    ]
 
     getModelSelectIndicator() {
         return (
