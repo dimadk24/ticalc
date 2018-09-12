@@ -370,26 +370,19 @@ class Home extends React.Component {
 
     async calculateResults() {
         this.setLoadingStatus()
-        const results = await this.loadResults()
+        let results = await this.loadResults(
+            this.state.model.id,
+            this.state.modification.id,
+            this.state.oldness.id
+        )
+        results = convertResults(results)
         this.setCalculationResults(results)
     }
 
-    async loadResults() {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                let results = [
-                    {
-                        MATERIAL_NAME: 'Моторное масло (DPF) 8л.',
-                        MATERIAL_PRICE: '5600',
-                        SERVICE_NAME:
-                            'Замена моторного масла (без снятия защиты ДВС)',
-                        SERVICE_PRICE: '600'
-                    }
-                ]
-                results = convertResults(results)
-                return resolve(results)
-            }, 1000)
-        })
+    async loadResults(model, modification, oldness) {
+        return (await axios.get(
+            `https://dimadk.tk/calculation.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/to.php&SECTION=${model}&TIME=${oldness}&AUTO=${modification}`
+        )).data
     }
 
     setLoadingStatus() {
