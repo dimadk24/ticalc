@@ -215,14 +215,20 @@ export class SendRequestView extends Component {
         setTimeout(() => this.showFormSentAlert(), 2500)
     }
 
+    getInput(text) {
+        if (text === 'Выбрать') return ''
+        else return text
+    }
+
     sendRequest(name, phone) {
-        const model = window.input.model.text
-        const modification = window.input.modification.text
-        const oldness = window.input.oldness.text
+        const model = this.getInput(window.input.model.text)
+        const modification = this.getInput(window.input.modification.text)
+        const oldness = this.getInput(window.input.oldness.text)
         const works = window.JSON.stringify(window.calculationResults.works)
         const materials = window.JSON.stringify(
             window.calculationResults.materials
         )
+        // TODO: escape, remove bad modification
         return new Promise(async (resolve) => {
             await axios.get('https://dimadk.tk/request.php', {
                 params: {
