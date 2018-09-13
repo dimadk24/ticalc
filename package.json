@@ -25,6 +25,7 @@
     "libphonenumber-js": "^1.4.2",
     "prettier": "^1.14.2",
     "prop-types": "^15.6.2",
+    "raven-js": "^3.27.0",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.4",
