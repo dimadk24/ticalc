@@ -120,7 +120,7 @@ class Home extends React.Component {
         {id: 62, value: 'Sentra (с 2014)'}
     ]
 
-    modifications = [{id: 1, value: 'лучшая'}]
+    modifications = []
 
     oldnesses = [
         {id: 1, value: '15000 или 1 год'},
