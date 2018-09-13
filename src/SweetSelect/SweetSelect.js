@@ -20,7 +20,6 @@ class SweetSelect extends React.Component {
     constructor(props) {
         super(props)
         this.state = {searchText: ''}
-        throw new Error('test')
     }
 
     onSearchChange(text) {
