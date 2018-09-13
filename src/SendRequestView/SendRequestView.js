@@ -225,13 +225,15 @@ export class SendRequestView extends Component {
         )
         return new Promise(async (resolve) => {
             await axios.get('https://dimadk.tk/request.php', {
-                model: model,
-                modification: modification,
-                oldness: oldness,
-                works: works,
-                materials: materials,
-                name: name,
-                phone: phone
+                params: {
+                    model: model,
+                    modification: modification,
+                    oldness: oldness,
+                    works: works,
+                    materials: materials,
+                    name: name,
+                    phone: phone
+                }
             })
             resolve()
         })
