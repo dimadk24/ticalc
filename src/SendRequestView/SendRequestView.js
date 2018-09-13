@@ -228,7 +228,6 @@ export class SendRequestView extends Component {
         const materials = window.JSON.stringify(
             window.calculationResults.materials
         )
-        // TODO: escape, remove bad modification
         return new Promise(async (resolve) => {
             await axios.get('https://dimadk.tk/request.php', {
                 params: {
