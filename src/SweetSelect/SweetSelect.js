@@ -20,6 +20,7 @@ class SweetSelect extends React.Component {
     constructor(props) {
         super(props)
         this.state = {searchText: ''}
+        throw new Error('test')
     }
 
     onSearchChange(text) {
@@ -33,9 +34,11 @@ class SweetSelect extends React.Component {
         )
     }
 
-    notFoundComponent = <Div style={{textAlign: 'center'}}>
-        <p>Не найдено</p>
-    </Div>
+    notFoundComponent = (
+        <Div style={{textAlign: 'center'}}>
+            <p>Не найдено</p>
+        </Div>
+    )
 
     render() {
         return (
@@ -61,9 +64,7 @@ class SweetSelect extends React.Component {
                         ))}
                     </List>
                 )}
-                {!this.items.length && (
-                    this.notFoundComponent
-                )}
+                {!this.items.length && this.notFoundComponent}
             </Panel>
         )
     }
