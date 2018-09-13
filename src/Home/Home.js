@@ -376,11 +376,14 @@ class Home extends React.Component {
 
     async calculateResults() {
         this.setLoadingStatus()
-        let results = await this.loadResults(
-            this.state.model.id,
-            this.state.modification.id,
-            this.state.oldness.id
-        )
+        let results
+        try {
+            results = await this.loadResults(
+                this.state.model.id,
+                this.state.modification.id,
+                this.state.oldness.id
+            )
+        } catch (err) {}
         results = convertResults(results)
         this.setCalculationResults(results)
     }
@@ -432,7 +435,10 @@ class Home extends React.Component {
     }
 
     async setModifications(modelId) {
-        let modifications = await this.loadModifications(modelId)
+        let modifications
+        try {
+            modifications = await this.loadModifications(modelId)
+        } catch (err) {}
         this.modifications = convertModifications(modifications)
         this.setState({
             modification: this.convertFromSweetSelectToHomeItemsFormat(

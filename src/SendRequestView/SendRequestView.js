@@ -211,8 +211,10 @@ export class SendRequestView extends Component {
             getPhoneInfo()
         ])
         this.showSpinner()
-        await this.sendRequest(name, phone)
-        setTimeout(() => this.showFormSentAlert(), 2500)
+        try {
+            await this.sendRequest(name, phone)
+        } catch (err) {}
+        this.showFormSentAlert()
     }
 
     getInput(text) {
