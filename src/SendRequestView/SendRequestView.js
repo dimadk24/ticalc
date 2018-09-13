@@ -205,7 +205,6 @@ export class SendRequestView extends Component {
     }
 
     async sendAutomaticRequest() {
-        // noinspection JSCheckFunctionSignatures
         const [{first_name: name}, {phone_number: phone}] = await Promise.all([
             getUserInfo(),
             getPhoneInfo()
