@@ -215,6 +215,21 @@ export class SendRequestView extends Component {
     }
 
     sendRequest(name, phone) {
+        const model = window.input.model.text
+        const modification = window.input.modification.text
+        const oldness = window.input.oldness.text
+        const works = window.JSON.stringify(window.calculationResults.works)
+        const materials = window.JSON.stringify(
+            window.calculationResults.materials
+        )
+        console.log(name)
+        console.log(phone)
+        console.log(model)
+        console.log(modification)
+        console.log(oldness)
+        console.log(works)
+        console.log(materials)
+
         return new Promise((resolve) => {
             setTimeout(() => {
                 this.showAlert('sended', `${name} ${phone}`)

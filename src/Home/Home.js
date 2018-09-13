@@ -81,6 +81,12 @@ class Home extends React.Component {
     componentWillUnmount() {
         state = this.state
         window.onpopstate = window.basePopHistoryStateHandler
+        window.calculationResults = state.calculationResults
+        window.input = {
+            model: this.state.model,
+            modification: this.state.modification,
+            oldness: this.state.oldness
+        }
     }
     goBack() {
         window.history.back()
