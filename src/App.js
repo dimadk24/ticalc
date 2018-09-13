@@ -6,21 +6,24 @@ import '@vkontakte/vkui/dist/vkui.css'
 import {Home} from './Home/Home'
 import {SendRequestView} from './SendRequestView/SendRequestView'
 import {StartView} from './StartView/StartView'
+import ErrorBoundary from './helpers/ErrorBoundary'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
         this.state = {activeView: 'start'}
         this.setStartHistoryState()
-        this.setGlobalHistoryStateHandler();
+        this.setGlobalHistoryStateHandler()
     }
 
     setGlobalHistoryStateHandler() {
-        window.basePopHistoryStateHandler = () => this.onPopHistoryState();
+        window.basePopHistoryStateHandler = () => this.onPopHistoryState()
     }
 
     setOnPopStateEventHandler() {
-        window.onpopstate = window.basePopHistoryStateHandler || (() => this.onPopHistoryState())
+        window.onpopstate =
+            window.basePopHistoryStateHandler ||
+            (() => this.onPopHistoryState())
     }
 
     onPopHistoryState() {
@@ -48,18 +51,20 @@ class App extends React.Component {
 
     render() {
         return (
-            <Root activeView={this.state.activeView}>
-                <Home
-                    id="home"
-                    onCtaClick={() => this.goToSendRequest()}
-                    onBack={() => this.goBack()}
-                />
-                <SendRequestView
-                    id="sendRequest"
-                    onBack={() => this.goBack()}
-                />
-                <StartView id={'start'} onGoHome={() => this.goHome()} />
-            </Root>
+            <ErrorBoundary>
+                <Root activeView={this.state.activeView}>
+                    <Home
+                        id="home"
+                        onCtaClick={() => this.goToSendRequest()}
+                        onBack={() => this.goBack()}
+                    />
+                    <SendRequestView
+                        id="sendRequest"
+                        onBack={() => this.goBack()}
+                    />
+                    <StartView id={'start'} onGoHome={() => this.goHome()} />
+                </Root>
+            </ErrorBoundary>
         )
     }
 

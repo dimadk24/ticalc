@@ -4,9 +4,10 @@ import { AppContainer } from 'react-hot-loader';
 import * as VKConnect from '@vkontakte/vkui-connect';
 import App from './App';
 import registerServiceWorker from './sw';
+import Raven from 'raven-js'
 
 const root = document.getElementById('root');
-
+Raven.config('https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607').install()
 // Render
 const render = (Component) => {
 	ReactDOM.render(
