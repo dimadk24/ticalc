@@ -16,6 +16,7 @@ import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import {PhoneInput} from '../helpers/PhoneInput'
 import {getInfoFromVKConnect, getUserInfo} from '../helpers/helpers'
+import axios from 'axios'
 
 let state = {
     name: '',
@@ -222,19 +223,17 @@ export class SendRequestView extends Component {
         const materials = window.JSON.stringify(
             window.calculationResults.materials
         )
-        console.log(name)
-        console.log(phone)
-        console.log(model)
-        console.log(modification)
-        console.log(oldness)
-        console.log(works)
-        console.log(materials)
-
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                this.showAlert('sended', `${name} ${phone}`)
-                resolve()
-            }, 1000)
+        return new Promise(async (resolve) => {
+            await axios.get('https://dimadk.tk/request.php', {
+                model: model,
+                modification: modification,
+                oldness: oldness,
+                works: works,
+                materials: materials,
+                name: name,
+                phone: phone
+            })
+            resolve()
         })
     }
 }
