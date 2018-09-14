@@ -49,7 +49,7 @@ class Indicator extends Component {
 
     render() {
         return (
-            <Cell onClick={() => this.props.onClick()}>
+            <Cell onClick={this.props.onClick && (() => this.props.onClick())}>
                 <div
                     className={`indicator ${this.props.additionalClassesAsStr ||
                         ''}`}
