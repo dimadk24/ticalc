@@ -96,7 +96,7 @@ class Home extends React.Component {
         this.changePanelAndPushHistoryState(this.props.id + 'main')
     }
 
-    ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами и запишут на техническое обслуживание автомобиля Nissan`
+    ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами для записи на техническое обслуживание автомобиля Nissan`
 
     models = [
         {id: 43, value: 'Almera Classic (2006-2013)'},
@@ -193,7 +193,7 @@ class Home extends React.Component {
         return (
             <Group>
                 <Header>
-                    Рассчитайте стоимость технического обслуживания машины:
+                    Рассчитайте стоимость технического обслуживания вашего Nissan:
                 </Header>
                 {this.getSelectIndicatorList()}
             </Group>
