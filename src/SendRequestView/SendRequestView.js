@@ -164,7 +164,7 @@ export class SendRequestView extends Component {
         if (formIsValid(phone)) {
             this.showSpinner()
             await this.sendRequest(name, phone)
-            setTimeout(() => this.showFormSentAlert(), 2500)
+            this.showFormSentAlert()
         } else {
             this.setState({phoneNotValid: true})
         }
