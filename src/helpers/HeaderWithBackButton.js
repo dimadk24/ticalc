@@ -4,7 +4,11 @@ import {HeaderButton, PanelHeader} from '@vkontakte/vkui'
 import BackButton from './BackButton'
 
 export class HeaderWithBackButton extends Component {
-    static propTypes = {onBackButtonClick: PropTypes.func, text: PropTypes.string, panelHeaderProps: PropTypes.object}
+    static propTypes = {
+        onBackButtonClick: PropTypes.func,
+        text: PropTypes.string,
+        panelHeaderProps: PropTypes.object
+    }
 
     render() {
         return (
@@ -12,7 +16,7 @@ export class HeaderWithBackButton extends Component {
                 {...this.props.panelHeaderProps}
                 left={
                     <HeaderButton onClick={this.props.onBackButtonClick}>
-                        <BackButton/>
+                        <BackButton />
                     </HeaderButton>
                 }
             >
