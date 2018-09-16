@@ -38,7 +38,11 @@ function getPhoneInfo() {
 }
 
 export class SendRequestView extends Component {
-    static propTypes = {onBack: PropTypes.func, id: PropTypes.string}
+    static propTypes = {
+        onBack: PropTypes.func,
+        id: PropTypes.string,
+        onSentRequest: PropTypes.func.isRequired
+    }
 
     constructor(props) {
         super(props)
@@ -164,7 +168,7 @@ export class SendRequestView extends Component {
         if (formIsValid(phone)) {
             this.showSpinner()
             await this.sendRequest(name, phone)
-            this.showFormSentAlert()
+            this.doPostRequestTasks()
         } else {
             this.setState({phoneNotValid: true})
         }
@@ -176,11 +180,15 @@ export class SendRequestView extends Component {
         })
     }
 
-    showFormSentAlert() {
-        this.showAlert(
-            'Спасибо!',
-            'Наш менеджер свяжется с вами в ближайшее время'
-        )
+    doPostRequestTasks() {
+        this.hideSpinner()
+        this.props.onSentRequest()
+    }
+
+    hideSpinner() {
+        this.setState({
+            popout: null
+        })
     }
 
     getAlert(header, text) {
@@ -214,7 +222,7 @@ export class SendRequestView extends Component {
         try {
             await this.sendRequest(name, phone)
         } catch (err) {}
-        this.showFormSentAlert()
+        this.doPostRequestTasks()
     }
 
     getInput(text) {

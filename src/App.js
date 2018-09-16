@@ -7,6 +7,7 @@ import {Home} from './Home/Home'
 import {SendRequestView} from './SendRequestView/SendRequestView'
 import {StartView} from './StartView/StartView'
 import ErrorBoundary from './helpers/ErrorBoundary'
+import {ThankYouView} from './ThankYouView/ThankYouView'
 
 class App extends React.Component {
     constructor(props) {
@@ -49,6 +50,10 @@ class App extends React.Component {
         this.changeViewAndPushHistoryItem('home')
     }
 
+    goToThankYouView() {
+        this.changeViewAndPushHistoryItem('thank-you')
+    }
+
     render() {
         return (
             <ErrorBoundary>
@@ -61,8 +66,13 @@ class App extends React.Component {
                     <SendRequestView
                         id="sendRequest"
                         onBack={() => this.goBack()}
+                        onSentRequest={() => this.goToThankYouView()}
                     />
                     <StartView id={'start'} onGoHome={() => this.goHome()} />
+                    <ThankYouView
+                        id={'thank-you'}
+                        onBack={() => this.goBack()}
+                    />
                 </Root>
             </ErrorBoundary>
         )
