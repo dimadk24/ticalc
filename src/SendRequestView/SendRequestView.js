@@ -223,13 +223,8 @@ export class SendRequestView extends Component {
     }
 
     sendRequest(name, phone) {
-        const model = this.getInput(window.input.model.text)
-        const modification = this.getInput(window.input.modification.text)
-        const oldness = this.getInput(window.input.oldness.text)
-        const works = window.JSON.stringify(window.calculationResults.works)
-        const materials = window.JSON.stringify(
-            window.calculationResults.materials
-        )
+        const { model, modification, oldness } = this.getInput();
+        const { works, materials } = this.getCalculationResults();
         return axios.get('https://dimadk.tk/request.php', {
             params: {
                 model: model,
@@ -241,5 +236,18 @@ export class SendRequestView extends Component {
                 phone: phone
             }
         })
+    }
+
+    getCalculationResults() {
+        const works = window.JSON.stringify(window.calculationResults.works);
+        const materials = window.JSON.stringify(window.calculationResults.materials);
+        return { works, materials };
+    }
+
+    getInput() {
+        const model = this.getInput(window.input.model.text);
+        const modification = this.getInput(window.input.modification.text);
+        const oldness = this.getInput(window.input.oldness.text);
+        return { model, modification, oldness };
     }
 }
