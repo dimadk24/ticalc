@@ -5,8 +5,8 @@ import BackButton from './BackButton'
 
 export class HeaderWithBackButton extends Component {
     static propTypes = {
-        onBackButtonClick: PropTypes.func,
-        text: PropTypes.string,
+        onBackButtonClick: PropTypes.func.isRequired,
+        text: PropTypes.string.isRequired,
         panelHeaderProps: PropTypes.object
     }
 
