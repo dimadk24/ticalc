@@ -63,4 +63,9 @@ function convertModifications(modifications) {
     }
     return new_array
 }
-export {convertResults, getInfoFromVKConnect, getUserInfo, convertModifications}
+
+function reachGoal(name) {
+    window.yaCounter50376901.reachGoal(name)
+}
+
+export {convertResults, getInfoFromVKConnect, getUserInfo, convertModifications, reachGoal}

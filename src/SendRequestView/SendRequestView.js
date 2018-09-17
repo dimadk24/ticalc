@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
-    Alert,
     Button,
     Cell,
     Div,
@@ -15,7 +14,7 @@ import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import {PhoneInput} from '../helpers/PhoneInput'
-import {getInfoFromVKConnect, getUserInfo} from '../helpers/helpers'
+import {getInfoFromVKConnect, getUserInfo, reachGoal} from '../helpers/helpers'
 import axios from 'axios'
 
 let state = {
@@ -168,16 +167,13 @@ export class SendRequestView extends Component {
         if (formIsValid(phone)) {
             this.showSpinner()
             await this.sendRequest(name, phone)
+            try {
+                this.reachSentManualRequestGoal()
+            } catch (e) {}
             this.doPostRequestTasks()
         } else {
             this.setState({phoneNotValid: true})
         }
-    }
-
-    showAlert(header, text) {
-        this.setState({
-            popout: this.getAlert(header, text)
-        })
     }
 
     doPostRequestTasks() {
@@ -191,29 +187,26 @@ export class SendRequestView extends Component {
         })
     }
 
-    getAlert(header, text) {
-        return (
-            <Alert
-                actions={[
-                    {
-                        title: 'OK',
-                        autoclose: true,
-                        style: 'primary'
-                    }
-                ]}
-                onClose={() => this.setState({popout: null})}
-            >
-                <h2>{header}</h2>
-                <p>{text}</p>
-            </Alert>
-        )
-    }
-
     showSpinner() {
         this.setState({popout: <ScreenSpinner />})
     }
 
+    reachAutomaticRequestStartGoal() {
+        reachGoal('started-automatic-request')
+    }
+
+    reachSentAutomaticRequestGoal() {
+        reachGoal('sent-automatic-request')
+    }
+
+    reachSentManualRequestGoal() {
+        reachGoal('sent-manual-request')
+    }
+
     async sendAutomaticRequest() {
+        try {
+            this.reachAutomaticRequestStartGoal()
+        } catch (e) {}
         const [{first_name: name}, {phone_number: phone}] = await Promise.all([
             getUserInfo(),
             getPhoneInfo()
@@ -222,6 +215,9 @@ export class SendRequestView extends Component {
         try {
             await this.sendRequest(name, phone)
         } catch (err) {}
+        try {
+            this.reachSentAutomaticRequestGoal()
+        } catch (e) {}
         this.doPostRequestTasks()
     }
 

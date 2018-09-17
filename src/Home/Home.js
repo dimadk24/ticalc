@@ -17,7 +17,11 @@ import {
     SummaryMoneyIndicator
 } from '../Indicators/indicators'
 import PropTypes from 'prop-types'
-import {convertResults, convertModifications} from '../helpers/helpers'
+import {
+    convertResults,
+    convertModifications,
+    reachGoal
+} from '../helpers/helpers'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import axios from 'axios'
 
@@ -275,13 +279,19 @@ class Home extends React.Component {
         )
     }
 
+    reachCtaClickGoal() {
+        reachGoal('open-send-request')
+    }
+
+    onCtaClick = () => {
+        try {
+            this.reachCtaClickGoal()
+        } catch (e) {}
+        this.props.onCtaClick()
+    }
+
     ctaButton = (
-        <Button
-            align="center"
-            stretched
-            size="l"
-            onClick={() => this.props.onCtaClick()}
-        >
+        <Button align="center" stretched size="l" onClick={this.onCtaClick}>
             Отправить заявку
         </Button>
     )
@@ -292,6 +302,18 @@ class Home extends React.Component {
             {this.ctaButton}
         </Div>
     )
+
+    reachModelSelectedGoal() {
+        reachGoal('selected-model')
+    }
+
+    reachModificationSelectedGoal() {
+        reachGoal('selected-modification')
+    }
+
+    reachOldnessSelectedGoal() {
+        reachGoal('selected-oldness')
+    }
 
     render() {
         return (
@@ -314,6 +336,9 @@ class Home extends React.Component {
                     items={this.models}
                     onSelect={async (item) => {
                         this.showSpinner()
+                        try {
+                            this.reachModelSelectedGoal()
+                        } catch (e) {}
                         this.resetModification()
                         await this.setModifications(item.id)
                         this.setSelectValueAndTryToCalculateResults(
@@ -328,24 +353,30 @@ class Home extends React.Component {
                     backClickHandler={() => this.goBack()}
                     header="Модификация"
                     items={this.modifications}
-                    onSelect={(item) =>
+                    onSelect={(item) => {
+                        try {
+                            this.reachModificationSelectedGoal()
+                        } catch (e) {}
                         this.setSelectValueAndTryToCalculateResults(
                             'modification',
                             item
                         )
-                    }
+                    }}
                 />
                 <SweetSelect
                     id="chooseOldness"
                     backClickHandler={() => this.goBack()}
                     header="Пробег или время"
                     items={this.oldnesses}
-                    onSelect={(item) =>
+                    onSelect={(item) => {
+                        try {
+                            this.reachOldnessSelectedGoal()
+                        } catch (e) {}
                         this.setSelectValueAndTryToCalculateResults(
                             'oldness',
                             item
                         )
-                    }
+                    }}
                 />
             </View>
         )

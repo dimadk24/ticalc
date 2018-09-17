@@ -1,6 +1,7 @@
 import {View, Panel, Group, Cell, Button} from '@vkontakte/vkui'
 import React from 'react'
 import {HeaderWithBackButton} from './../helpers/HeaderWithBackButton'
+import {reachGoal} from './../helpers/helpers'
 import PropTypes from 'prop-types'
 import './ThankYouView.css'
 
@@ -8,6 +9,11 @@ class ThankYouView extends React.Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
         onBack: PropTypes.func.isRequired
+    }
+
+    onGoToPublic = () => {
+        reachGoal('open-vk-public')
+        return true
     }
 
     render() {
@@ -29,7 +35,7 @@ class ThankYouView extends React.Component {
                             <span>
                                 А пока зайдите в наше сообщество ВКонтакте:
                             </span>
-                            <a href="//vk.com/ya.service.nissan" className={"not-link"}>
+                            <a href="//vk.com/ya.service.nissan" className={"not-link"} onClick={this.onGoToPublic}>
                                 <Button stretched size={'xl'}>
                                     Перейти
                                 </Button>

@@ -3,7 +3,7 @@ import {PanelHeader, Group, Button, Div, Panel, View} from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import logo from '../logo.png'
 import './StartView.css'
-import {getUserInfo} from '../helpers/helpers'
+import {getUserInfo, reachGoal} from '../helpers/helpers'
 
 class StartView extends React.Component {
     static propTypes = {
@@ -32,7 +32,18 @@ class StartView extends React.Component {
         return (await getUserInfo()).first_name
     }
 
+    onGoHome = () => {
+        try {
+            this.reachStatisticGoal()
+        } catch (e) {}
+        this.props.onGoHome()
+    }
+
     headerText = 'Расчет ТО Ниссан в СПб'
+
+    reachStatisticGoal() {
+        reachGoal('open-home')
+    }
 
     render() {
         return (
@@ -51,7 +62,7 @@ class StartView extends React.Component {
                             <Button
                                 stretched
                                 size={'xl'}
-                                onClick={() => this.props.onGoHome()}
+                                onClick={this.onGoHome}
                             >
                                 Рассчитать стоимость ТО
                             </Button>
