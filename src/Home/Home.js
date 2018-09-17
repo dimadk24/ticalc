@@ -193,7 +193,8 @@ class Home extends React.Component {
         return (
             <Group>
                 <Header>
-                    Рассчитайте стоимость технического обслуживания вашего Nissan:
+                    Рассчитайте стоимость технического обслуживания вашего
+                    Nissan:
                 </Header>
                 {this.getSelectIndicatorList()}
             </Group>
