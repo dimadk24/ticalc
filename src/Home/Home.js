@@ -421,9 +421,11 @@ class Home extends React.Component {
     }
 
     async loadResults(model, modification, oldness) {
-        return (await axios.get(
-            `https://dimadk.tk/calculation.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/to.php&SECTION=${model}&TIME=${oldness}&AUTO=${modification}`
-        )).data
+        return (await axios.post(`/ajax/to.php`, {
+            SECTION: model,
+            TIME: oldness,
+            AUTO: modification
+        })).data
     }
 
     setLoadingStatus() {
@@ -480,9 +482,9 @@ class Home extends React.Component {
     }
 
     async loadModifications(modelId) {
-        return (await axios.post(
-            `https://dimadk.tk/modifications.php?miniProxyFormAction=https://ya-service-nissan.ru/ajax/model.php&ID=${modelId}`
-        )).data
+        return (await axios.post(`/ajax/model.php`, {
+            ID: modelId
+        })).data
     }
 
     getItemId(item) {

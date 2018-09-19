@@ -229,7 +229,7 @@ export class SendRequestView extends Component {
     sendRequest(name, phone) {
         const {model, modification, oldness} = this.getAllInput()
         const {works, materials} = this.getCalculationResults()
-        return axios.get('https://dimadk.tk/request.php', {
+        return axios.get('/ticalc/request.php', {
             params: {
                 model: model,
                 modification: modification,
