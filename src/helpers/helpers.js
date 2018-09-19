@@ -58,13 +58,16 @@ function getUserInfo() {
 function convertModifications(modifications) {
     const new_array = []
     for (const id in modifications) {
-        const obj = {id: Number.parseInt(id, 10), value: modifications[id]}
-        new_array.push(obj)
+        if (modifications.hasOwnProperty(id)) {
+            const obj = {id: Number.parseInt(id, 10), value: modifications[id]}
+            new_array.push(obj)
+        }
     }
     return new_array
 }
 
 function reachGoal(name) {
+    // noinspection JSUnresolvedFunction
     window.yaCounter50376901.reachGoal(name)
 }
 
