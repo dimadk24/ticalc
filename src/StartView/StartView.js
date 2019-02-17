@@ -1,35 +1,22 @@
 import React from 'react'
-import {PanelHeader, Group, Button, Div, Panel, View} from '@vkontakte/vkui'
+import {Button, Div, Group, Panel, PanelHeader, View} from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import logo from '../logo.png'
 import './StartView.css'
-import {getUserInfo, reachGoal} from '../helpers/helpers'
+import {reachGoal} from '../helpers/helpers'
 
 class StartView extends React.Component {
     static propTypes = {
         id: PropTypes.string,
-        onGoHome: PropTypes.func
+        onGoHome: PropTypes.func,
+        username: PropTypes.string.isRequired
     }
 
     constructor(props) {
         super(props)
         this.state = {
-            activePanel: `${this.props.id}main`,
-            name: ''
+            activePanel: `${this.props.id}main`
         }
-    }
-
-    async componentWillMount() {
-        const name = await this.getUserName()
-        this.setUserName(name)
-    }
-
-    setUserName(name) {
-        this.setState({name: name})
-    }
-
-    async getUserName() {
-        return (await getUserInfo()).first_name
     }
 
     onGoHome = () => {
@@ -74,7 +61,7 @@ class StartView extends React.Component {
     }
 
     getText() {
-        const name = this.state.name
+        const {username: name} = this.props
         let text
         if (name) text = `${name}, выберите`
         else text = `Выберите`
@@ -84,7 +71,7 @@ class StartView extends React.Component {
     }
 
     getGreeting() {
-        const name = this.state.name
+        const {username: name} = this.props
         const greetingPhrase = 'Здравствуйте'
         const greeting = name
             ? `${greetingPhrase}, ${name}!`

@@ -8,13 +8,24 @@ import {SendRequestView} from './SendRequestView/SendRequestView'
 import {StartView} from './StartView/StartView'
 import ErrorBoundary from './helpers/ErrorBoundary'
 import {ThankYouView} from './ThankYouView/ThankYouView'
+import {getUserInfo} from './helpers/helpers'
 
 class App extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {activeView: 'start'}
+        this.state = {
+            activeView: 'start',
+            username: ''
+        }
         this.setStartHistoryState()
         this.setGlobalHistoryStateHandler()
+    }
+
+    async componentWillMount() {
+        VKConnect.send('VKWebAppInit', {})
+        this.setOnPopStateEventHandler()
+        const name = await this.getUserName()
+        this.setUserName(name)
     }
 
     setGlobalHistoryStateHandler() {
@@ -41,9 +52,12 @@ class App extends React.Component {
         window.history.replaceState({}, '', '#start')
     }
 
-    componentWillMount() {
-        VKConnect.send('VKWebAppInit', {})
-        this.setOnPopStateEventHandler()
+    setUserName(username) {
+        this.setState({username})
+    }
+
+    async getUserName() {
+        return (await getUserInfo()).first_name
     }
 
     goHome() {
@@ -55,6 +69,7 @@ class App extends React.Component {
     }
 
     render() {
+        const {username} = this.state
         return (
             <ErrorBoundary>
                 <Root activeView={this.state.activeView}>
@@ -68,7 +83,11 @@ class App extends React.Component {
                         onBack={() => this.goBack()}
                         onSentRequest={() => this.goToThankYouView()}
                     />
-                    <StartView id={'start'} onGoHome={() => this.goHome()} />
+                    <StartView
+                        id={'start'}
+                        onGoHome={() => this.goHome()}
+                        username={username}
+                    />
                     <ThankYouView
                         id={'thank-you'}
                         onBack={() => this.goBack()}
