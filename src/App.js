@@ -82,6 +82,7 @@ class App extends React.Component {
                         id="sendRequest"
                         onBack={() => this.goBack()}
                         onSentRequest={() => this.goToThankYouView()}
+                        username={username}
                     />
                     <StartView
                         id={'start'}

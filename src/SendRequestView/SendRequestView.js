@@ -40,12 +40,15 @@ export class SendRequestView extends Component {
     static propTypes = {
         onBack: PropTypes.func,
         id: PropTypes.string,
-        onSentRequest: PropTypes.func.isRequired
+        onSentRequest: PropTypes.func.isRequired,
+        username: PropTypes.string.isRequired
     }
 
     constructor(props) {
         super(props)
+        const {username} = this.props
         this.state = state
+        this.state.name = username
     }
 
     componentWillUnmount() {
