@@ -1,4 +1,5 @@
 import connect from '@vkontakte/vkui-connect'
+import axios from 'axios'
 
 function getPrice(string) {
     return Number.parseInt(string, 10) || 0
@@ -71,4 +72,20 @@ function reachGoal(name) {
     window.yaCounter50376901.reachGoal(name)
 }
 
-export {convertResults, getInfoFromVKConnect, getUserInfo, convertModifications, reachGoal}
+function doPostRequest(url, params) {
+    const request_params = new URLSearchParams()
+    for (const param in params) {
+        if (params.hasOwnProperty(param))
+            request_params.append(param, params[param])
+    }
+    return axios.post(url, request_params)
+}
+
+export {
+    convertResults,
+    getInfoFromVKConnect,
+    getUserInfo,
+    convertModifications,
+    reachGoal,
+    doPostRequest
+}

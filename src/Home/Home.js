@@ -1,29 +1,11 @@
 import React from 'react'
-import {
-    Button,
-    Div,
-    Group,
-    Header,
-    List,
-    Panel,
-    ScreenSpinner,
-    View
-} from '@vkontakte/vkui'
+import {Button, Div, Group, Header, List, Panel, ScreenSpinner, View} from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import SweetSelect from '../SweetSelect/SweetSelect'
-import {
-    Indicator,
-    MoneyIndicator,
-    SummaryMoneyIndicator
-} from '../Indicators/indicators'
+import {Indicator, MoneyIndicator, SummaryMoneyIndicator} from '../Indicators/indicators'
 import PropTypes from 'prop-types'
-import {
-    convertResults,
-    convertModifications,
-    reachGoal
-} from '../helpers/helpers'
+import {convertModifications, convertResults, doPostRequest, reachGoal} from '../helpers/helpers'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
-import axios from 'axios'
 
 let state = {
     calculationResults: {
@@ -94,10 +76,6 @@ class Home extends React.Component {
     }
     goBack() {
         window.history.back()
-    }
-
-    goHome() {
-        this.changePanelAndPushHistoryState(this.props.id + 'main')
     }
 
     ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами для записи на техническое обслуживание автомобиля Nissan`
@@ -421,7 +399,7 @@ class Home extends React.Component {
     }
 
     async loadResults(model, modification, oldness) {
-        return (await axios.post(`/ajax/to.php`, {
+        return (await doPostRequest(`/ajax/to.php`, {
             SECTION: model,
             TIME: oldness,
             AUTO: modification
@@ -482,17 +460,9 @@ class Home extends React.Component {
     }
 
     async loadModifications(modelId) {
-        return (await axios.post(`/ajax/model.php`, {
+        return (await doPostRequest(`/ajax/model.php`, {
             ID: modelId
         })).data
-    }
-
-    getItemId(item) {
-        return Number.parseInt(Object.keys(item)[0], 10)
-    }
-
-    getItemValue(item) {
-        return Object.values(item)[0]
     }
 
     showSpinner() {
