@@ -1,20 +1,10 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {
-    Button,
-    Cell,
-    Div,
-    Group,
-    Input,
-    Panel,
-    ScreenSpinner,
-    View
-} from '@vkontakte/vkui'
-import VKLogo from '@vkontakte/icons/dist/24/logo_vk'
+import {Button, Cell, Div, Group, Input, Panel, ScreenSpinner, View} from '@vkontakte/vkui'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import {PhoneInput} from '../helpers/PhoneInput'
-import {getInfoFromVKConnect, getUserInfo, reachGoal} from '../helpers/helpers'
+import {getInfoFromVKConnect, reachGoal} from '../helpers/helpers'
 import axios from 'axios'
 
 let state = {
@@ -49,29 +39,12 @@ export class SendRequestView extends Component {
         const {username} = this.props
         this.state = state
         this.state.name = username
+        this.requestedPhone = false
     }
 
     componentWillUnmount() {
         state = this.state
     }
-
-    orComponent = (
-        <Div className={'centered'}>
-            <span>или</span>
-        </Div>
-    )
-
-    vkConnectButton = (
-        <Button
-            className={'centered'}
-            onClick={() => this.sendAutomaticRequest()}
-        >
-            <span className={'centered'}>
-                <VKLogo />
-                <span>Отправить заявку с данными профиля</span>
-            </span>
-        </Button>
-    )
 
     sendButton = (
         <Button
@@ -94,6 +67,7 @@ export class SendRequestView extends Component {
                         this.setState({phoneNotValid: false})
                         return this.setState({phone: value})
                     }}
+                    onClick={() => this.onPhoneInputClick()}
                 />
                 {this.state.phoneNotValid && (
                     <p className={'error-hint'}>Введите телефон</p>
@@ -126,12 +100,6 @@ export class SendRequestView extends Component {
         )
     }
 
-    automaticButton = (
-        <Div className={'centered'} style={{flexDirection: 'column'}}>
-            {this.vkConnectButton}
-        </Div>
-    )
-
     panelHeader = (
         <HeaderWithBackButton
             onBackButtonClick={this.props.onBack}
@@ -142,11 +110,17 @@ export class SendRequestView extends Component {
     getForm() {
         return (
             <Group>
-                {this.automaticButton}
-                {this.orComponent}
                 {this.getManualForm()}
             </Group>
         )
+    }
+
+    async onPhoneInputClick() {
+        if (!this.requestedPhone) {
+            this.requestedPhone = true
+            const {phone_number: phone} = await getPhoneInfo()
+            this.setState({phone})
+        }
     }
 
     render() {
@@ -194,34 +168,8 @@ export class SendRequestView extends Component {
         this.setState({popout: <ScreenSpinner />})
     }
 
-    reachAutomaticRequestStartGoal() {
-        reachGoal('started-automatic-request')
-    }
-
-    reachSentAutomaticRequestGoal() {
-        reachGoal('sent-automatic-request')
-    }
-
     reachSentManualRequestGoal() {
         reachGoal('sent-manual-request')
-    }
-
-    async sendAutomaticRequest() {
-        try {
-            this.reachAutomaticRequestStartGoal()
-        } catch (e) {}
-        const [{first_name: name}, {phone_number: phone}] = await Promise.all([
-            getUserInfo(),
-            getPhoneInfo()
-        ])
-        this.showSpinner()
-        try {
-            await this.sendRequest(name, phone)
-        } catch (err) {}
-        try {
-            this.reachSentAutomaticRequestGoal()
-        } catch (e) {}
-        this.doPostRequestTasks()
     }
 
     getInput(text) {

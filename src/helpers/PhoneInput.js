@@ -8,7 +8,8 @@ class PhoneInput extends React.Component {
         placeholder: PropTypes.string,
         value: PropTypes.string,
         onChange: PropTypes.func.isRequired,
-        className: PropTypes.string
+        className: PropTypes.string,
+        onClick: PropTypes.func.isRequired
     }
 
     constructor(props) {
@@ -17,8 +18,13 @@ class PhoneInput extends React.Component {
         this.state = {value: value}
     }
 
-    onChange(e) {
-        const value = e.target.value
+    componentDidUpdate(prevProps) {
+        const newValue = this.props.value
+        const oldValue = prevProps.value
+        if (oldValue !== newValue) this.changeValue(newValue)
+    }
+
+    changeValue(value) {
         if (this.valueIsNice(value)) {
             const formattedValue = this.format(value)
             if (this.shouldChangeToFormatted(formattedValue, value)) {
@@ -26,6 +32,11 @@ class PhoneInput extends React.Component {
                 this.props.onChange(this.getPlainNumberredValueWithPlus(value))
             } else this.setState({value: value})
         }
+    }
+
+    onChange(e) {
+        const value = e.target.value
+        this.changeValue(value)
     }
 
     shouldChangeToFormatted(formattedValue, value) {
@@ -45,6 +56,7 @@ class PhoneInput extends React.Component {
     }
 
     render() {
+        const {onClick} = this.props
         return (
             <Input
                 type={'tel'}
@@ -52,6 +64,7 @@ class PhoneInput extends React.Component {
                 onChange={(e) => this.onChange(e)}
                 value={this.state.value}
                 className={this.props.className}
+                onClick={(e) => onClick(e)}
             />
         )
     }
