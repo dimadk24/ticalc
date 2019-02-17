@@ -1,4 +1,4 @@
-import {View, Panel, Group, Cell, Button} from '@vkontakte/vkui'
+import {Button, Cell, Group, Panel, View} from '@vkontakte/vkui'
 import React from 'react'
 import {HeaderWithBackButton} from './../helpers/HeaderWithBackButton'
 import {reachGoal} from './../helpers/helpers'
@@ -32,11 +32,11 @@ class ThankYouView extends React.Component {
                             </div>
                         </Cell>
                         <Cell multiline>
-                            <span>
-                                А пока зайдите в наше сообщество ВКонтакте:
+                            <span className="thank-you-view__visit-group-text">
+                                А пока зайдите в наше сообщество ВКонтакте
                             </span>
                             <a href="//vk.com/ya.service.nissan" className={"not-link"} onClick={this.onGoToPublic}>
-                                <Button stretched size={'xl'}>
+                                <Button stretched size={'xl'} style={{marginTop: '15px'}}>
                                     Перейти
                                 </Button>
                             </a>
