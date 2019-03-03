@@ -12,7 +12,7 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Dima Krutolianov <DimaKrutDK@ya.ru>",
   "license": "MIT",
   "dependencies": {
     "@vkontakte/icons": "^1.4.3",
