@@ -11,7 +11,7 @@ let state = {
   name: '',
   phone: '',
   phoneNotValid: false,
-  popout: null
+  popout: null,
 }
 
 function removePlus(phone) {
@@ -31,7 +31,7 @@ export class SendRequestView extends Component {
     onBack: PropTypes.func,
     id: PropTypes.string,
     onSentRequest: PropTypes.func.isRequired,
-    username: PropTypes.string.isRequired
+    username: PropTypes.string.isRequired,
   }
 
   constructor(props) {
@@ -156,7 +156,7 @@ export class SendRequestView extends Component {
 
   hideSpinner() {
     this.setState({
-      popout: null
+      popout: null,
     })
   }
 
@@ -184,8 +184,8 @@ export class SendRequestView extends Component {
         works: works,
         materials: materials,
         name: name,
-        phone: phone
-      }
+        phone: phone,
+      },
     })
   }
 

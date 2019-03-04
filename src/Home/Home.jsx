@@ -11,9 +11,9 @@ let state = {
   calculationResults: {
     status: 'notSelected',
     works: [],
-    materials: []
+    materials: [],
   },
-  popout: null
+  popout: null,
 }
 Object.assign(state, getDefaultSelectState('Выбрать'))
 
@@ -21,14 +21,14 @@ function getDefaultSelectState(text) {
   return {
     model: {id: 0, text},
     modification: {id: 0, text},
-    oldness: {id: 0, text}
+    oldness: {id: 0, text},
   }
 }
 
 class Home extends React.Component {
   static propTypes = {
     onCtaClick: PropTypes.func,
-    onBack: PropTypes.func
+    onBack: PropTypes.func,
   }
 
   constructor(props) {
@@ -71,7 +71,7 @@ class Home extends React.Component {
     window.input = {
       model: this.state.model,
       modification: this.state.modification,
-      oldness: this.state.oldness
+      oldness: this.state.oldness,
     }
   }
   goBack() {
@@ -99,7 +99,7 @@ class Home extends React.Component {
     {id: 58, value: 'Tiida (2004-2015)'},
     {id: 60, value: 'X-Trail (2010-2014)'},
     {id: 61, value: 'X-Trail (с 2014)'},
-    {id: 62, value: 'Sentra (с 2014)'}
+    {id: 62, value: 'Sentra (с 2014)'},
   ]
 
   modifications = []
@@ -114,7 +114,7 @@ class Home extends React.Component {
     {id: 7, value: '105000 или 7 лет'},
     {id: 8, value: '120000 или 8 лет'},
     {id: 9, value: '13500 или 9 лет'},
-    {id: 10, value: '150000 или 10 лет'}
+    {id: 10, value: '150000 или 10 лет'},
   ]
 
   getModelSelectIndicator() {
@@ -351,7 +351,7 @@ class Home extends React.Component {
   convertFromSweetSelectToHomeItemsFormat(item) {
     return {
       id: item.id,
-      text: item.value
+      text: item.value,
     }
   }
 
@@ -379,7 +379,7 @@ class Home extends React.Component {
     return (await doPostRequest(`/ajax/to.php`, {
       SECTION: model,
       TIME: oldness,
-      AUTO: modification
+      AUTO: modification,
     })).data
   }
 
@@ -414,7 +414,7 @@ class Home extends React.Component {
     const switcher = {
       notSelected: null,
       loading: this.getSpinner(),
-      ready: this.getCalculationResultGroups()
+      ready: this.getCalculationResultGroups(),
     }
     return switcher[this.resultsStatus]
   }
@@ -432,13 +432,13 @@ class Home extends React.Component {
     this.setState({
       modification: this.convertFromSweetSelectToHomeItemsFormat(
         this.modifications[0]
-      )
+      ),
     })
   }
 
   async loadModifications(modelId) {
     return (await doPostRequest(`/ajax/model.php`, {
-      ID: modelId
+      ID: modelId,
     })).data
   }
 
@@ -454,8 +454,8 @@ class Home extends React.Component {
     this.setState({
       calculationResults: {
         status: 'ready',
-        ...results
-      }
+        ...results,
+      },
     })
   }
 

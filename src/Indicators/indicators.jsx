@@ -7,7 +7,7 @@ class MoneyIndicator extends Component {
   static propTypes = {
     text: PropTypes.string,
     value: PropTypes.number,
-    additionalClassesAsStr: PropTypes.string
+    additionalClassesAsStr: PropTypes.string,
   }
 
   render() {
@@ -25,7 +25,7 @@ class MoneyIndicator extends Component {
 class SummaryMoneyIndicator extends Component {
   static propTypes = {
     text: PropTypes.string,
-    value: PropTypes.number
+    value: PropTypes.number,
   }
 
   render() {
@@ -44,7 +44,7 @@ class Indicator extends Component {
     text: PropTypes.string,
     value: PropTypes.string,
     onClick: PropTypes.func,
-    additionalClassesAsStr: PropTypes.string
+    additionalClassesAsStr: PropTypes.string,
   }
 
   render() {

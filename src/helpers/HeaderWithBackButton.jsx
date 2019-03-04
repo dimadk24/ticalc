@@ -7,7 +7,7 @@ export class HeaderWithBackButton extends Component {
   static propTypes = {
     onBackButtonClick: PropTypes.func.isRequired,
     text: PropTypes.string.isRequired,
-    panelHeaderProps: PropTypes.object
+    panelHeaderProps: PropTypes.object,
   }
 
   render() {

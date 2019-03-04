@@ -15,7 +15,7 @@ class App extends Component {
     super(props)
     this.state = {
       activeView: 'start',
-      username: ''
+      username: '',
     }
     this.setStartHistoryState()
     this.setGlobalHistoryStateHandler()

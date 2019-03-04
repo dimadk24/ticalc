@@ -8,7 +8,7 @@ import './ThankYouView.css'
 class ThankYouView extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    onBack: PropTypes.func.isRequired
+    onBack: PropTypes.func.isRequired,
   }
 
   onGoToPublic = () => {

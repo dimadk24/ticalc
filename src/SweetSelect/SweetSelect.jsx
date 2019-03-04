@@ -11,10 +11,10 @@ class SweetSelect extends React.Component {
     items: PropTypes.arrayOf(
       PropTypes.exact({
         id: PropTypes.number.isRequired,
-        value: PropTypes.string.isRequired
+        value: PropTypes.string.isRequired,
       })
     ).isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
   }
 
   constructor(props) {

@@ -9,13 +9,13 @@ class StartView extends React.Component {
   static propTypes = {
     id: PropTypes.string,
     onGoHome: PropTypes.func,
-    username: PropTypes.string.isRequired
+    username: PropTypes.string.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      activePanel: `${this.props.id}main`
+      activePanel: `${this.props.id}main`,
     }
   }
 
