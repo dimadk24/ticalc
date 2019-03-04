@@ -4,12 +4,12 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  extends: ['airbnb', "plugin:prettier/recommended"],
+  extends: ['airbnb', 'plugin:prettier/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
-  "parser": "babel-eslint",
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -17,9 +17,8 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module',
   },
-  plugins: [
-    'react',
-  ],
+  plugins: ['react'],
   rules: {
+    'react/jsx-one-expression-per-line': 'off',
   },
-};
+}
