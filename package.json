@@ -13,7 +13,9 @@
     "build": "react-scripts build",
     "deploy": "gh-pages -d build",
     "predeploy": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ./src/**/*.{js,jsx,json}",
+    "format": "prettier ./src/**/*.{js,jsx,json} --write"
   },
   "keywords": [],
   "author": "Dima Krutolianov <DimaKrutDK@ya.ru>",
@@ -24,10 +26,7 @@
     "@vkontakte/vkui-connect": "^1.1.3",
     "@vkontakte/vkui-connect-mock": "^1.0.61",
     "axios": "^0.18.0",
-    "babel-jest": "^23.6.0",
-    "jest": "^23.6.0",
     "libphonenumber-js": "^1.7.9",
-    "prettier": "^1.16.4",
     "prop-types": "^15.7.2",
     "raven-js": "^3.27.0",
     "react": "^16.8.3",
@@ -36,6 +35,17 @@
     "react-scripts": "^2.1.5"
   },
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "7.11.0",
+    "gh-pages": "^2.0.1",
+    "jest": "^23.6.0",
+    "prettier": "1.16.4"
   }
 }
