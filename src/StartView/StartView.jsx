@@ -39,14 +39,14 @@ class StartView extends React.Component {
           <PanelHeader>{this.headerText}</PanelHeader>
           <Group>
             <Div>
-              <div className={'centerring-wrapper'}>
+              <div className="centerring-wrapper">
                 <img src={logo} alt="Логотип Я Сервис" />
               </div>
               <div>
                 {this.getGreeting()}
                 {this.getText()}
               </div>
-              <Button stretched size={'xl'} onClick={this.onGoHome}>
+              <Button stretched size="xl" onClick={this.onGoHome}>
                 Рассчитать стоимость ТО
               </Button>
             </Div>
@@ -74,4 +74,4 @@ class StartView extends React.Component {
   }
 }
 
-export {StartView}
+export default StartView

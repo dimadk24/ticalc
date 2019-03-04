@@ -1,8 +1,8 @@
 import {Button, Cell, Group, Panel, View} from '@vkontakte/vkui'
 import React from 'react'
-import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
-import {reachGoal} from './../helpers/helpers'
 import PropTypes from 'prop-types'
+import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
+import {reachGoal} from '../helpers/helpers'
 import './ThankYouView.css'
 
 class ThankYouView extends React.Component {
@@ -22,7 +22,7 @@ class ThankYouView extends React.Component {
         <Panel id={`${this.props.id}main`}>
           <HeaderWithBackButton
             onBackButtonClick={() => this.props.onBack()}
-            text={'Спасибо'}
+            text="Спасибо"
           />
           <Group>
             <Cell multiline>
@@ -35,10 +35,10 @@ class ThankYouView extends React.Component {
               </span>
               <a
                 href="//vk.com/ya.service.nissan"
-                className={'not-link'}
+                className="not-link"
                 onClick={this.onGoToPublic}
               >
-                <Button stretched size={'xl'} style={{marginTop: '15px'}}>
+                <Button stretched size="xl" style={{marginTop: '15px'}}>
                   Перейти
                 </Button>
               </a>
@@ -50,4 +50,4 @@ class ThankYouView extends React.Component {
   }
 }
 
-export {ThankYouView}
+export default ThankYouView

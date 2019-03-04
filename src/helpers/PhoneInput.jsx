@@ -9,13 +9,13 @@ class PhoneInput extends React.Component {
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props)
     const value = this.props.value || ''
-    this.state = {value: value}
+    this.state = {value}
   }
 
   componentDidUpdate(prevProps) {
@@ -30,7 +30,7 @@ class PhoneInput extends React.Component {
       if (this.shouldChangeToFormatted(formattedValue, value)) {
         this.setState({value: formattedValue})
         this.props.onChange(this.getPlainNumberredValueWithPlus(value))
-      } else this.setState({value: value})
+      } else this.setState({value})
     }
   }
 
@@ -59,7 +59,7 @@ class PhoneInput extends React.Component {
     const {onClick} = this.props
     return (
       <Input
-        type={'tel'}
+        type="tel"
         placeholder={this.format(this.props.placeholder)}
         onChange={(e) => this.onChange(e)}
         value={this.state.value}
@@ -74,7 +74,7 @@ class PhoneInput extends React.Component {
   }
 
   getPlainNumberredValueWithPlus(value) {
-    return '+' + this.getPlainNumberredValue(value)
+    return `+${this.getPlainNumberredValue(value)}`
   }
 
   isDigitOrPlus(text) {

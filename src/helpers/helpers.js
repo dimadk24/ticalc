@@ -11,24 +11,24 @@ function getName(string) {
 
 function convertMaterial(row) {
   return {
-    name: getName(row['MATERIAL_NAME']),
-    price: getPrice(row['MATERIAL_PRICE'])
+    name: getName(row.MATERIAL_NAME),
+    price: getPrice(row.MATERIAL_PRICE),
   }
 }
 
 function convertWork(row) {
   return {
-    name: getName(row['SERVICE_NAME']),
-    price: getPrice(row['SERVICE_PRICE'])
+    name: getName(row.SERVICE_NAME),
+    price: getPrice(row.SERVICE_PRICE),
   }
 }
 
 function convertResults(results) {
-  let converted = {works: [], materials: []}
+  const converted = {works: [], materials: []}
   for (const row of results) {
-    let material = convertMaterial(row)
+    const material = convertMaterial(row)
     if (material.name) converted.materials.push(material)
-    let work = convertWork(row)
+    const work = convertWork(row)
     if (work.name) converted.works.push(work)
   }
   return converted
@@ -86,5 +86,5 @@ export {
   getUserInfo,
   convertModifications,
   reachGoal,
-  doPostRequest
+  doPostRequest,
 }

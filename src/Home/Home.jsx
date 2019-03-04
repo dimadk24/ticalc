@@ -1,9 +1,9 @@
 import React from 'react'
 import {Button, Div, Group, Header, List, Panel, ScreenSpinner, View} from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
+import PropTypes from 'prop-types'
 import SweetSelect from '../SweetSelect/SweetSelect'
 import {Indicator, MoneyIndicator, SummaryMoneyIndicator} from '../Indicators/indicators'
-import PropTypes from 'prop-types'
 import {convertModifications, convertResults, doPostRequest, reachGoal} from '../helpers/helpers'
 import {HeaderWithBackButton} from '../helpers/HeaderWithBackButton'
 
