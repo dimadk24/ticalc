@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {AppContainer} from 'react-hot-loader'
+import { AppContainer } from 'react-hot-loader'
 import * as VKConnect from '@vkontakte/vkui-connect'
 import Raven from 'raven-js'
 import App from './App'

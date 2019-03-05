@@ -1,7 +1,24 @@
 import React from 'react'
-import {Input} from '@vkontakte/vkui'
-import {AsYouType} from 'libphonenumber-js'
+import { Input } from '@vkontakte/vkui'
+import { AsYouType } from 'libphonenumber-js'
 import PropTypes from 'prop-types'
+
+function format(string) {
+  const formater = new AsYouType('RU')
+  return formater.input(string)
+}
+
+function getPlainNumberredValue(value) {
+  return value.replace(/[^0-9]/g, '')
+}
+
+function getPlainNumberredValueWithPlus(value) {
+  return `+${getPlainNumberredValue(value)}`
+}
+
+function valueIsNice(value) {
+  return getPlainNumberredValue(value).length <= 11
+}
 
 class PhoneInput extends React.Component {
   static propTypes = {
@@ -12,74 +29,63 @@ class PhoneInput extends React.Component {
     onClick: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    placeholder: '',
+    value: '',
+    className: '',
+  }
+
   constructor(props) {
     super(props)
-    const value = this.props.value || ''
-    this.state = {value}
+    let { value } = this.props
+    value = value || ''
+    this.state = { value }
   }
 
   componentDidUpdate(prevProps) {
-    const newValue = this.props.value
+    const { value: newValue } = this.props
     const oldValue = prevProps.value
     if (oldValue !== newValue) this.changeValue(newValue)
   }
 
-  changeValue(value) {
-    if (this.valueIsNice(value)) {
-      const formattedValue = this.format(value)
-      if (this.shouldChangeToFormatted(formattedValue, value)) {
-        this.setState({value: formattedValue})
-        this.props.onChange(this.getPlainNumberredValueWithPlus(value))
-      } else this.setState({value})
-    }
-  }
-
-  onChange(e) {
-    const value = e.target.value
+  onChange({ target }) {
+    const { value } = target
     this.changeValue(value)
   }
 
+  changeValue(value) {
+    const { onChange } = this.props
+    if (valueIsNice(value)) {
+      const formattedValue = format(value)
+      if (this.shouldChangeToFormatted(formattedValue, value)) {
+        this.setState({ value: formattedValue })
+        onChange(getPlainNumberredValueWithPlus(value))
+      } else this.setState({ value })
+    }
+  }
+
   shouldChangeToFormatted(formattedValue, value) {
+    const { value: stateValue } = this.state
     return !(
-      formattedValue.length === this.state.value.length &&
+      formattedValue.length === stateValue.length &&
       value.length < formattedValue.length
     )
   }
 
-  getPlainNumberredValue(value) {
-    return value.replace(/[^0-9]/g, '')
-  }
-
-  format(string) {
-    const formater = new AsYouType('RU')
-    return formater.input(string)
-  }
-
   render() {
-    const {onClick} = this.props
+    const { onClick, className, placeholder } = this.props
+    const { value } = this.state
     return (
       <Input
         type="tel"
-        placeholder={this.format(this.props.placeholder)}
+        placeholder={format(placeholder)}
         onChange={(e) => this.onChange(e)}
-        value={this.state.value}
-        className={this.props.className}
+        value={value}
+        className={className}
         onClick={(e) => onClick(e)}
       />
     )
   }
-
-  valueIsNice(value) {
-    return this.getPlainNumberredValue(value).length <= 11
-  }
-
-  getPlainNumberredValueWithPlus(value) {
-    return `+${this.getPlainNumberredValue(value)}`
-  }
-
-  isDigitOrPlus(text) {
-    return '+1234567890'.includes(text)
-  }
 }
 
-export {PhoneInput}
+export default PhoneInput

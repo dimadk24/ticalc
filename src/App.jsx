@@ -1,14 +1,37 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import * as VKConnect from '@vkontakte/vkui-connect'
-import {Root} from '@vkontakte/vkui'
+import { Root } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
-
-import {Home} from './Home/Home'
-import {SendRequestView} from './SendRequestView/SendRequestView'
-import {StartView} from './StartView/StartView'
+import Home from './Home/Home'
+import SendRequestView from './SendRequestView/SendRequestView'
+import StartView from './StartView/StartView'
 import ErrorBoundary from './helpers/ErrorBoundary'
-import {ThankYouView} from './ThankYouView/ThankYouView'
-import {getUserInfo} from './helpers/helpers'
+import ThankYouView from './ThankYouView/ThankYouView'
+import { getUserInfo } from './helpers/helpers'
+
+async function getUserName() {
+  return (await getUserInfo()).first_name
+}
+
+function setStartHistoryState() {
+  window.history.replaceState({}, '', '#start')
+}
+
+function convertHashLocationToId(hash) {
+  return hash.slice(1).split('/', 1)[0]
+}
+
+function pushHistoryItem(location) {
+  window.history.pushState({}, '', location)
+}
+
+function goBack() {
+  window.history.back()
+}
+
+function convertIdToHashLocation(id) {
+  return `#${id}`
+}
 
 class App extends Component {
   constructor(props) {
@@ -17,19 +40,21 @@ class App extends Component {
       activeView: 'start',
       username: '',
     }
-    this.setStartHistoryState()
+    setStartHistoryState()
     this.setGlobalHistoryStateHandler()
   }
 
   async componentWillMount() {
     VKConnect.send('VKWebAppInit', {})
     this.setOnPopStateEventHandler()
-    const name = await this.getUserName()
+    const name = await getUserName()
     this.setUserName(name)
   }
 
-  setGlobalHistoryStateHandler() {
-    window.basePopHistoryStateHandler = () => this.onPopHistoryState()
+  onPopHistoryState() {
+    const { hash } = window.location
+    const viewId = convertHashLocationToId(hash)
+    this.changeView(viewId)
   }
 
   setOnPopStateEventHandler() {
@@ -37,26 +62,16 @@ class App extends Component {
       window.basePopHistoryStateHandler || (() => this.onPopHistoryState())
   }
 
-  onPopHistoryState() {
-    const hash = window.location.hash
-    const viewId = this.convertHashLocationToId(hash)
-    this.changeView(viewId)
-  }
-
-  changeView(viewId) {
-    this.setState({activeView: viewId})
-  }
-
-  setStartHistoryState() {
-    window.history.replaceState({}, '', '#start')
+  setGlobalHistoryStateHandler() {
+    window.basePopHistoryStateHandler = () => this.onPopHistoryState()
   }
 
   setUserName(username) {
-    this.setState({username})
+    this.setState({ username })
   }
 
-  async getUserName() {
-    return (await getUserInfo()).first_name
+  changeView(viewId) {
+    this.setState({ activeView: viewId })
   }
 
   goHome() {
@@ -67,56 +82,40 @@ class App extends Component {
     this.changeViewAndPushHistoryItem('thank-you')
   }
 
-  render() {
-    const {username} = this.state
-    return (
-      <ErrorBoundary>
-        <Root activeView={this.state.activeView}>
-          <Home
-            id="home"
-            onCtaClick={() => this.goToSendRequest()}
-            onBack={() => this.goBack()}
-          />
-          <SendRequestView
-            id="sendRequest"
-            onBack={() => this.goBack()}
-            onSentRequest={() => this.goToThankYouView()}
-            username={username}
-          />
-          <StartView
-            id={'start'}
-            onGoHome={() => this.goHome()}
-            username={username}
-          />
-          <ThankYouView id={'thank-you'} onBack={() => this.goBack()} />
-        </Root>
-      </ErrorBoundary>
-    )
-  }
-
-  goBack() {
-    window.history.back()
-  }
-
   goToSendRequest() {
     this.changeViewAndPushHistoryItem('sendRequest')
   }
 
   changeViewAndPushHistoryItem(viewId) {
-    this.pushHistoryItem(this.convertIdToHashLocation(viewId))
+    pushHistoryItem(convertIdToHashLocation(viewId))
     this.changeView(viewId)
   }
 
-  convertIdToHashLocation(id) {
-    return `#${id}`
-  }
-
-  convertHashLocationToId(hash) {
-    return hash.slice(1).split('/', 1)[0]
-  }
-
-  pushHistoryItem(location) {
-    window.history.pushState({}, '', location)
+  render() {
+    const { username, activeView } = this.state
+    return (
+      <ErrorBoundary>
+        <Root activeView={activeView}>
+          <Home
+            id="home"
+            onCtaClick={() => this.goToSendRequest()}
+            onBack={() => goBack()}
+          />
+          <SendRequestView
+            id="sendRequest"
+            onBack={() => goBack()}
+            onSentRequest={() => this.goToThankYouView()}
+            username={username}
+          />
+          <StartView
+            id="start"
+            onGoHome={() => this.goHome()}
+            username={username}
+          />
+          <ThankYouView id="thank-you" onBack={() => goBack()} />
+        </Root>
+      </ErrorBoundary>
+    )
   }
 }
 

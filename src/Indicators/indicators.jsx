@@ -1,66 +1,68 @@
-import React, {Component} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {Cell} from '@vkontakte/vkui'
+import { Cell } from '@vkontakte/vkui'
 import './indicators.css'
 
-class MoneyIndicator extends Component {
-  static propTypes = {
-    text: PropTypes.string,
-    value: PropTypes.number,
-    additionalClassesAsStr: PropTypes.string,
-  }
-
-  render() {
-    return (
-      <Indicator
-        text={this.props.text}
-        value={`${this.props.value} руб`}
-        additionalClassesAsStr={`money
-                ${this.props.additionalClassesAsStr || ''}`}
-      />
-    )
-  }
+function MoneyIndicator({ text, value, additionalClassesAsStr }) {
+  return (
+    <Indicator
+      text={text}
+      value={`${value} руб`}
+      additionalClassesAsStr={`money ${additionalClassesAsStr || ''}`}
+    />
+  )
 }
 
-class SummaryMoneyIndicator extends Component {
-  static propTypes = {
-    text: PropTypes.string,
-    value: PropTypes.number,
-  }
-
-  render() {
-    return (
-      <MoneyIndicator
-        text={this.props.text}
-        value={this.props.value}
-        additionalClassesAsStr={'summary'}
-      />
-    )
-  }
+MoneyIndicator.propTypes = {
+  text: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  additionalClassesAsStr: PropTypes.string,
 }
 
-class Indicator extends Component {
-  static propTypes = {
-    text: PropTypes.string,
-    value: PropTypes.string,
-    onClick: PropTypes.func,
-    additionalClassesAsStr: PropTypes.string,
-  }
+MoneyIndicator.defaultProps = {
+  additionalClassesAsStr: '',
+}
 
-  render() {
-    return (
-      <Cell onClick={this.props.onClick && (() => this.props.onClick())}>
-        <div className={`indicator ${this.props.additionalClassesAsStr || ''}`}>
-          <div className={'text-wrapper'}>
-            <span>{this.props.text}</span>
-          </div>
-          <div className={'value-wrapper'}>
-            <span className={'value'}>{this.props.value}</span>
-          </div>
+function SummaryMoneyIndicator({ text, value }) {
+  return (
+    <MoneyIndicator
+      text={text}
+      value={value}
+      additionalClassesAsStr="summary"
+    />
+  )
+}
+
+SummaryMoneyIndicator.propTypes = {
+  text: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+}
+
+function Indicator({ text, value, onClick, additionalClassesAsStr }) {
+  return (
+    <Cell onClick={onClick && (() => onClick())}>
+      <div className={`indicator ${additionalClassesAsStr || ''}`}>
+        <div className="text-wrapper">
+          <span>{text}</span>
         </div>
-      </Cell>
-    )
-  }
+        <div className="value-wrapper">
+          <span className="value">{value}</span>
+        </div>
+      </div>
+    </Cell>
+  )
 }
 
-export {MoneyIndicator, SummaryMoneyIndicator, Indicator}
+Indicator.propTypes = {
+  text: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+  additionalClassesAsStr: PropTypes.string,
+}
+
+Indicator.defaultProps = {
+  onClick: () => {},
+  additionalClassesAsStr: '',
+}
+
+export { MoneyIndicator, SummaryMoneyIndicator, Indicator }

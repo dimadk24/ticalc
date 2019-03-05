@@ -1,4 +1,4 @@
-import {convertModifications, convertResults} from './helpers'
+import { convertModifications, convertResults } from './helpers'
 
 describe('results converter', () => {
   test('basic convertion', () => {
@@ -17,7 +17,7 @@ describe('results converter', () => {
           price: 600,
         },
       ],
-      materials: [{name: 'Моторное масло (DPF) 8л.', price: 5600}],
+      materials: [{ name: 'Моторное масло (DPF) 8л.', price: 5600 }],
     }
     expect(convertResults(input)).toEqual(output)
   })
@@ -38,7 +38,7 @@ describe('results converter', () => {
           price: 0,
         },
       ],
-      materials: [{name: 'Моторное масло (DPF) 8л.', price: 0}],
+      materials: [{ name: 'Моторное масло (DPF) 8л.', price: 0 }],
     }
     expect(convertResults(input)).toEqual(output)
   })
@@ -54,7 +54,7 @@ describe('results converter', () => {
     ]
     const output = {
       works: [],
-      materials: [{name: 'Моторное масло (DPF) 8л.', price: 5600}],
+      materials: [{ name: 'Моторное масло (DPF) 8л.', price: 5600 }],
     }
     expect(convertResults(input)).toEqual(output)
   })
@@ -88,8 +88,8 @@ describe('modification converter', () => {
       67277: '3.5л., бензин, 249 л.с., 4х4 АКПП',
     }
     const output = [
-      {id: 67232, value: '3.5л., бензин, 249 л.с., 4х2 АКПП'},
-      {id: 67277, value: '3.5л., бензин, 249 л.с., 4х4 АКПП'},
+      { id: 67232, value: '3.5л., бензин, 249 л.с., 4х2 АКПП' },
+      { id: 67277, value: '3.5л., бензин, 249 л.с., 4х4 АКПП' },
     ]
     expect(convertModifications(input)).toEqual(output)
   })
@@ -100,8 +100,8 @@ describe('modification converter', () => {
       67278: '3.5л., бензин, 249 л.с., 4х4 АКПП',
     }
     const output = [
-      {id: 67231, value: '3.5л., бензин, 249 л.с., 4х2 АКПП'},
-      {id: 67278, value: '3.5л., бензин, 249 л.с., 4х4 АКПП'},
+      { id: 67231, value: '3.5л., бензин, 249 л.с., 4х2 АКПП' },
+      { id: 67278, value: '3.5л., бензин, 249 л.с., 4х4 АКПП' },
     ]
     expect(convertModifications(input)).toEqual(output)
   })

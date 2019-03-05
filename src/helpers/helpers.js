@@ -24,7 +24,7 @@ function convertWork(row) {
 }
 
 function convertResults(results) {
-  const converted = {works: [], materials: []}
+  const converted = { works: [], materials: [] }
   for (const row of results) {
     const material = convertMaterial(row)
     if (material.name) converted.materials.push(material)
@@ -56,14 +56,14 @@ function getUserInfo() {
 }
 
 function convertModifications(modifications) {
-  const new_array = []
+  const newArray = []
   for (const id in modifications) {
     if (modifications.hasOwnProperty(id)) {
-      const obj = {id: Number.parseInt(id, 10), value: modifications[id]}
-      new_array.push(obj)
+      const obj = { id: Number.parseInt(id, 10), value: modifications[id] }
+      newArray.push(obj)
     }
   }
-  return new_array
+  return newArray
 }
 
 function reachGoal(name) {
@@ -72,12 +72,11 @@ function reachGoal(name) {
 }
 
 function doPostRequest(url, params) {
-  const request_params = new URLSearchParams()
+  const requestParams = new URLSearchParams()
   for (const param in params) {
-    if (params.hasOwnProperty(param))
-      request_params.append(param, params[param])
+    if (params.hasOwnProperty(param)) requestParams.append(param, params[param])
   }
-  return axios.post(url, request_params)
+  return axios.post(url, requestParams)
 }
 
 export {
