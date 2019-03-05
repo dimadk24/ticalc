@@ -1,10 +1,13 @@
-## How to install
+# Calculator of car service
+(**T**echnical **I**nspection **CALC**ulator)
 
-`npx @vkontakte/create-vk-app <folder name>`
+## How to launch the project:
 
-## How to start
-
-Go to created folder and run:
-`yarn start` || `npm start` — this will start dev server with hot reload on `localhost:10888`.
-
-`yarn run build` || `npm run build` — this will build production bundle, with treeshaking, uglify and all this modern fancy stuff
+1. I use [yarn (facebook package manager)](https://yarnpkg.com/en/docs/install)
+on this and other projects, please install it for comfortable work.
+It's nice alternate to npm, really :)
+2. clone repository: `git clone https://github.com/DimaDK24/ticalc.git`
+3. go to project folder: `cd ticalc`
+4. install packages: `yarn install`
+5. launch app: `yarn start`
+6. have a look at other available scripts in `package.json`
