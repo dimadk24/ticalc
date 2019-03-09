@@ -156,13 +156,6 @@ class Home extends React.Component {
 
   headerText = 'Расчет ТО Ниссан'
 
-  panelHeader = (
-    <HeaderWithBackButton
-      text={this.headerText}
-      onBackButtonClick={() => this.props.onBack()}
-    />
-  )
-
   // had to suppress eslint cause we need this function in ctaButton property
   // so it has to be declared before it.
   // we need to remove it when ctaButton will be standalone component,
@@ -214,6 +207,16 @@ class Home extends React.Component {
     const { hash } = window.location
     if (!isHomeView(hash)) window.basePopHistoryStateHandler()
     else this.viewPopStateHandler()
+  }
+
+  getPanelHeader = () => {
+    const { onBack } = this.props
+    return (
+      <HeaderWithBackButton
+        text={this.headerText}
+        onBackButtonClick={() => onBack()}
+      />
+    )
   }
 
   get resultsStatus() {
@@ -281,8 +284,8 @@ class Home extends React.Component {
     const { calculationResults } = this.state
     return (
       <Group title="Работы">
-        {calculationResults.works.map((item, index) => (
-          <MoneyIndicator text={item.name} value={item.price} key={index} />
+        {calculationResults.works.map(({ name, price }) => (
+          <MoneyIndicator text={name} value={price} key={name} />
         ))}
         {
           <SummaryMoneyIndicator
@@ -298,8 +301,8 @@ class Home extends React.Component {
     const { calculationResults } = this.state
     return (
       <Group title="Материалы">
-        {calculationResults.materials.map((item, index) => (
-          <MoneyIndicator text={item.name} value={item.price} key={index} />
+        {calculationResults.materials.map(({ name, price }) => (
+          <MoneyIndicator text={name} value={price} key={name} />
         ))}
 
         <SummaryMoneyIndicator
@@ -353,9 +356,9 @@ class Home extends React.Component {
   }
 
   setLoadingStatus() {
-    this.setState((state) => {
-      Object.assign(state.calculationResults, { status: 'loading' })
-      return state
+    this.setState((oldState) => {
+      Object.assign(oldState.calculationResults, { status: 'loading' })
+      return oldState
     })
   }
 
@@ -464,7 +467,7 @@ class Home extends React.Component {
     return (
       <View id={viewId} activePanel={activePanel} header popout={popout}>
         <Panel id={panelId}>
-          {this.panelHeader}
+          {this.getPanelHeader()}
           {this.getCalculationSelectGroup()}
           {this.getCalculationResults()}
           {this.ctaComponent}
