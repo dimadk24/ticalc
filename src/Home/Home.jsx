@@ -163,6 +163,19 @@ class Home extends React.Component {
     />
   )
 
+  // had to suppress eslint cause we need this function in ctaButton property
+  // so it has to be declared before it.
+  // we need to remove it when ctaButton will be standalone component,
+  // and not just property
+  // eslint-disable-next-line react/sort-comp
+  onCtaClick = () => {
+    const { onCtaClick } = this.props
+    try {
+      reachCtaClickGoal()
+    } catch (e) {} // eslint-disable-line no-empty
+    onCtaClick()
+  }
+
   ctaButton = (
     <Button align="center" stretched size="l" onClick={this.onCtaClick}>
       Отправить заявку
@@ -330,14 +343,6 @@ class Home extends React.Component {
         )}
       </div>
     )
-  }
-
-  onCtaClick = () => {
-    const { onCtaClick } = this.props
-    try {
-      reachCtaClickGoal()
-    } catch (e) {} // eslint-disable-line no-empty
-    onCtaClick()
   }
 
   setSelectValueAndTryToCalculateResults(key, item) {
