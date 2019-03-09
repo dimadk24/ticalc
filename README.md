@@ -1,5 +1,5 @@
 # Calculator of car service
-(**T**echnical **I**nspection **CALC**ulator)
+ticalc stands for **T**echnical **I**nspection **CALC**ulator
 
 ## How to launch the project:
 
