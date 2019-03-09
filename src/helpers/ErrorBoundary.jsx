@@ -1,7 +1,12 @@
 import React from 'react'
 import Raven from 'raven-js'
+import PropTypes from 'prop-types'
 
 class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+  }
+
   constructor(props) {
     super(props)
     this.state = { error: null }
@@ -13,7 +18,8 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    const { error, children } = this.state
+    const { error } = this.state
+    const { children } = this.props
     if (error) {
       return (
         <div style={{ textAlign: 'center' }}>
