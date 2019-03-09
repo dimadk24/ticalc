@@ -46,5 +46,11 @@
     "gh-pages": "^2.0.1",
     "jest": "^23.6.0",
     "prettier": "1.16.4"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
