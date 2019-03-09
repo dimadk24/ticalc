@@ -163,9 +163,7 @@ class Home extends React.Component {
   // eslint-disable-next-line react/sort-comp
   onCtaClick = () => {
     const { onCtaClick } = this.props
-    try {
-      reachCtaClickGoal()
-    } catch (e) {} // eslint-disable-line no-empty
+    reachCtaClickGoal()
     onCtaClick()
   }
 
@@ -479,9 +477,7 @@ class Home extends React.Component {
           items={this.models}
           onSelect={async (item) => {
             this.showSpinner()
-            try {
-              reachModelSelectedGoal()
-            } catch (e) {} // eslint-disable-line no-empty
+            reachModelSelectedGoal()
             this.resetModification()
             await this.setModifications(item.id)
             this.setSelectValueAndTryToCalculateResults('model', item)
@@ -494,9 +490,7 @@ class Home extends React.Component {
           header="Модификация"
           items={this.modifications}
           onSelect={(item) => {
-            try {
-              reachModificationSelectedGoal()
-            } catch (e) {} // eslint-disable-line no-empty
+            reachModificationSelectedGoal()
             this.setSelectValueAndTryToCalculateResults('modification', item)
           }}
         />
@@ -506,9 +500,7 @@ class Home extends React.Component {
           header="Пробег или время"
           items={this.oldnesses}
           onSelect={(item) => {
-            try {
-              reachOldnessSelectedGoal()
-            } catch (e) {} // eslint-disable-line no-empty
+            reachOldnessSelectedGoal()
             this.setSelectValueAndTryToCalculateResults('oldness', item)
           }}
         />

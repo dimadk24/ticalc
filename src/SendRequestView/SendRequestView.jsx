@@ -192,9 +192,7 @@ export default class SendRequestView extends Component {
     if (formIsValid(phone)) {
       this.showSpinner()
       await sendRequest(name, phone)
-      try {
-        reachSentManualRequestGoal()
-      } catch (e) {} // eslint-disable-line no-empty
+      reachSentManualRequestGoal()
       this.doPostRequestTasks()
     } else {
       this.setState({ phoneNotValid: true })

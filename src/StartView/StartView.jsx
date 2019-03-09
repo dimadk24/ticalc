@@ -27,9 +27,7 @@ class StartView extends React.Component {
   }
 
   onGoHome = () => {
-    try {
-      reachStatisticGoal()
-    } catch (e) {} // eslint-disable-line no-empty
+    reachStatisticGoal()
     const { onGoHome } = this.props
     onGoHome()
   }

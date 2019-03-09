@@ -67,8 +67,15 @@ function convertModifications(modifications) {
 }
 
 function reachGoal(name) {
-  // noinspection JSUnresolvedFunction
-  window.yaCounter50376901.reachGoal(name)
+  try {
+    // noinspection JSUnresolvedFunction
+    window.yaCounter50376901.reachGoal(name)
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `Tried to reach goal ${name}, but Yandex.Metrika is blocked or removed`
+    )
+  }
 }
 
 function doPostRequest(url, params) {
