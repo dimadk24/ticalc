@@ -5,10 +5,14 @@ import * as VKConnect from '@vkontakte/vkui-connect'
 import Raven from 'raven-js'
 import App from './App'
 import registerServiceWorker from './sw'
+import { isProduction, insertMetrika } from './helpers/production_trackers'
 
-Raven.config(
-  'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
-).install()
+if (isProduction) {
+  Raven.config(
+    'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
+  ).install()
+  insertMetrika()
+}
 
 const root = document.getElementById('root')
 // Render
