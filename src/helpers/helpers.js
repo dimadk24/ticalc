@@ -25,12 +25,12 @@ function convertWork(row) {
 
 function convertResults(results) {
   const converted = { works: [], materials: [] }
-  for (const row of results) {
+  results.forEach((row) => {
     const material = convertMaterial(row)
     if (material.name) converted.materials.push(material)
     const work = convertWork(row)
     if (work.name) converted.works.push(work)
-  }
+  })
   return converted
 }
 
@@ -56,14 +56,10 @@ function getUserInfo() {
 }
 
 function convertModifications(modifications) {
-  const newArray = []
-  for (const id in modifications) {
-    if (modifications.hasOwnProperty(id)) {
-      const obj = { id: Number.parseInt(id, 10), value: modifications[id] }
-      newArray.push(obj)
-    }
-  }
-  return newArray
+  return Object.entries(modifications).map(([id, value]) => ({
+    id: parseInt(id, 10),
+    value,
+  }))
 }
 
 function reachGoal(name) {
@@ -80,9 +76,9 @@ function reachGoal(name) {
 
 function doPostRequest(url, params) {
   const requestParams = new URLSearchParams()
-  for (const param in params) {
-    if (params.hasOwnProperty(param)) requestParams.append(param, params[param])
-  }
+  Object.entries(params).forEach(([parameter, value]) => {
+    requestParams.append(parameter, value)
+  })
   return axios.post(url, requestParams)
 }
 
