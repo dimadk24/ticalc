@@ -21,9 +21,9 @@ import {
   convertModifications,
   convertResults,
   doPostRequest,
-  reachGoal,
 } from '../helpers/helpers'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
+import { reachGoal } from '../helpers/production_trackers'
 
 let state = {
   calculationResults: {

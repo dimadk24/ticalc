@@ -3,7 +3,7 @@ import { Button, Div, Group, Panel, PanelHeader, View } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import logo from '../logo.png'
 import './StartView.css'
-import { reachGoal } from '../helpers/helpers'
+import { reachGoal } from '../helpers/production_trackers'
 
 function reachStatisticGoal() {
   reachGoal('open-home')

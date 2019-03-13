@@ -47,4 +47,17 @@ function insertMetrika() {
   document.body.innerHTML += noscriptMetrikaTag
 }
 
-export { isProduction, insertMetrika }
+function reachGoal(name) {
+  if (!isProduction) return
+  try {
+    // noinspection JSUnresolvedFunction
+    window.yaCounter50376901.reachGoal(name)
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      `Tried to reach goal ${name}, but Yandex.Metrika is blocked or removed`
+    )
+  }
+}
+
+export { isProduction, insertMetrika, reachGoal }

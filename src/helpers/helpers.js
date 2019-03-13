@@ -1,6 +1,5 @@
 import connect from '@vkontakte/vkui-connect'
 import axios from 'axios'
-import { isProduction } from './production_trackers'
 
 function getPrice(string) {
   return Number.parseInt(string, 10) || 0
@@ -63,19 +62,6 @@ function convertModifications(modifications) {
   }))
 }
 
-function reachGoal(name) {
-  if (!isProduction) return
-  try {
-    // noinspection JSUnresolvedFunction
-    window.yaCounter50376901.reachGoal(name)
-  } catch (e) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      `Tried to reach goal ${name}, but Yandex.Metrika is blocked or removed`
-    )
-  }
-}
-
 function doPostRequest(url, params) {
   const requestParams = new URLSearchParams()
   Object.entries(params).forEach(([parameter, value]) => {
@@ -89,6 +75,5 @@ export {
   getInfoFromVKConnect,
   getUserInfo,
   convertModifications,
-  reachGoal,
   doPostRequest,
 }

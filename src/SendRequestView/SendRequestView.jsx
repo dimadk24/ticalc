@@ -14,7 +14,8 @@ import axios from 'axios'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import PhoneInput from '../helpers/PhoneInput'
-import { getInfoFromVKConnect, reachGoal } from '../helpers/helpers'
+import { getInfoFromVKConnect } from '../helpers/helpers'
+import { reachGoal } from '../helpers/production_trackers'
 
 let state = {
   name: '',

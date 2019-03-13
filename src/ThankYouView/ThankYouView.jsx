@@ -2,7 +2,7 @@ import { Button, Cell, Group, Panel, View } from '@vkontakte/vkui'
 import React from 'react'
 import PropTypes from 'prop-types'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
-import { reachGoal } from '../helpers/helpers'
+import { reachGoal } from '../helpers/production_trackers'
 import './ThankYouView.css'
 
 class ThankYouView extends React.Component {
