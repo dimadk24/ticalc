@@ -1,5 +1,6 @@
 import connect from '@vkontakte/vkui-connect'
 import axios from 'axios'
+import { isProduction } from './production_trackers'
 
 function getPrice(string) {
   return Number.parseInt(string, 10) || 0
@@ -63,6 +64,7 @@ function convertModifications(modifications) {
 }
 
 function reachGoal(name) {
+  if (!isProduction) return
   try {
     // noinspection JSUnresolvedFunction
     window.yaCounter50376901.reachGoal(name)
