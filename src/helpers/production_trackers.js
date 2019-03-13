@@ -10,6 +10,7 @@ function launchMetrika() {
   ;(function(d, w, c) {
     ;(w[c] = w[c] || []).push(function() {
       try {
+        // noinspection JSUnresolvedFunction
         w.yaCounter50376901 = new Ya.Metrika2({
           id: 50376901,
           clickmap: true,
@@ -20,6 +21,7 @@ function launchMetrika() {
       } catch (e) {}
     })
 
+    // noinspection ES6ConvertVarToLetConst
     var n = d.getElementsByTagName('script')[0],
       s = d.createElement('script'),
       f = function() {
@@ -29,6 +31,7 @@ function launchMetrika() {
     s.async = true
     s.src = 'https://mc.yandex.ru/metrika/tag.js'
 
+    // noinspection EqualityComparisonWithCoercionJS
     if (w.opera == '[object Opera]') {
       d.addEventListener('DOMContentLoaded', f, false)
     } else {
