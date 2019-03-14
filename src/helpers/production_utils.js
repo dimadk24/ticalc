@@ -1,3 +1,6 @@
+const { NODE_ENV } = process.env
+const isProduction = NODE_ENV === 'production'
+
 const noscriptMetrikaTag = `
     <noscript>
         <div><img src="https://mc.yandex.ru/watch/50376901" style="position:absolute; left:-9999px;" alt="" /></div>
@@ -40,10 +43,6 @@ function launchMetrika() {
   })(document, window, 'yandex_metrika_callbacks2')
   /* eslint-enable */
 }
-
-const { NODE_ENV } = process.env
-
-const isProduction = NODE_ENV === 'production'
 
 function insertMetrika() {
   launchMetrika()
