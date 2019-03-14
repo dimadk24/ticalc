@@ -5,7 +5,7 @@ import * as VKConnect from '@vkontakte/vkui-connect'
 import Raven from 'raven-js'
 import App from './App'
 import registerServiceWorker from './sw'
-import { isProduction, insertMetrika } from './helpers/production_trackers'
+import { isProduction, insertMetrika } from './helpers/production_utils'
 
 if (isProduction) {
   Raven.config(

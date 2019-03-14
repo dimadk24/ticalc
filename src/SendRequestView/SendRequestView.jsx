@@ -15,7 +15,7 @@ import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
 import PhoneInput from '../helpers/PhoneInput'
 import { getInfoFromVKConnect } from '../helpers/helpers'
-import { reachGoal } from '../helpers/production_trackers'
+import { reachGoal } from '../helpers/production_utils'
 
 let state = {
   name: '',

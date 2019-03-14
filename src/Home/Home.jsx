@@ -23,7 +23,7 @@ import {
   doPostRequest,
 } from '../helpers/helpers'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
-import { reachGoal } from '../helpers/production_trackers'
+import { reachGoal } from '../helpers/production_utils'
 
 let state = {
   calculationResults: {
