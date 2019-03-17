@@ -150,7 +150,7 @@ class Home extends React.Component {
     { id: 6, value: '90000 или 6 лет' },
     { id: 7, value: '105000 или 7 лет' },
     { id: 8, value: '120000 или 8 лет' },
-    { id: 9, value: '13500 или 9 лет' },
+    { id: 9, value: '135000 или 9 лет' },
     { id: 10, value: '150000 или 10 лет' },
   ]
 
