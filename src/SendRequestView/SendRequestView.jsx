@@ -51,8 +51,8 @@ function getAllInput() {
 
 function getCalculationResults() {
   // fixme: window? save everything in local var
-  const works = window.JSON.stringify(window.calculationResults.works)
-  const materials = window.JSON.stringify(window.calculationResults.materials)
+  const works = JSON.stringify(window.calculationResults.works)
+  const materials = JSON.stringify(window.calculationResults.materials)
   return { works, materials }
 }
 
