@@ -70,10 +70,17 @@ function doPostRequest(url, params) {
   return axios.post(url, requestParams)
 }
 
+function sleep(seconds) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000)
+  })
+}
+
 export {
   convertResults,
   getInfoFromVKConnect,
   getUserInfo,
   convertModifications,
   doPostRequest,
+  sleep,
 }

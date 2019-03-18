@@ -21,9 +21,12 @@ import {
   convertModifications,
   convertResults,
   doPostRequest,
+  sleep,
 } from '../helpers/helpers'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
-import { reachGoal } from '../helpers/production_utils'
+import { isProduction, reachGoal } from '../helpers/production_utils'
+import mockModifications from '../_mocks_/modifications'
+import mockCalculationResults from '../_mocks_/calculation_results'
 
 let state = {
   calculationResults: {
@@ -87,9 +90,12 @@ function convertLocationToPanelId(url) {
 }
 
 async function loadModifications(modelId) {
-  return (await doPostRequest(`/ajax/model.php`, {
-    ID: modelId,
-  })).data
+  if (isProduction)
+    return (await doPostRequest(`/ajax/model.php`, {
+      ID: modelId,
+    })).data
+  await sleep(0.2)
+  return mockModifications
 }
 
 function pushHistoryItem(location) {
@@ -101,11 +107,14 @@ function getSpinner() {
 }
 
 async function loadResults(model, modification, oldness) {
-  return (await doPostRequest(`/ajax/to.php`, {
-    SECTION: model,
-    TIME: oldness,
-    AUTO: modification,
-  })).data
+  if (isProduction)
+    return (await doPostRequest(`/ajax/to.php`, {
+      SECTION: model,
+      TIME: oldness,
+      AUTO: modification,
+    })).data
+  await sleep(0.5)
+  return mockCalculationResults
 }
 
 class Home extends React.Component {
