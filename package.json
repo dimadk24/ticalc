@@ -9,10 +9,11 @@
     "url": "https://github.com/dimadk24/ticalc"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "set \"REACT_APP_IS_PROD=0\" && react-scripts start",
+    "build:prod": "set \"REACT_APP_IS_PROD=1\" && react-scripts build",
+    "build:qa": "set \"REACT_APP_IS_PROD=0\" && react-scripts build",
     "deploy": "gh-pages -d build",
-    "predeploy": "yarn build",
+    "predeploy": "yarn build:qa",
     "test": "jest",
     "lint": "eslint ./src/**/*.{js,jsx,json}",
     "format": "prettier ./src/**/*.{js,jsx,json} --write"

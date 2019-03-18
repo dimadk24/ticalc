@@ -1,5 +1,5 @@
-const { NODE_ENV } = process.env
-const isProduction = NODE_ENV === 'production'
+const { REACT_APP_IS_PROD } = process.env
+const isProduction = Boolean(parseInt(REACT_APP_IS_PROD, 10))
 
 const noscriptMetrikaTag = `
     <noscript>
