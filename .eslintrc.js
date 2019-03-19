@@ -20,5 +20,6 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'react/jsx-one-expression-per-line': 'off',
+    'no-underscore-dangle': 'off',
   },
 }
