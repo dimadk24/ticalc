@@ -2,11 +2,23 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@vkontakte/vkui'
 
+function normalizeName(name) {
+  return (
+    name
+      // remove any non-(letter or space)
+      .replace(/[^A-Za-zА-Яa-я ]/g, '')
+      // allow 1 space in the center or end
+      .replace(/ {2,}/, ' ')
+      .trimLeft()
+  )
+}
+
 function NameInput({ onChange, initialValue }) {
   const [value, setValue] = useState(initialValue || '')
   const _onChange = (newValue) => {
-    setValue(newValue)
-    onChange(newValue)
+    const normalizedValue = normalizeName(newValue)
+    setValue(normalizedValue)
+    onChange(normalizedValue)
   }
   return (
     <div>
