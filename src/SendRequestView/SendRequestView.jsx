@@ -5,7 +5,6 @@ import {
   Cell,
   Div,
   Group,
-  Input,
   Panel,
   ScreenSpinner,
   View,
@@ -16,6 +15,7 @@ import './SendRequestView.css'
 import PhoneInput from '../helpers/PhoneInput'
 import { getInfoFromVKConnect } from '../helpers/helpers'
 import { reachGoal } from '../helpers/production_utils'
+import NameInput from '../helpers/NameInput/NameInput'
 
 let state = {
   name: '',
@@ -139,17 +139,12 @@ export default class SendRequestView extends Component {
   }
 
   getNameComponent() {
-    const { name } = this.state
+    const { username } = this.props
     return (
-      <div>
-        <span>Имя</span>
-        <Input
-          type="text"
-          placeholder="Иван"
-          value={name}
-          onChange={(e) => this.setState({ name: e.target.value })}
-        />
-      </div>
+      <NameInput
+        onChange={(value) => this.setState({ name: value })}
+        initialValue={username}
+      />
     )
   }
 
