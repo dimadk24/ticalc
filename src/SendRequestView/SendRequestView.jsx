@@ -84,16 +84,6 @@ export default class SendRequestView extends Component {
     username: PropTypes.string.isRequired,
   }
 
-  sendButton = (
-    <Button
-      stretched
-      size="l"
-      onClick={() => this.validateAndShowErrorsAndSendForm()}
-    >
-      Отправить заявку
-    </Button>
-  )
-
   constructor(props) {
     super(props)
     const { username } = this.props
@@ -115,36 +105,28 @@ export default class SendRequestView extends Component {
   }
 
   getForm() {
-    return <Group>{this.getManualForm()}</Group>
-  }
-
-  getPanelHeader = () => {
-    const { onBack } = this.props
-    return (
-      <HeaderWithBackButton
-        onBackButtonClick={onBack}
-        text="Отправить заявку"
-      />
-    )
-  }
-
-  getManualForm() {
-    return (
-      <Div>
-        <Cell>{this.getNameComponent()}</Cell>
-        <Cell>{this.getPhoneComponent()}</Cell>
-        <Cell>{this.sendButton}</Cell>
-      </Div>
-    )
-  }
-
-  getNameComponent() {
     const { username } = this.props
     return (
-      <NameInput
-        onChange={(value) => this.setState({ name: value })}
-        initialValue={username}
-      />
+      <Group>
+        <Div>
+          <Cell>
+            <NameInput
+              onChange={(value) => this.setState({ name: value })}
+              initialValue={username}
+            />
+          </Cell>
+          <Cell>{this.getPhoneComponent()}</Cell>
+          <Cell>
+            <Button
+              stretched
+              size="l"
+              onClick={() => this.validateAndShowErrorsAndSendForm()}
+            >
+              Отправить заявку
+            </Button>
+          </Cell>
+        </Div>
+      </Group>
     )
   }
 
@@ -196,13 +178,16 @@ export default class SendRequestView extends Component {
   }
 
   render() {
-    const { id: viewId } = this.props
+    const { id: viewId, onBack } = this.props
     const { popout } = this.state
     const panelId = `${viewId}main`
     return (
       <View id={viewId} activePanel={panelId} header popout={popout}>
         <Panel id={panelId}>
-          {this.getPanelHeader()}
+          <HeaderWithBackButton
+            onBackButtonClick={onBack}
+            text="Отправить заявку"
+          />
           {this.getForm()}
         </Panel>
       </View>
