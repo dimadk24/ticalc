@@ -50,7 +50,7 @@ class SweetSelect extends React.Component {
           text={header}
           panelHeaderProps={{ noShadow: true }}
         />
-        <Search onChange={() => this.onSearchChange()} />
+        <Search onChange={(value) => this.onSearchChange(value)} />
         {this.items.length > 0 && (
           <List>
             {this.items.map((item) => (
