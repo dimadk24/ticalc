@@ -3,8 +3,11 @@ import { Cell, Div, List, Panel, Search } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 
-function normalizeSearchString(string) {
-  return string.toLowerCase().trim()
+function normalizeSearchValue(text, { shouldLowerCase, maxLength }) {
+  let normalizedText = text.trimLeft()
+  if (shouldLowerCase) normalizedText = normalizedText.toLowerCase()
+  if (maxLength) normalizedText = normalizedText.slice(0, maxLength)
+  return normalizedText
 }
 
 class SweetSelect extends React.Component {
@@ -33,19 +36,28 @@ class SweetSelect extends React.Component {
   }
 
   onSearchChange(text) {
-    this.setState({ searchText: text })
+    const normalizedText = normalizeSearchValue(text, {
+      shouldLowerCase: false,
+      maxLength: 35,
+    })
+    this.setState({ searchText: normalizedText })
   }
 
   get items() {
     const { searchText } = this.state
     const { items } = this.props
-    const normalizedSearchText = normalizeSearchString(searchText)
+    const normalizedSearchText = normalizeSearchValue(searchText, {
+      shouldLowerCase: true,
+    })
     return items.filter(({ value }) =>
-      normalizeSearchString(value).includes(normalizedSearchText)
+      normalizeSearchValue(value, { shouldLowerCase: true }).includes(
+        normalizedSearchText
+      )
     )
   }
 
   render() {
+    const { searchText } = this.state
     const { id: panelId, backClickHandler, header, onSelect } = this.props
     return (
       <Panel id={panelId}>
@@ -54,7 +66,10 @@ class SweetSelect extends React.Component {
           text={header}
           panelHeaderProps={{ noShadow: true }}
         />
-        <Search onChange={(value) => this.onSearchChange(value)} />
+        <Search
+          onChange={(value) => this.onSearchChange(value)}
+          value={searchText}
+        />
         {this.items.length > 0 && (
           <List>
             {this.items.map((item) => (
