@@ -3,6 +3,10 @@ import { Cell, Div, List, Panel, Search } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 
+function normalizeSearchString(string) {
+  return string.toLowerCase().trim()
+}
+
 class SweetSelect extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -35,9 +39,9 @@ class SweetSelect extends React.Component {
   get items() {
     const { searchText } = this.state
     const { items } = this.props
-    const lowerSearchText = searchText.toLocaleLowerCase()
-    return items.filter(
-      ({ value }) => value.toLocaleLowerCase().indexOf(lowerSearchText) !== -1
+    const normalizedSearchText = normalizeSearchString(searchText)
+    return items.filter(({ value }) =>
+      normalizeSearchString(value).includes(normalizedSearchText)
     )
   }
 
