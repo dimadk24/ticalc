@@ -39,6 +39,8 @@ class ThankYouView extends React.Component {
                 href="//vk.com/ya.service.nissan"
                 className="not-link"
                 onClick={this.onGoToPublic}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Button stretched size="xl" style={{ marginTop: '15px' }}>
                   Перейти
