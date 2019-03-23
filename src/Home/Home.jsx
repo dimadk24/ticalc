@@ -329,13 +329,6 @@ class Home extends React.Component {
     )
   }
 
-  setLoadingStatus() {
-    this.setState((oldState) => {
-      Object.assign(oldState.calculationResults, { status: 'loading' })
-      return oldState
-    })
-  }
-
   getSelectedOldnessId() {
     const { oldness } = this.state
     return oldness.id
@@ -352,12 +345,9 @@ class Home extends React.Component {
   }
 
   getCalculationResults() {
-    const switcher = {
-      notSelected: null,
-      loading: <ScreenSpinner />,
-      ready: this.getCalculationResultGroups(),
-    }
-    return switcher[this.resultsStatus]
+    if (this.resultsStatus === 'notSelected') return null
+    if (this.resultsStatus === 'ready') return this.getCalculationResultGroups()
+    throw new Error('invalid resultsStatus')
   }
 
   async setModifications(modelId) {
@@ -374,6 +364,7 @@ class Home extends React.Component {
   }
 
   setCalculationResults(results) {
+    this.removeAnyPopout()
     this.setState({
       calculationResults: {
         status: 'ready',
@@ -404,7 +395,7 @@ class Home extends React.Component {
 
   async calculateResults() {
     const { model, modification, oldness } = this.state
-    this.setLoadingStatus()
+    this.showSpinner()
     let results
     try {
       results = await loadResults(model.id, modification.id, oldness.id)
