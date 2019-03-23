@@ -16,6 +16,7 @@ import PhoneInput from '../helpers/PhoneInput'
 import { getInfoFromVKConnect } from '../helpers/helpers'
 import { reachGoal } from '../helpers/production_utils'
 import NameInput from '../helpers/NameInput/NameInput'
+import NetworkErrorAlert from '../helpers/NetworkErrorAlert'
 
 let state = {
   name: '',
@@ -159,6 +160,20 @@ export default class SendRequestView extends Component {
     })
   }
 
+  showNetworkErrorAlert(retryCallback) {
+    this.setState({
+      popout: (
+        <NetworkErrorAlert
+          onRetry={() => {
+            this.removeAnyPopout()
+            retryCallback()
+          }}
+          onCancel={() => this.removeAnyPopout()}
+        />
+      ),
+    })
+  }
+
   doPostRequestTasks() {
     const { onSentRequest } = this.props
     this.removeAnyPopout()
@@ -169,9 +184,15 @@ export default class SendRequestView extends Component {
     const { name, phone } = this.state
     if (formIsValid(phone)) {
       this.showSpinner()
-      await sendRequest(name, phone)
-      reachSentManualRequestGoal()
-      this.doPostRequestTasks()
+      try {
+        await sendRequest(name, phone)
+        reachSentManualRequestGoal()
+        this.doPostRequestTasks()
+      } catch (e) {
+        this.showNetworkErrorAlert(() =>
+          this.validateAndShowErrorsAndSendForm()
+        )
+      }
     } else {
       this.setState({ phoneNotValid: true })
     }

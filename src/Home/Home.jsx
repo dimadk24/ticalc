@@ -29,6 +29,7 @@ import mockModifications from '../_mocks_/modifications'
 import mockCalculationResults from '../_mocks_/calculation_results'
 import productionModels from '../data/models'
 import productionOldnesses from '../data/oldnesses'
+import NetworkErrorAlert from '../helpers/NetworkErrorAlert'
 
 let state = {
   calculationResults: {
@@ -351,10 +352,7 @@ class Home extends React.Component {
   }
 
   async setModifications(modelId) {
-    let modifications
-    try {
-      modifications = await loadModifications(modelId)
-    } catch (err) {} // eslint-disable-line no-empty
+    const modifications = await loadModifications(modelId)
     this.modifications = convertModifications(modifications)
     this.setState({
       modification: convertFromSweetSelectToHomeItemsFormat(
@@ -399,9 +397,12 @@ class Home extends React.Component {
     let results
     try {
       results = await loadResults(model.id, modification.id, oldness.id)
-    } catch (err) {} // eslint-disable-line no-empty
-    results = convertResults(results)
-    this.setCalculationResults(results)
+      results = convertResults(results)
+      this.setCalculationResults(results)
+      this.removeAnyPopout()
+    } catch (e) {
+      this.showNetworkErrorAlert(() => this.calculateResults())
+    }
   }
 
   async tryToCalculateResults() {
@@ -425,6 +426,33 @@ class Home extends React.Component {
     this.changePanel(panelId)
   }
 
+  showNetworkErrorAlert(retryCallback) {
+    this.setState({
+      popout: (
+        <NetworkErrorAlert
+          onRetry={() => {
+            this.removeAnyPopout()
+            retryCallback()
+          }}
+          onCancel={() => this.removeAnyPopout()}
+        />
+      ),
+    })
+  }
+
+  onModelSelect = async (model) => {
+    this.showSpinner()
+    reachModelSelectedGoal()
+    this.resetModification()
+    try {
+      await this.setModifications(model.id)
+      this.setSelectValueAndTryToCalculateResults('model', model)
+      this.removeAnyPopout()
+    } catch (e) {
+      this.showNetworkErrorAlert(() => this.onModelSelect(model))
+    }
+  }
+
   render() {
     const { id: viewId } = this.props
     const { activePanel, popout } = this.state
@@ -442,14 +470,7 @@ class Home extends React.Component {
           backClickHandler={() => goBack()}
           header="Модель"
           items={this.models}
-          onSelect={async (item) => {
-            this.showSpinner()
-            reachModelSelectedGoal()
-            this.resetModification()
-            await this.setModifications(item.id)
-            this.setSelectValueAndTryToCalculateResults('model', item)
-            this.removeAnyPopout()
-          }}
+          onSelect={this.onModelSelect}
         />
         <SweetSelect
           id="chooseModification"
