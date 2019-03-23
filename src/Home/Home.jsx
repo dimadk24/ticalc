@@ -386,7 +386,7 @@ class Home extends React.Component {
     })
   }
 
-  removeSpinner() {
+  removeAnyPopout() {
     this.setState({ popout: null })
   }
 
@@ -461,7 +461,7 @@ class Home extends React.Component {
             this.resetModification()
             await this.setModifications(item.id)
             this.setSelectValueAndTryToCalculateResults('model', item)
-            this.removeSpinner()
+            this.removeAnyPopout()
           }}
         />
         <SweetSelect

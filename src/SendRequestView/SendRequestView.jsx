@@ -153,7 +153,7 @@ export default class SendRequestView extends Component {
     this.setState({ popout: <ScreenSpinner /> })
   }
 
-  hideSpinner() {
+  removeAnyPopout() {
     this.setState({
       popout: null,
     })
@@ -161,7 +161,7 @@ export default class SendRequestView extends Component {
 
   doPostRequestTasks() {
     const { onSentRequest } = this.props
-    this.hideSpinner()
+    this.removeAnyPopout()
     onSentRequest()
   }
 
