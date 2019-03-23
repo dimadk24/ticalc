@@ -104,10 +104,6 @@ function pushHistoryItem(location) {
   window.history.pushState({}, '', location)
 }
 
-function getSpinner() {
-  return <ScreenSpinner />
-}
-
 async function loadResults(model, modification, oldness) {
   if (isProduction)
     return (await doPostRequest(`/ajax/to.php`, {
@@ -358,7 +354,7 @@ class Home extends React.Component {
   getCalculationResults() {
     const switcher = {
       notSelected: null,
-      loading: getSpinner(),
+      loading: <ScreenSpinner />,
       ready: this.getCalculationResultGroups(),
     }
     return switcher[this.resultsStatus]
