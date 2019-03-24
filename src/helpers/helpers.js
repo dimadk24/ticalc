@@ -41,6 +41,7 @@ function messageTypeIs(e, type) {
 function getInfoFromVKConnect(eventName) {
   return new Promise((resolve, reject) => {
     const subscriber = (e) => {
+      connect.unsubscribe(subscriber)
       const response = e.detail
       if (messageTypeIs(response, `${eventName}Result`)) resolve(response.data)
       else if (messageTypeIs(response, `${eventName}Failed`))
