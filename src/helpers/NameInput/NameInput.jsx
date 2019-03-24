@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Input } from '@vkontakte/vkui'
 
@@ -13,13 +13,8 @@ function normalizeName(name) {
   )
 }
 
-function NameInput({ onChange, initialValue }) {
-  const [value, setValue] = useState(initialValue || '')
-  const _onChange = (newValue) => {
-    const normalizedValue = normalizeName(newValue)
-    setValue(normalizedValue)
-    onChange(normalizedValue)
-  }
+function NameInput({ onChange, value }) {
+  const _onChange = (newValue) => onChange(normalizeName(newValue))
   return (
     <div>
       <span>Имя</span>
@@ -27,7 +22,7 @@ function NameInput({ onChange, initialValue }) {
         type="text"
         placeholder="Иван"
         onChange={(e) => _onChange(e.target.value)}
-        value={value}
+        value={value || ''}
       />
     </div>
   )
@@ -35,11 +30,11 @@ function NameInput({ onChange, initialValue }) {
 
 NameInput.propTypes = {
   onChange: PropTypes.func.isRequired,
-  initialValue: PropTypes.string,
+  value: PropTypes.string,
 }
 
 NameInput.defaultProps = {
-  initialValue: '',
+  value: '',
 }
 
 export default NameInput

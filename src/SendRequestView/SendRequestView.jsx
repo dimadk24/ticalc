@@ -88,8 +88,11 @@ export default class SendRequestView extends Component {
   constructor(props) {
     super(props)
     const { username } = this.props
-    this.state = state
-    this.state.name = username
+    this.state = { ...state, name: username }
+  }
+
+  componentDidMount() {
+    this.setState(state)
     this.requestedPhone = false
   }
 
@@ -106,14 +109,14 @@ export default class SendRequestView extends Component {
   }
 
   getForm() {
-    const { username } = this.props
+    const { name } = this.state
     return (
       <Group>
         <Div>
           <Cell>
             <NameInput
               onChange={(value) => this.setState({ name: value })}
-              initialValue={username}
+              value={name}
             />
           </Cell>
           <Cell>{this.getPhoneComponent()}</Cell>
