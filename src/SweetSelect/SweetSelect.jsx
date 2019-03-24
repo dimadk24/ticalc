@@ -3,10 +3,9 @@ import { Cell, Div, List, Panel, Search } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 
-function normalizeSearchValue(text, { shouldLowerCase, maxLength }) {
+function normalizeSearchValue(text, { shouldLowerCase }) {
   let normalizedText = text.trimLeft()
   if (shouldLowerCase) normalizedText = normalizedText.toLowerCase()
-  if (maxLength) normalizedText = normalizedText.slice(0, maxLength)
   return normalizedText
 }
 
@@ -38,7 +37,6 @@ class SweetSelect extends React.Component {
   onSearchChange(text) {
     const normalizedText = normalizeSearchValue(text, {
       shouldLowerCase: false,
-      maxLength: 35,
     })
     this.setState({ searchText: normalizedText })
   }
@@ -69,6 +67,7 @@ class SweetSelect extends React.Component {
         <Search
           onChange={(value) => this.onSearchChange(value)}
           value={searchText}
+          maxLength={35}
         />
         {this.items.length > 0 && (
           <List>
