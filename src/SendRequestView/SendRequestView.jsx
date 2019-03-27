@@ -1,41 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {
-  Button,
-  Cell,
-  Div,
-  Group,
-  Panel,
-  ScreenSpinner,
-  View,
-} from '@vkontakte/vkui'
+import { Panel, ScreenSpinner, View } from '@vkontakte/vkui'
 import axios from 'axios'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 import './SendRequestView.css'
-import PhoneInput from '../helpers/PhoneInput'
-import { getInfoFromVKConnect } from '../helpers/helpers'
 import { reachGoal } from '../helpers/production_utils'
-import NameInput from '../helpers/NameInput/NameInput'
 import NetworkErrorAlert from '../helpers/NetworkErrorAlert'
-
-let state = {
-  name: '',
-  phone: '',
-  phoneNotValid: false,
-  popout: null,
-}
-
-function removePlus(phone) {
-  return phone.replace(/[^0-9]/g, '')
-}
-
-function formIsValid(phone) {
-  return Boolean(removePlus(phone))
-}
-
-function getPhoneInfo() {
-  return getInfoFromVKConnect('VKWebAppGetPhoneNumber')
-}
+import SendRequestForm from './SendRequestForm'
 
 function getInput(text) {
   if (text === 'Выбрать') return ''
@@ -87,80 +58,30 @@ export default class SendRequestView extends Component {
 
   constructor(props) {
     super(props)
-    const { username } = this.props
-    this.state = { ...state, name: username }
-  }
-
-  componentDidMount() {
-    this.setState(state)
-    this.requestedPhone = false
-  }
-
-  componentWillUnmount() {
-    ;({ state } = this)
-  }
-
-  async onPhoneInputClick() {
-    if (!this.requestedPhone) {
-      this.requestedPhone = true
-      const { phone_number: phone } = await getPhoneInfo()
-      this.setState({ phone })
+    this.state = {
+      popout: null,
     }
   }
 
-  getForm() {
-    const { name } = this.state
-    return (
-      <Group>
-        <Div>
-          <Cell>
-            <NameInput
-              onChange={(value) => this.setState({ name: value })}
-              value={name}
-            />
-          </Cell>
-          <Cell>{this.getPhoneComponent()}</Cell>
-          <Cell>
-            <Button
-              stretched
-              size="l"
-              onClick={() => this.validateAndShowErrorsAndSendForm()}
-            >
-              Отправить заявку
-            </Button>
-          </Cell>
-        </Div>
-      </Group>
-    )
+  componentDidMount() {
+    this.requestedPhone = false
   }
 
-  getPhoneComponent() {
-    const { phone, phoneNotValid } = this.state
-    return (
-      <div>
-        <span>Телефон</span>
-        <PhoneInput
-          placeholder="+79211234567"
-          value={phone}
-          onChange={(value) => {
-            this.setState({ phoneNotValid: false })
-            return this.setState({ phone: value })
-          }}
-          onClick={() => this.onPhoneInputClick()}
-        />
-        {phoneNotValid && <p className="error-hint">Введите телефон</p>}
-      </div>
-    )
+  sendRequest = async (name, phone) => {
+    this.showSpinner()
+    try {
+      await sendRequest(name, phone)
+      reachSentManualRequestGoal()
+      this.doPostRequestTasks()
+    } catch (e) {
+      this.showNetworkErrorAlert(() => this.validateAndShowErrorsAndSendForm())
+    }
   }
 
-  showSpinner() {
-    this.setState({ popout: <ScreenSpinner /> })
-  }
-
-  removeAnyPopout() {
-    this.setState({
-      popout: null,
-    })
+  doPostRequestTasks() {
+    const { onSentRequest } = this.props
+    this.removeAnyPopout()
+    onSentRequest()
   }
 
   showNetworkErrorAlert(retryCallback) {
@@ -177,32 +98,18 @@ export default class SendRequestView extends Component {
     })
   }
 
-  doPostRequestTasks() {
-    const { onSentRequest } = this.props
-    this.removeAnyPopout()
-    onSentRequest()
+  removeAnyPopout() {
+    this.setState({
+      popout: null,
+    })
   }
 
-  async validateAndShowErrorsAndSendForm() {
-    const { name, phone } = this.state
-    if (formIsValid(phone)) {
-      this.showSpinner()
-      try {
-        await sendRequest(name, phone)
-        reachSentManualRequestGoal()
-        this.doPostRequestTasks()
-      } catch (e) {
-        this.showNetworkErrorAlert(() =>
-          this.validateAndShowErrorsAndSendForm()
-        )
-      }
-    } else {
-      this.setState({ phoneNotValid: true })
-    }
+  showSpinner() {
+    this.setState({ popout: <ScreenSpinner /> })
   }
 
   render() {
-    const { id: viewId, onBack } = this.props
+    const { id: viewId, onBack, username } = this.props
     const { popout } = this.state
     const panelId = `${viewId}main`
     return (
@@ -212,7 +119,10 @@ export default class SendRequestView extends Component {
             onBackButtonClick={onBack}
             text="Отправить заявку"
           />
-          {this.getForm()}
+          <SendRequestForm
+            sendRequest={this.sendRequest}
+            initialName={username}
+          />
         </Panel>
       </View>
     )
