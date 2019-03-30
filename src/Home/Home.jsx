@@ -145,7 +145,7 @@ class Home extends React.Component {
   }
 
   ctaButton = (
-    <Button align="center" stretched size="l" onClick={this.onCtaClick}>
+    <Button stretched size="xl" onClick={this.onCtaClick}>
       Отправить заявку
     </Button>
   )
