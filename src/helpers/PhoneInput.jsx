@@ -2,6 +2,11 @@ import React from 'react'
 import { Input } from '@vkontakte/vkui'
 import { AsYouType } from 'libphonenumber-js'
 import PropTypes from 'prop-types'
+import { getInfoFromVKConnect } from './helpers'
+
+function getPhoneInfo() {
+  return getInfoFromVKConnect('VKWebAppGetPhoneNumber')
+}
 
 function format(string) {
   const formater = new AsYouType('RU')
@@ -20,60 +25,60 @@ function valueIsNice(value) {
   return getPlainNumberredValue(value).length <= 11
 }
 
+let state = {
+  value: '',
+  requestedPhone: false,
+}
+
 class PhoneInput extends React.Component {
   static propTypes = {
     placeholder: PropTypes.string,
-    value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
-    onClick: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     placeholder: '',
-    value: '',
     className: '',
   }
 
   constructor(props) {
     super(props)
-    let { value } = this.props
-    value = value || ''
-    this.state = { value }
+    this.state = state
   }
 
-  componentDidUpdate(prevProps) {
-    const { value: newValue } = this.props
-    const oldValue = prevProps.value
-    if (oldValue !== newValue) this.changeValue(newValue)
+  componentDidMount() {
+    this.setState(state)
+  }
+
+  componentWillUnmount() {
+    ;({ state } = this)
   }
 
   onChange({ target }) {
-    const { value } = target
-    this.changeValue(value)
+    this.changeValue(target.value)
+  }
+
+  async onClick() {
+    const { requestedPhone } = this.state
+    if (!requestedPhone) {
+      this.setState({ requestedPhone: true })
+      const { phone_number: phoneNumber } = await getPhoneInfo()
+      this.changeValue(`+${phoneNumber}`)
+    }
   }
 
   changeValue(value) {
     const { onChange } = this.props
     if (valueIsNice(value)) {
       const formattedValue = format(value)
-      if (this.shouldChangeToFormatted(formattedValue, value)) {
-        this.setState({ value: formattedValue })
-        onChange(getPlainNumberredValueWithPlus(value))
-      } else this.setState({ value })
+      this.setState({ value: formattedValue })
+      onChange(getPlainNumberredValueWithPlus(value))
     }
   }
 
-  shouldChangeToFormatted(formattedValue, value) {
-    const { value: stateValue } = this.state
-    return !(
-      formattedValue.length === stateValue.length &&
-      value.length < formattedValue.length
-    )
-  }
-
   render() {
-    const { onClick, className, placeholder } = this.props
+    const { className, placeholder } = this.props
     const { value } = this.state
     return (
       <Input
@@ -82,7 +87,7 @@ class PhoneInput extends React.Component {
         onChange={(e) => this.onChange(e)}
         value={value}
         className={className}
-        onClick={(e) => onClick(e)}
+        onClick={(e) => this.onClick(e)}
       />
     )
   }
