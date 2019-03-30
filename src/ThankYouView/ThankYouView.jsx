@@ -42,7 +42,12 @@ class ThankYouView extends React.Component {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button stretched size="xl" style={{ marginTop: '15px' }}>
+                <Button
+                  level="commerce"
+                  stretched
+                  size="xl"
+                  style={{ marginTop: '15px' }}
+                >
                   Перейти
                 </Button>
               </a>

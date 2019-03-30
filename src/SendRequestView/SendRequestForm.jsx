@@ -78,6 +78,7 @@ class SendRequestForm extends Component {
             status={phoneNotValid ? 'error' : 'default'}
           />
           <Button
+            level="commerce"
             size="xl"
             onClick={() => this.validateAndShowErrorsAndSendForm()}
           >
