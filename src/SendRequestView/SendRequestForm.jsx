@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Cell, Div, Group } from '@vkontakte/vkui'
+import { Button, FormLayout, Group } from '@vkontakte/vkui'
 import NameInput from '../helpers/NameInput/NameInput'
 import { getInfoFromVKConnect } from '../helpers/helpers'
 import PhoneInput from '../helpers/PhoneInput'
@@ -47,25 +47,6 @@ class SendRequestForm extends Component {
     }
   }
 
-  getPhoneComponent() {
-    const { phone, phoneNotValid } = this.state
-    return (
-      <div>
-        <span>Телефон</span>
-        <PhoneInput
-          placeholder="+79211234567"
-          value={phone}
-          onChange={(value) => {
-            this.setState({ phoneNotValid: false })
-            return this.setState({ phone: value })
-          }}
-          onClick={() => this.onPhoneInputClick()}
-        />
-        {phoneNotValid && <p className="error-hint">Введите телефон</p>}
-      </div>
-    )
-  }
-
   async validateAndShowErrorsAndSendForm() {
     const { sendRequest } = this.props
     const { name, phone } = this.state
@@ -74,27 +55,36 @@ class SendRequestForm extends Component {
   }
 
   render() {
-    const { name } = this.state
+    const { name, phone, phoneNotValid } = this.state
+
     return (
       <Group>
-        <Div>
-          <Cell>
-            <NameInput
-              onChange={(value) => this.setState({ name: value })}
-              value={name}
-            />
-          </Cell>
-          <Cell>{this.getPhoneComponent()}</Cell>
-          <Cell>
-            <Button
-              stretched
-              size="l"
-              onClick={() => this.validateAndShowErrorsAndSendForm()}
-            >
-              Отправить заявку
-            </Button>
-          </Cell>
-        </Div>
+        <FormLayout>
+          <NameInput
+            top="Имя"
+            onChange={(value) => this.setState({ name: value })}
+            value={name}
+          />
+          <PhoneInput
+            top="Телефон"
+            placeholder="+79211234567"
+            value={phone}
+            onChange={(value) => {
+              this.setState({ phoneNotValid: false })
+              return this.setState({ phone: value })
+            }}
+            onClick={() => this.onPhoneInputClick()}
+            bottom={phoneNotValid ? 'Неверный телефон' : ''}
+            status={phoneNotValid ? 'error' : 'default'}
+          />
+          <Button
+            stretched
+            size="l"
+            onClick={() => this.validateAndShowErrorsAndSendForm()}
+          >
+            Отправить заявку
+          </Button>
+        </FormLayout>
       </Group>
     )
   }

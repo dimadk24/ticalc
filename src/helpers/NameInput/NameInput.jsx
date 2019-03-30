@@ -16,15 +16,12 @@ function normalizeName(name) {
 function NameInput({ onChange, value }) {
   const _onChange = (newValue) => onChange(normalizeName(newValue))
   return (
-    <div>
-      <span>Имя</span>
-      <Input
-        type="text"
-        placeholder="Иван"
-        onChange={(e) => _onChange(e.target.value)}
-        value={value || ''}
-      />
-    </div>
+    <Input
+      type="text"
+      placeholder="Иван"
+      onChange={(e) => _onChange(e.target.value)}
+      value={value || ''}
+    />
   )
 }
 
