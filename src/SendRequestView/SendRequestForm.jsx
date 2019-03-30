@@ -78,8 +78,7 @@ class SendRequestForm extends Component {
             status={phoneNotValid ? 'error' : 'default'}
           />
           <Button
-            stretched
-            size="l"
+            size="xl"
             onClick={() => this.validateAndShowErrorsAndSendForm()}
           >
             Отправить заявку
