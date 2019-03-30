@@ -35,22 +35,19 @@ class ThankYouView extends React.Component {
               <span className="thank-you-view__visit-group-text">
                 А пока зайдите в наше сообщество ВКонтакте
               </span>
-              <a
+              <Button
+                component="a"
                 href="//vk.com/ya.service.nissan"
-                className="not-link"
-                onClick={this.onGoToPublic}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={this.onGoToPublic}
+                level="commerce"
+                stretched
+                size="xl"
+                style={{ marginTop: '15px' }}
               >
-                <Button
-                  level="commerce"
-                  stretched
-                  size="xl"
-                  style={{ marginTop: '15px' }}
-                >
-                  Перейти
-                </Button>
-              </a>
+                Перейти
+              </Button>
             </Cell>
           </Group>
         </Panel>
