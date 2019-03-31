@@ -21,6 +21,7 @@ function NameInput({ onChange, value }) {
       placeholder="Иван"
       onChange={(e) => _onChange(e.target.value)}
       value={value || ''}
+      maxLength="35"
     />
   )
 }
