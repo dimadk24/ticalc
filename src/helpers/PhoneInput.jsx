@@ -74,9 +74,9 @@ class PhoneInput extends React.Component {
   async onClick() {
     const { shouldRequestPhone, onPhoneRequest } = this.props
     if (shouldRequestPhone) {
+      if (onPhoneRequest) onPhoneRequest()
       const { phone_number: phoneNumber } = await getPhoneInfo()
       this.changeValue(`+${phoneNumber}`)
-      if (onPhoneRequest) onPhoneRequest()
     }
   }
 
