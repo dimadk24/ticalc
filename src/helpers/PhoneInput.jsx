@@ -9,8 +9,11 @@ function getPhoneInfo() {
 }
 
 function format(string) {
-  const formater = new AsYouType('RU')
-  return formater.input(string)
+  let localString = string
+  if (!localString.startsWith('+') && localString !== '')
+    localString = `+${localString}`
+  const formatter = new AsYouType('RU')
+  return formatter.input(localString)
 }
 
 function getPlainNumberredValue(value) {
