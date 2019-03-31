@@ -16,7 +16,8 @@ function removePlus(phone) {
 }
 
 function formIsValid(phone) {
-  return Boolean(removePlus(phone))
+  const phoneNumbers = removePlus(phone)
+  return phoneNumbers.length >= 7
 }
 
 class SendRequestForm extends Component {
