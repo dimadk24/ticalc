@@ -43,11 +43,15 @@ class PhoneInput extends React.Component {
     placeholder: PropTypes.string,
     onChange: PropTypes.func.isRequired,
     className: PropTypes.string,
+    shouldRequestPhone: PropTypes.bool,
+    onPhoneRequest: PropTypes.func,
   }
 
   static defaultProps = {
     placeholder: '',
     className: '',
+    shouldRequestPhone: false,
+    onPhoneRequest: () => {},
   }
 
   constructor(props) {
@@ -68,11 +72,11 @@ class PhoneInput extends React.Component {
   }
 
   async onClick() {
-    const { requestedPhone } = this.state
-    if (!requestedPhone) {
-      this.setState({ requestedPhone: true })
+    const { shouldRequestPhone, onPhoneRequest } = this.props
+    if (shouldRequestPhone) {
       const { phone_number: phoneNumber } = await getPhoneInfo()
       this.changeValue(`+${phoneNumber}`)
+      if (onPhoneRequest) onPhoneRequest()
     }
   }
 

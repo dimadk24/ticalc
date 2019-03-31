@@ -8,6 +8,7 @@ let state = {
   name: '',
   phone: '',
   phoneNotValid: false,
+  shouldRequestPhone: true,
 }
 
 function removePlus(phone) {
@@ -26,11 +27,15 @@ class SendRequestForm extends Component {
   }
 
   componentDidMount() {
-    this.setState(state)
+    this.setState({ ...state, shouldRequestPhone: true })
   }
 
   componentWillUnmount() {
     ;({ state } = this)
+  }
+
+  onPhoneRequest = () => {
+    this.setState({ shouldRequestPhone: false })
   }
 
   async validateAndShowErrorsAndSendForm() {
@@ -41,7 +46,7 @@ class SendRequestForm extends Component {
   }
 
   render() {
-    const { name, phoneNotValid } = this.state
+    const { name, phoneNotValid, shouldRequestPhone } = this.state
     return (
       <Group>
         <FormLayout>
@@ -59,6 +64,8 @@ class SendRequestForm extends Component {
             }}
             bottom={phoneNotValid ? 'Неверный телефон' : ''}
             status={phoneNotValid ? 'error' : 'default'}
+            shouldRequestPhone={shouldRequestPhone}
+            onPhoneRequest={this.onPhoneRequest}
           />
           <Button
             level="commerce"
