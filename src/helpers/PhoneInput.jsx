@@ -22,7 +22,12 @@ function getPlainNumberredValueWithPlus(value) {
 }
 
 function valueIsNice(value) {
-  return getPlainNumberredValue(value).length <= 11
+  const maxRussianPhoneLength = 11
+  const maxBelorussianPhoneLength = 12
+  const numbers = getPlainNumberredValue(value)
+  const isBelorussianPhone = numbers.startsWith('375')
+  if (isBelorussianPhone) return numbers.length <= maxBelorussianPhoneLength
+  return numbers.length <= maxRussianPhoneLength
 }
 
 let state = {
