@@ -5,7 +5,7 @@ import '@vkontakte/vkui/dist/vkui.css'
 import Home from './Home/Home'
 import SendRequestView from './SendRequestView/SendRequestView'
 import StartView from './StartView/StartView'
-import ErrorBoundary from './helpers/ErrorBoundary'
+import ErrorBoundary from './helpers/ErrorBoundary/ErrorBoundary'
 import ThankYouView from './ThankYouView/ThankYouView'
 import { getUserInfo } from './helpers/helpers'
 

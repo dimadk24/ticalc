@@ -2,7 +2,7 @@ import React from 'react'
 import Raven from 'raven-js'
 import PropTypes from 'prop-types'
 import IconMoreHorizontal from '@vkontakte/icons/dist/16/more_horizontal'
-import errorSmile from '../error_smile.png'
+import errorSmile from './error_smile.png'
 import './ErrorBoundary.css'
 
 class ErrorBoundary extends React.Component {
