@@ -1,0 +1,32 @@
+.error-wrapper {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+
+    text-align: center;
+}
+
+.error-wrapper > span {
+    display: block;
+}
+
+.error-wrapper__list {
+    text-align: left;
+}
+
+.error-wrapper__three-dots-text-wrapper > div {
+    display: inline;
+    margin: 0 10px;
+}
+
+.error-wrapper__three-dots-text-wrapper > div > svg {
+    display: inline !important;
+}
+
+.error-wrapper__link,
+.error-wrapper__link:hover,
+.error-wrapper__link:active {
+    text-decoration: none;
+}

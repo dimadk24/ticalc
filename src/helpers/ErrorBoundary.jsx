@@ -1,6 +1,9 @@
 import React from 'react'
 import Raven from 'raven-js'
 import PropTypes from 'prop-types'
+import IconMoreHorizontal from '@vkontakte/icons/dist/16/more_horizontal'
+import errorSmile from '../error_smile.png'
+import './ErrorBoundary.css'
 
 class ErrorBoundary extends React.Component {
   static propTypes = {
@@ -22,9 +25,28 @@ class ErrorBoundary extends React.Component {
     const { children } = this.props
     if (error) {
       return (
-        <div style={{ textAlign: 'center' }}>
-          <p>Что-то пошло не так :(</p>
-          <p>Наша команда уже решает ошибку</p>
+        <div className="error-wrapper">
+          <img src={errorSmile} alt="Ошибка!" />
+          <h2>Похоже, приложение сломалось</h2>
+          <span>Наша команда уже знает об ошибке</span>
+          <span>Попробуйте перезапустить приложение:</span>
+          <ul className="error-wrapper__list">
+            <li className="error-wrapper__three-dots-text-wrapper">
+              Нажмите на <IconMoreHorizontal /> в правом верхнем углу
+            </li>
+            <li>Нажмите на пункт «Очистить кэш»</li>
+            <li>
+              Или просто{' '}
+              <a
+                className="error-wrapper__link"
+                href="https://vk.me/ya.service.nissan"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                расскажите нам об ошибке
+              </a>
+            </li>
+          </ul>
         </div>
       )
     }
