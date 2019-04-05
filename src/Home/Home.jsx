@@ -238,7 +238,8 @@ class Home extends React.Component {
     return (
       <List>
         {this.getModelSelectIndicator()}
-        {this.getModificationSelectIndicator()}
+        {Boolean(this.getSelectedModificationId()) &&
+          this.getModificationSelectIndicator()}
         {this.getOldnessSelectIndicator()}
       </List>
     )
@@ -354,10 +355,7 @@ class Home extends React.Component {
   async setModifications(modelId) {
     let modifications = await loadModifications(modelId)
     modifications = convertModifications(modifications)
-    this.setState({
-      modifications,
-      modification: convertFromSweetSelectToHomeItemsFormat(modifications[0]),
-    })
+    this.setState({ modifications })
   }
 
   setCalculationResults(results) {
@@ -445,8 +443,10 @@ class Home extends React.Component {
     this.resetModification()
     try {
       await this.setModifications(model.id)
-      this.setSelectValueAndTryToCalculateResults('model', model)
+      await sleep(0.8) // hack: required to make vk ui change panels nicely
       this.removeAnyPopout()
+      this.changePanelAndPushHistoryState('chooseModification')
+      this.setSelectValueAndTryToCalculateResults('model', model)
     } catch (e) {
       this.showNetworkErrorAlert(() => this.onModelSelect(model))
     }
