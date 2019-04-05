@@ -31,15 +31,6 @@ import productionModels from '../data/models'
 import productionOldnesses from '../data/oldnesses'
 import NetworkErrorAlert from '../helpers/NetworkErrorAlert'
 
-let state = {
-  calculationResults: {
-    status: 'notSelected',
-    works: [],
-    materials: [],
-  },
-  popout: null,
-}
-
 function getDefaultSelectState(text) {
   return {
     model: { id: 0, text },
@@ -48,8 +39,13 @@ function getDefaultSelectState(text) {
   }
 }
 
-state = {
-  ...state,
+let state = {
+  calculationResults: {
+    status: 'notSelected',
+    works: [],
+    materials: [],
+  },
+  popout: null,
   ...getDefaultSelectState('Выбрать'),
 }
 
@@ -167,7 +163,12 @@ class Home extends React.Component {
     window.history.replaceState({}, '', `#${viewId}/${viewId}main`)
   }
 
+  componentDidMount() {
+    this.setState({ ...state })
+  }
+
   componentWillUnmount() {
+    ;({ state } = this)
     const { calculationResults, model, modification, oldness } = this.state
     window.onpopstate = window.basePopHistoryStateHandler
     window.calculationResults = calculationResults
