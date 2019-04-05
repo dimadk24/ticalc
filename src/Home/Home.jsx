@@ -452,6 +452,17 @@ class Home extends React.Component {
     }
   }
 
+  onModificationSelect = async (modification) => {
+    reachModificationSelectedGoal()
+    this.setSelectValueAndTryToCalculateResults('modification', modification)
+    if (!this.getSelectedOldnessId()) {
+      this.showSpinner()
+      await sleep(0.8) // hack: required to make vk ui change panels nicely
+      this.removeAnyPopout()
+      this.changePanelAndPushHistoryState('chooseOldness')
+    }
+  }
+
   render() {
     const { id: viewId } = this.props
     const { activePanel, popout, modifications } = this.state
@@ -476,10 +487,7 @@ class Home extends React.Component {
           backClickHandler={() => goBack()}
           header="Модификация"
           items={modifications}
-          onSelect={(item) => {
-            reachModificationSelectedGoal()
-            this.setSelectValueAndTryToCalculateResults('modification', item)
-          }}
+          onSelect={this.onModificationSelect}
         />
         <SweetSelect
           id="chooseOldness"
