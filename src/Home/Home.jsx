@@ -46,6 +46,7 @@ let state = {
     materials: [],
   },
   popout: null,
+  modifications: [],
   ...getDefaultSelectState('Выбрать'),
 }
 
@@ -122,8 +123,6 @@ class Home extends React.Component {
   ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами для записи на техническое обслуживание автомобиля Nissan`
 
   models = productionModels
-
-  modifications = []
 
   oldnesses = productionOldnesses
 
@@ -353,12 +352,11 @@ class Home extends React.Component {
   }
 
   async setModifications(modelId) {
-    const modifications = await loadModifications(modelId)
-    this.modifications = convertModifications(modifications)
+    let modifications = await loadModifications(modelId)
+    modifications = convertModifications(modifications)
     this.setState({
-      modification: convertFromSweetSelectToHomeItemsFormat(
-        this.modifications[0]
-      ),
+      modifications,
+      modification: convertFromSweetSelectToHomeItemsFormat(modifications[0]),
     })
   }
 
@@ -456,7 +454,7 @@ class Home extends React.Component {
 
   render() {
     const { id: viewId } = this.props
-    const { activePanel, popout } = this.state
+    const { activePanel, popout, modifications } = this.state
     const panelId = `${viewId}main`
     return (
       <View id={viewId} activePanel={activePanel} header popout={popout}>
@@ -477,7 +475,7 @@ class Home extends React.Component {
           id="chooseModification"
           backClickHandler={() => goBack()}
           header="Модификация"
-          items={this.modifications}
+          items={modifications}
           onSelect={(item) => {
             reachModificationSelectedGoal()
             this.setSelectValueAndTryToCalculateResults('modification', item)
