@@ -238,7 +238,7 @@ class Home extends React.Component {
     return (
       <List>
         {this.getModelSelectIndicator()}
-        {Boolean(this.getSelectedModificationId()) &&
+        {Boolean(this.getSelectedModelId()) &&
           this.getModificationSelectIndicator()}
         {this.getOldnessSelectIndicator()}
       </List>
