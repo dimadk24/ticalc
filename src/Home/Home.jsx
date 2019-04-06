@@ -11,6 +11,7 @@ import {
 } from '@vkontakte/vkui'
 import '@vkontakte/vkui/dist/vkui.css'
 import PropTypes from 'prop-types'
+import Icon24Delete from '@vkontakte/icons/dist/24/delete'
 import SweetSelect from '../SweetSelect/SweetSelect'
 import {
   Indicator,
@@ -39,7 +40,7 @@ function getDefaultSelectState(text) {
   }
 }
 
-let state = {
+const defaultState = {
   calculationResults: {
     status: 'notSelected',
     works: [],
@@ -49,6 +50,8 @@ let state = {
   modifications: [],
   ...getDefaultSelectState('Выбрать'),
 }
+
+let state = defaultState
 
 function goBack() {
   window.history.back()
@@ -248,6 +251,17 @@ class Home extends React.Component {
   getCalculationSelectGroup() {
     return (
       <Group>
+        <Div>
+          <Button
+            size="xl"
+            level="outline"
+            className="reset-button"
+            before={<Icon24Delete />}
+            onClick={this.resetAll}
+          >
+            <span>Сбросить все</span>
+          </Button>
+        </Div>
         <Header>
           Рассчитайте стоимость технического обслуживания вашего Nissan:
         </Header>
@@ -386,6 +400,14 @@ class Home extends React.Component {
 
   changePanel(panelId) {
     this.setState({ activePanel: panelId })
+  }
+
+  resetAll = () => {
+    const { popout } = this.state
+    this.setState({
+      ...defaultState,
+      popout,
+    })
   }
 
   async calculateResults() {
