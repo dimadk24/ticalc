@@ -67,20 +67,16 @@ export default class SendRequestView extends Component {
   }
 
   sendRequest = async (name, phone) => {
+    const { onSentRequest } = this.props
     this.showSpinner()
     try {
       await sendRequest(name, phone)
       reachSentManualRequestGoal()
-      this.doPostRequestTasks()
+      this.removeAnyPopout()
+      onSentRequest()
     } catch (e) {
       this.showNetworkErrorAlert(() => this.validateAndShowErrorsAndSendForm())
     }
-  }
-
-  doPostRequestTasks() {
-    const { onSentRequest } = this.props
-    this.removeAnyPopout()
-    onSentRequest()
   }
 
   showNetworkErrorAlert(retryCallback) {
