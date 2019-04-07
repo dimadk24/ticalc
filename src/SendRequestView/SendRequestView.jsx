@@ -3,7 +3,11 @@ import PropTypes from 'prop-types'
 import { Panel, ScreenSpinner, View } from '@vkontakte/vkui'
 import axios from 'axios'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
-import { reachGoal } from '../helpers/production_utils'
+import {
+  reachGoal,
+  isProduction,
+  getRecaptchaToken,
+} from '../helpers/production_utils'
 import NetworkErrorAlert from '../helpers/NetworkErrorAlert'
 import SendRequestForm from './SendRequestForm'
 
@@ -31,10 +35,11 @@ function reachSentManualRequestGoal() {
   reachGoal('sent-manual-request')
 }
 
-function sendRequest(name, phone) {
+async function sendRequest(name, phone, recaptchaToken) {
   const { model, modification, oldness } = getAllInput()
   const { works, materials } = getCalculationResults()
-  return axios.get('request.php', {
+  const url = isProduction ? 'request.php' : 'https://dimadk.tk/dev_request.php'
+  const { status, data } = await axios.get(url, {
     params: {
       model,
       modification,
@@ -43,8 +48,11 @@ function sendRequest(name, phone) {
       materials,
       name,
       phone,
+      recaptcha_token: recaptchaToken,
     },
   })
+  if (!status === 200) return false
+  return data.ok
 }
 
 export default class SendRequestView extends Component {
@@ -70,9 +78,18 @@ export default class SendRequestView extends Component {
     const { onSentRequest } = this.props
     this.showSpinner()
     try {
-      await sendRequest(name, phone)
+      const recaptchaToken = await getRecaptchaToken()
+      const isSuccess = await sendRequest(name, phone, recaptchaToken)
       reachSentManualRequestGoal()
       this.removeAnyPopout()
+      if (!isSuccess) this.setState({ error: 'Вы слишком похожи на бота :(' })
+      // why not throwing locally? Well, Sentry catches exception anyway.
+      // But componentDidCatch in ErrorBoundary catches exceptions only in:
+      // constructors, render methods and lifecycle hooks.
+      // But not in onClicks and so on.
+      // So to catch exception in onClick and show nice error view
+      // we need to use such a hack :(
+      // Another way our nice error view wouldn't be shown to user
       onSentRequest()
     } catch (e) {
       this.showNetworkErrorAlert(() => this.validateAndShowErrorsAndSendForm())
@@ -105,7 +122,8 @@ export default class SendRequestView extends Component {
 
   render() {
     const { id: viewId, onBack, username } = this.props
-    const { popout } = this.state
+    const { popout, error } = this.state
+    if (error) throw new Error(error)
     const panelId = `${viewId}main`
     return (
       <View id={viewId} activePanel={panelId} header popout={popout}>

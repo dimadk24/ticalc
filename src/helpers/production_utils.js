@@ -46,6 +46,19 @@ function launchMetrika() {
   /* eslint-enable */
 }
 
+function getRecaptchaToken() {
+  /* global grecaptcha */
+  return new Promise((resolve) => {
+    grecaptcha.ready(() => {
+      grecaptcha
+        .execute('6Le77psUAAAAAHexyG1I-8n1xj2W1pADVQHL7PFo', {
+          action: 'homepage',
+        })
+        .then(resolve)
+    })
+  })
+}
+
 function initProductionUtils() {
   Raven.config(
     'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
@@ -67,4 +80,4 @@ function reachGoal(name) {
   }
 }
 
-export { isProduction, initProductionUtils, reachGoal }
+export { isProduction, initProductionUtils, reachGoal, getRecaptchaToken }
