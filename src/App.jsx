@@ -44,7 +44,7 @@ class App extends Component {
     this.setGlobalHistoryStateHandler()
   }
 
-  async componentWillMount() {
+  async componentDidMount() {
     VKConnect.send('VKWebAppInit', {})
     this.setOnPopStateEventHandler()
     const name = await getUserName()
