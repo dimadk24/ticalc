@@ -3,7 +3,6 @@
 require_once './recaptcha/autoload.php';
 
 $secret = 'TAKE_SECRET_KEY_FROM_ENV_FILE';
-$expectedHostname = $_SERVER['HTTP_HOST'];
 
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
@@ -16,16 +15,15 @@ if ($recaptchaResponse == '') {
 
 $remoteIp = $_SERVER['REMOTE_ADDR'];
 $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-$response = $recaptcha->setExpectedHostname($expectedHostname)
-                      ->setExpectedAction('homepage')
+$response = $recaptcha->setExpectedAction('homepage')
                       ->setScoreThreshold(0.3)
                       ->verify($recaptchaResponse, $remoteIp);
 if (!$response->isSuccess()) {
     die('{"ok": false, "error": "bad-captcha-solution"}');
 }
 
-	function email($message, $from = 'Расчет ТО', $reply_to = 'info@ya-service.ru') {
-		$to = "info@ya-service.ru";
+	function email($message, $from = 'Расчет ТО', $reply_to = 'DimaKrutDK@ya.ru') {
+		$to = "DimaKrutDK@ya.ru";
 		$subject = "Новый лид с VK сервиса!";
     	$headers = "MIME-Version: 1.0\n" ;
     	$headers .= "Content-type: text/html; charset=utf-8; \r\n"; 
