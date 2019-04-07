@@ -1,6 +1,30 @@
 <?php
 
+require_once './recaptcha/autoload.php';
+
 header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json');
+
+$secret = 'YOUR_RECAPTCHA_SECRET_HERE';
+$recaptchaResponse = $_GET['recaptcha_token'];
+if ($recaptchaResponse == '') {
+    die('no captcha token');
+}
+$remoteIp = $_SERVER['REMOTE_ADDR'];
+$recaptcha = new \ReCaptcha\ReCaptcha($secret);
+$response = $recaptcha->setExpectedHostname('vk.com')
+                      ->setExpectedAction('homepage')
+                      ->setScoreThreshold(0.3)
+                      ->verify($RecaptchaResponse, $remoteIp);
+if ($response->isSuccess()) {
+    die('ok!');
+} else {
+    $errors = $response->getErrorCodes();
+    foreach($response->toArray() as $error) {
+        echo($error + '<br>');
+    }
+    die();
+}
 
 	function email($message, $from = 'Расчет ТО', $reply_to = 'info@ya-service.ru') {
 		$to = "info@ya-service.ru";
@@ -388,5 +412,5 @@ header('Access-Control-Allow-Origin: *');
     $works = json_decode($string_works, TRUE);
     $materials = json_decode($string_materials, TRUE);
     $content = createMessage($car, $modification, $oldness, $works, $materials, $name, $phone);
-	email($content);
+    echo('{"ok":"ok"}');
 	
