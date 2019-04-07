@@ -1,3 +1,5 @@
+import Raven from 'raven-js'
+
 const { REACT_APP_IS_PROD } = process.env
 const isProduction = Boolean(parseInt(REACT_APP_IS_PROD, 10))
 
@@ -44,7 +46,10 @@ function launchMetrika() {
   /* eslint-enable */
 }
 
-function insertMetrika() {
+function initProductionUtils() {
+  Raven.config(
+    'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
+  ).install()
   launchMetrika()
   document.body.innerHTML += noscriptMetrikaTag
 }
@@ -62,4 +67,4 @@ function reachGoal(name) {
   }
 }
 
-export { isProduction, insertMetrika, reachGoal }
+export { isProduction, initProductionUtils, reachGoal }

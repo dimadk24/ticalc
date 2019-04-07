@@ -2,17 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import * as VKConnect from '@vkontakte/vkui-connect'
-import Raven from 'raven-js'
 import App from './App'
 import registerServiceWorker from './sw'
-import { isProduction, insertMetrika } from './helpers/production_utils'
+import { isProduction, initProductionUtils } from './helpers/production_utils'
 
-if (isProduction) {
-  Raven.config(
-    'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
-  ).install()
-  insertMetrika()
-}
+if (isProduction) initProductionUtils()
 
 const root = document.getElementById('root')
 // Render
