@@ -39,7 +39,7 @@ class SendRequestForm extends Component {
     this.setState({ shouldRequestPhone: false })
   }
 
-  async validateAndShowErrorsAndSendForm() {
+  validateAndShowErrorsAndSendForm() {
     const { sendRequest } = this.props
     const { name, phone } = this.state
     if (formIsValid(phone)) sendRequest(name, phone)
