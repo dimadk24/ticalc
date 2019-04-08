@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import * as VKConnect from '@vkontakte/vkui-connect'
 import App from './App'
-import registerServiceWorker from './sw'
+import { unregister } from './sw'
 import { isProduction, initProductionUtils } from './helpers/production_utils'
 
 if (isProduction) initProductionUtils()
@@ -24,8 +24,8 @@ VKConnect.send('VKWebAppInit', {})
 
 render(App)
 
-// Service Worker For Cache
-registerServiceWorker()
+// unregister service worker
+unregister()
 
 // Hot Reload
 if (module.hot) {
