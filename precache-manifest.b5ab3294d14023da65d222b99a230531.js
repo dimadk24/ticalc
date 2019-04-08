@@ -8,15 +8,15 @@ self.__precacheManifest = [
     "url": "/ticalc/static/js/runtime~main.9d64e402.js"
   },
   {
-    "revision": "15e03606af7495177baf",
-    "url": "/ticalc/static/js/main.15e03606.chunk.js"
+    "revision": "a492938d800ae539ad74",
+    "url": "/ticalc/static/js/main.a492938d.chunk.js"
   },
   {
     "revision": "038fa312993d412da262",
     "url": "/ticalc/static/js/2.038fa312.chunk.js"
   },
   {
-    "revision": "15e03606af7495177baf",
+    "revision": "a492938d800ae539ad74",
     "url": "/ticalc/static/css/main.3af078d0.chunk.css"
   },
   {
@@ -24,7 +24,7 @@ self.__precacheManifest = [
     "url": "/ticalc/static/css/2.91b7b8c3.chunk.css"
   },
   {
-    "revision": "febd5011d58d1363da8439a8c9b0ce51",
+    "revision": "5377ded06c8ffda90e7521eb219e9d2d",
     "url": "/ticalc/index.html"
   }
 ];
