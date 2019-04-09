@@ -6,6 +6,41 @@ $secret = 'TAKE_SECRET_KEY_FROM_ENV_FILE';
 
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
+$userIp = $_SERVER['REMOTE_ADDR'];
+
+$history_file = 'FILENAME_FROM_ENV';
+if (file_exists($history_file)) {
+    $history = file_get_contents($history_file);
+    $history = json_decode($history, true);
+} else {
+    $history = [];
+}
+
+
+$now = new DateTime();
+foreach ($history as $key => $value) {
+    $entry_time = new DateTime();
+    $entry_time->setTimestamp($value['timestamp']);
+    $diff = $now->diff($entry_time, true);
+    if ($diff->d >= 1) {
+        unset($history[$key]);
+    }
+}
+
+if (isset($history[$userIp])) {
+    if ($history[$userIp]['count'] >= 3) {
+        die('{"ok": false, "error": "too-many-requests"}');
+    } else {
+        $history[$userIp]['count'] = $history[$userIp]['count'] + 1;
+    }
+} else {
+    $history[$userIp] = [
+        'timestamp' => $now->getTimestamp(),
+        'count' => 1
+    ];
+}
+
+file_put_contents($history_file, json_encode($history));
 
 
 $recaptchaResponse = $_GET['recaptcha_token'];
@@ -13,11 +48,10 @@ if ($recaptchaResponse == '') {
     die('{"ok": false, "error": "no-captcha-token"}');
 }
 
-$remoteIp = $_SERVER['REMOTE_ADDR'];
 $recaptcha = new \ReCaptcha\ReCaptcha($secret);
 $response = $recaptcha->setExpectedAction('homepage')
                       ->setScoreThreshold(0.3)
-                      ->verify($recaptchaResponse, $remoteIp);
+                      ->verify($recaptchaResponse, $userIp);
 if (!$response->isSuccess()) {
     die('{"ok": false, "error": "bad-captcha-solution"}');
 }
