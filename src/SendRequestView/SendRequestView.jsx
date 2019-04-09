@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Panel, ScreenSpinner, View } from '@vkontakte/vkui'
+import { Panel, ScreenSpinner, View, Alert } from '@vkontakte/vkui'
 import axios from 'axios'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 import {
@@ -51,8 +51,8 @@ async function sendRequest(name, phone, recaptchaToken) {
       recaptcha_token: recaptchaToken,
     },
   })
-  if (!status === 200) return false
-  return data.ok
+  if (!status === 200) throw new Error('Network error')
+  return data
 }
 
 export default class SendRequestView extends Component {
@@ -79,18 +79,45 @@ export default class SendRequestView extends Component {
     this.showSpinner()
     try {
       const recaptchaToken = await getRecaptchaToken()
-      const isSuccess = await sendRequest(name, phone, recaptchaToken)
-      reachSentManualRequestGoal()
+      const { ok, error } = await sendRequest(name, phone, recaptchaToken)
       this.removeAnyPopout()
-      if (!isSuccess) this.setState({ error: 'Вы слишком похожи на бота :(' })
-      // why not throwing locally? Well, Sentry catches exception anyway.
-      // But componentDidCatch in ErrorBoundary catches exceptions only in:
-      // constructors, render methods and lifecycle hooks.
-      // But not in onClicks and so on.
-      // So to catch exception in onClick and show nice error view
-      // we need to use such a hack :(
-      // Another way our nice error view wouldn't be shown to user
-      onSentRequest()
+      if (!ok) {
+        if (error !== 'too-many-requests') this.setState({ error })
+        // why not throwing locally? Well, Sentry catches exception anyway.
+        // But componentDidCatch in ErrorBoundary catches exceptions only in:
+        // constructors, render methods and lifecycle hooks.
+        // But not in onClicks and so on.
+        // So to catch exception in onClick and show nice error view
+        // we need to use such a hack :(
+        // Another way our nice error view wouldn't be shown to user
+        else
+          this.setState({
+            popout: (
+              <Alert
+                onClose={this.setState({ popout: null })}
+                actions={[
+                  {
+                    title: 'Написать',
+                    action: () => window.open('//vk.me/ya.service.nissan'),
+                  },
+                  {
+                    title: 'Отмена',
+                    action: () => this.setState({ popout: null }),
+                    style: 'cancel',
+                  },
+                ]}
+              >
+                <p>
+                  Ваши предыдущие заявки получены. Если Вы хотите уточнить их,
+                  напишите нам
+                </p>
+              </Alert>
+            ),
+          })
+      } else {
+        reachSentManualRequestGoal()
+        onSentRequest()
+      }
     } catch (e) {
       this.showNetworkErrorAlert(() => this.validateAndShowErrorsAndSendForm())
     }
