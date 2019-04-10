@@ -230,7 +230,7 @@ class Home extends React.Component {
     const { oldness } = this.state
     return (
       <Indicator
-        text="Пробег или время"
+        text="Пробег или год выпуска"
         value={oldness.text}
         onClick={() => this.changePanelAndPushHistoryState('chooseOldness')}
       />
@@ -514,7 +514,7 @@ class Home extends React.Component {
         <SweetSelect
           id="chooseOldness"
           backClickHandler={() => goBack()}
-          header="Пробег или время"
+          header="Пробег или год"
           items={this.oldnesses}
           onSelect={(item) => {
             reachOldnessSelectedGoal()

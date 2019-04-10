@@ -38,7 +38,7 @@ class StartView extends React.Component {
     if (name) text = `${name}, выберите`
     else text = `Выберите`
     text +=
-      ' свой автомобиль Nissan и узнайте стоимость обслуживания согласно пробегу или году'
+      ' свой автомобиль Nissan и узнайте стоимость обслуживания согласно пробегу или году выпуска'
     return <p>{text}</p>
   }
 
