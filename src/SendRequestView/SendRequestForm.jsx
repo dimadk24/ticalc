@@ -57,7 +57,7 @@ class SendRequestForm extends Component {
             value={name}
           />
           <PhoneInput
-            top="Телефон"
+            top="Номер телефона"
             placeholder="+79211234567"
             onChange={(value) => {
               this.setState({ phoneNotValid: false })

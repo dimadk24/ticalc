@@ -123,7 +123,7 @@ class Home extends React.Component {
     id: PropTypes.string.isRequired,
   }
 
-  ctaText = `Отправьте заявку, наши сотрудники свяжутся с вами для записи на техническое обслуживание автомобиля Nissan`
+  ctaText = `Отправьте заявку, наши сотрудники свяжутся с Вами для записи на техническое обслуживание автомобиля Nissan`
 
   models = productionModels
 

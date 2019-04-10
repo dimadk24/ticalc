@@ -16,7 +16,7 @@ class StartView extends React.Component {
     username: PropTypes.string.isRequired,
   }
 
-  headerText = 'Расчет ТО Ниссан в СПб'
+  headerText = 'Расчет ТО Nissan в СПб'
 
   constructor(props) {
     super(props)
@@ -46,7 +46,7 @@ class StartView extends React.Component {
     const { username: name } = this.props
     const greetingPhrase = 'Здравствуйте'
     const greeting = name ? `${greetingPhrase}, ${name}!` : `${greetingPhrase}!`
-    return <p>{greeting} Вы из СПб, и у вас Ниссан?</p>
+    return <p>{greeting} Вы из СПб и у вас Nissan?</p>
   }
 
   render() {
