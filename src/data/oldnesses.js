@@ -1,6 +1,7 @@
+const CURRENT_YEAR = new Date().getFullYear()
+
 function convertOldnessYearToReleaseYear(year) {
-  const currentYear = 2019
-  const diff = currentYear - year
+  const diff = CURRENT_YEAR - year
   return `${diff} год выпуска`
 }
 
