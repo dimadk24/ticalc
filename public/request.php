@@ -50,7 +50,8 @@ if ($recaptchaResponse == '') {
 }
 
 $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-$response = $recaptcha->setExpectedAction('homepage')
+$response = $recaptcha->setExpectedHostname($expectedHostname)
+                      ->setExpectedAction('homepage')
                       ->setScoreThreshold(0.3)
                       ->verify($recaptchaResponse, $userIp);
 if (!$response->isSuccess()) {
