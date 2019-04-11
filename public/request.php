@@ -57,8 +57,8 @@ if (!$response->isSuccess()) {
     die('{"ok": false, "error": "bad-captcha-solution"}');
 }
 
-	function email($message, $from = 'Расчет ТО', $reply_to = 'DimaKrutDK@ya.ru') {
-		$to = "DimaKrutDK@ya.ru";
+	function email($message, $from = 'Расчет ТО', $reply_to = 'info@ya-service.ru') {
+		$to = "info@ya-service.ru";
 		$subject = "Новый лид с VK сервиса!";
     	$headers = "MIME-Version: 1.0\n" ;
     	$headers .= "Content-type: text/html; charset=utf-8; \r\n";
