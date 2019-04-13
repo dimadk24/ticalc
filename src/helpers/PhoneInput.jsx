@@ -8,20 +8,20 @@ function getPhoneInfo() {
   return getInfoFromVKConnect('VKWebAppGetPhoneNumber')
 }
 
-function format(string) {
-  let localString = string
-  if (!localString.startsWith('+') && localString !== '')
-    localString = `+${localString}`
-  const formatter = new AsYouType('RU')
-  return formatter.input(localString)
-}
-
 function getPlainNumberredValue(value) {
   return value.replace(/[^0-9]/g, '')
 }
 
 function getPlainNumberredValueWithPlus(value) {
   return `+${getPlainNumberredValue(value)}`
+}
+
+function format(string) {
+  let localString = string
+  if (localString !== '')
+    localString = getPlainNumberredValueWithPlus(localString)
+  const formatter = new AsYouType('RU')
+  return formatter.input(localString)
 }
 
 function valueIsNice(value) {
