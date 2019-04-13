@@ -251,17 +251,19 @@ class Home extends React.Component {
   getCalculationSelectGroup() {
     return (
       <Group>
-        <Div>
-          <Button
-            size="xl"
-            level="outline"
-            className="reset-button"
-            before={<Icon24Delete />}
-            onClick={this.resetAll}
-          >
-            <span>Сбросить все</span>
-          </Button>
-        </Div>
+        {this.anySelected() && (
+          <Div>
+            <Button
+              size="xl"
+              level="outline"
+              className="reset-button"
+              before={<Icon24Delete />}
+              onClick={this.resetAll}
+            >
+              <span>Сбросить все</span>
+            </Button>
+          </Div>
+        )}
         <Header>
           Рассчитайте стоимость технического обслуживания вашего Nissan:
         </Header>
@@ -395,6 +397,14 @@ class Home extends React.Component {
       this.getSelectedModelId() &&
       this.getSelectedModificationId() &&
       this.getSelectedOldnessId()
+    )
+  }
+
+  anySelected() {
+    return Boolean(
+      this.getSelectedModelId() ||
+        this.getSelectedModificationId() ||
+        this.getSelectedOldnessId()
     )
   }
 
