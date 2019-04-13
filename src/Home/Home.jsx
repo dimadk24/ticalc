@@ -465,7 +465,7 @@ class Home extends React.Component {
     this.resetModification()
     try {
       await this.setModifications(model.id)
-      await sleep(0.8) // hack: required to make vk ui change panels nicely
+      await sleep(1.2) // hack: required to make vk ui change panels nicely
       this.removeAnyPopout()
       this.changePanelAndPushHistoryState('chooseModification')
       this.setSelectValueAndTryToCalculateResults('model', model)
@@ -479,7 +479,7 @@ class Home extends React.Component {
     this.setSelectValueAndTryToCalculateResults('modification', modification)
     if (!this.getSelectedOldnessId()) {
       this.showSpinner()
-      await sleep(0.8) // hack: required to make vk ui change panels nicely
+      await sleep(1.2) // hack: required to make vk ui change panels nicely
       this.removeAnyPopout()
       this.changePanelAndPushHistoryState('chooseOldness')
     }
