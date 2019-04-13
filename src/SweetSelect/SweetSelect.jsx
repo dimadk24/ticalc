@@ -3,8 +3,10 @@ import { Cell, Div, List, Panel, Search } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
 import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
 
-function normalizeSearchValue(text, { shouldLowerCase }) {
-  let normalizedText = text.trimLeft()
+function normalizeSearchValue(text, { shouldLowerCase, shouldTrimBoth }) {
+  let normalizedText
+  if (shouldTrimBoth) normalizedText = text.trim()
+  else normalizedText = text.trimLeft()
   if (shouldLowerCase) normalizedText = normalizedText.toLowerCase()
   return normalizedText
 }
@@ -46,11 +48,13 @@ class SweetSelect extends React.Component {
     const { items } = this.props
     const normalizedSearchText = normalizeSearchValue(searchText, {
       shouldLowerCase: true,
+      shouldTrimBoth: true,
     })
     return items.filter(({ value }) =>
-      normalizeSearchValue(value, { shouldLowerCase: true }).includes(
-        normalizedSearchText
-      )
+      normalizeSearchValue(value, {
+        shouldLowerCase: true,
+        shouldTrimBoth: true,
+      }).includes(normalizedSearchText)
     )
   }
 
