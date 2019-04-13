@@ -23,12 +23,17 @@ function formIsValid(phone) {
 class SendRequestForm extends Component {
   constructor(props) {
     super(props)
-    const { initialName } = this.props
-    this.state = { ...state, name: initialName }
+    this.state = state
   }
 
   componentDidMount() {
-    this.setState({ ...state, shouldRequestPhone: true })
+    const { name } = this.state
+    const { initialName } = this.props
+    this.setState({
+      ...state,
+      shouldRequestPhone: true,
+      name: name || initialName,
+    })
   }
 
   componentWillUnmount() {
