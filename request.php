@@ -50,27 +50,28 @@ if ($recaptchaResponse == '') {
 }
 
 $recaptcha = new \ReCaptcha\ReCaptcha($secret);
-$response = $recaptcha->setExpectedAction('homepage')
+$response = $recaptcha->setExpectedHostname($expectedHostname)
+                      ->setExpectedAction('homepage')
                       ->setScoreThreshold(0.3)
                       ->verify($recaptchaResponse, $userIp);
 if (!$response->isSuccess()) {
     die('{"ok": false, "error": "bad-captcha-solution"}');
 }
 
-	function email($message, $from = 'Расчет ТО', $reply_to = 'DimaKrutDK@ya.ru') {
-		$to = "DimaKrutDK@ya.ru";
+	function email($message, $from = 'Расчет ТО', $reply_to = 'info@ya-service.ru') {
+		$to = "info@ya-service.ru";
 		$subject = "Новый лид с VK сервиса!";
     	$headers = "MIME-Version: 1.0\n" ;
-    	$headers .= "Content-type: text/html; charset=utf-8; \r\n"; 
+    	$headers .= "Content-type: text/html; charset=utf-8; \r\n";
     	$headers .= "From: $from\r\n";
     	if(!empty($reply_to))
 	    	$headers .= "reply-to: $reply_to\r\n";
-    	
+
     	$subject = "=?utf-8?B?".base64_encode($subject)."?=";
 
     	@mail($to, $subject, $message, $headers);
     }
-    
+
     function convertArrayToHTMLTemplate($_array){
         $_string = '';
         foreach ($_array as $item) {
@@ -105,7 +106,7 @@ if (!$response->isSuccess()) {
         $overallSummary = $worksSummary + $materialsSummary;
         $template = '<!DOCTYPE html>
         <html lang="ru" style="margin: 0;padding: 0;box-sizing: border-box;">
-        
+
         <head style="margin: 0;padding: 0;box-sizing: border-box;">
             <meta charset="UTF-8" style="margin: 0;padding: 0;box-sizing: border-box;">
             <meta name="viewport" content="width=device-width, initial-scale=1.0" style="margin: 0;padding: 0;box-sizing: border-box;">
@@ -117,39 +118,39 @@ if (!$response->isSuccess()) {
                     padding: 0;
                     box-sizing: border-box;
                 }
-        
+
                 body {
                     background-color: #edeef0;
                 }
-        
+
                 main {
                     max-width: 760px;
                     margin: 0 auto;
                 }
-        
+
                 header {
                     margin: 13px;
                 }
-        
+
                 header.inner {
                     margin: 0 0 10px 0;
                     color: #6d6d6d;
-        
+
                 }
-        
+
                 h1 {
                     font-size: 1.5em;
                 }
-        
+
                 h2 {
                     font-size: 1.3em;
                 }
-        
+
                 h1,
                 h2 {
                     text-align: center;
                 }
-        
+
                 .container {
                     border: 1px solid black;
                     margin: 5px 5px 10px 5px;
@@ -157,38 +158,38 @@ if (!$response->isSuccess()) {
                     background-color: #f5f3f3;
                     border-radius: 15px;
                 }
-        
+
                 .param-container {
                     display: flex;
                     flex-direction: row;
                     justify-content: start;
                     margin-bottom: 12px;
                 }
-        
+
                 .param-container>p,
                 .param-container>strong {
                     margin: auto 0;
                 }
-        
+
                 .param-container>p:first-child,
                 .param-container>strong:first-child {
                     margin-right: 7px;
                     font-weight: 550;
                 }
-        
+
                 .calculations .param-container {
                     justify-content: space-between;
                 }
-        
+
                 .money {
                     white-space: nowrap;
                 }
-        
+
                 p {
                     margin-block-start: 0.5em;
                     margin-block-end: 0.5em;
                 }
-        
+
                 button.call {
                     padding: 10px 5px;
                     border-radius: 5px;
@@ -202,7 +203,7 @@ if (!$response->isSuccess()) {
                     justify-content: center;
                     transition-duration: 200ms;
                 }
-        
+
                 button.call>*,
                 button.call>*:visited,
                 button.call>*:active,
@@ -210,34 +211,34 @@ if (!$response->isSuccess()) {
                     text-decoration: none;
                     color: white;
                 }
-        
+
                 button.call>a {
                     font-size: 1.3em;
                 }
-        
+
                 button.call:hover,
                 button.call:active {
                     background-color: #2b2be6;
                 }
-        
+
                 i.icon-phone {
                     font-size: 1.5em;
                     margin-right: 10px;
                 }
-        
+
                 @media screen and (min-width: 480px) {
-        
+
                     .container {
                         margin: 10px 10px 15px 10px;
                         padding: 15px;
                     }
-        
+
                     .param-container>p:first-child,
                     .param-container>strong:first-child {
                         margin-right: 15px;
                     }
                 }
-        
+
                 @media screen and (min-width: 760px) {
                     .calculations {
                         display: flex;
@@ -248,41 +249,41 @@ if (!$response->isSuccess()) {
                         justify-content: space-between;
                         padding: 0;
                     }
-        
+
                     div.row {
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
                         margin-top: 10px;
                     }
-        
+
                     div.row.summary-row {
                         justify-content: flex-end;
                     }
-        
+
                     .works,
                     .materials {
                         border: 1px solid black;
                         border-radius: 10px;
                         padding: 15px;
                     }
-        
+
                     .works {
                         margin-right: 10px;
                     }
                 }
-        
+
                 @media screen and (min-width: 1366px) {
                     button.call {
                         display: none;
                     }
-        
+
                     main {
                         max-width: 1000px;
                     }
                 }
-        
-        
+
+
                 @font-face {
                     font-family: "fontello";
                     src: url("./font/fontello.eot?44217150");
@@ -294,49 +295,49 @@ if (!$response->isSuccess()) {
                     font-weight: normal;
                     font-style: normal;
                 }
-        
+
                 [class^="icon-"]:before,
                 [class*=" icon-"]:before {
                     font-family: "fontello";
                     font-style: normal;
                     font-weight: normal;
-        
+
                     display: inline-block;
                     text-decoration: inherit;
                     width: 1em;
                     margin-right: 0.2em;
                     text-align: center;
                     /* opacity: .8; */
-        
+
                     /* For safety - reset parent styles, that can break glyph codes*/
                     font-variant: normal;
                     text-transform: none;
-        
+
                     /* fix buttons height, for twitter bootstrap */
                     line-height: 1em;
-        
+
                     /* Animation center compensation - margins should be symmetric */
                     /* remove if not needed */
                     margin-left: 0.2em;
-        
+
                     /* you can be more comfortable with increased icons size */
                     /* font-size: 120%; */
-        
+
                     /* Font smoothing. That was taken from TWBS */
                     -webkit-font-smoothing: antialiased;
                     -moz-osx-font-smoothing: grayscale;
-        
+
                     /* Uncomment for 3D effect */
                     /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
                 }
-        
+
                 .icon-phone:before {
                     content: "\e801";
                 }
-        
+
             </style>
         </head>
-        
+
         <body style="margin: 0;padding: 0;box-sizing: border-box;background-color: #edeef0;">
             <header style="margin: 13px;padding: 0;box-sizing: border-box;">
                 <h1 style="margin: 0;padding: 0;box-sizing: border-box;font-size: 1.5em;text-align: center;">Новый лид из сервиса ВКонтакте!</h1>
@@ -407,7 +408,7 @@ if (!$response->isSuccess()) {
                 </div>
             </main>
         </body>
-        
+
         </html>';
 		return $template;
     }
