@@ -96,6 +96,11 @@ class App extends Component {
     return (
       <ErrorBoundary>
         <Root activeView={activeView}>
+          <StartView
+            id="start"
+            onGoHome={() => this.goHome()}
+            username={username}
+          />
           <Home
             id="home"
             onCtaClick={() => this.goToSendRequest()}
@@ -105,11 +110,6 @@ class App extends Component {
             id="sendRequest"
             onBack={() => goBack()}
             onSentRequest={() => this.goToThankYouView()}
-            username={username}
-          />
-          <StartView
-            id="start"
-            onGoHome={() => this.goHome()}
             username={username}
           />
           <ThankYouView id="thank-you" onBack={() => goBack()} />
