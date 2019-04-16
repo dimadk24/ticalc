@@ -32,16 +32,6 @@ class StartView extends React.Component {
     onGoHome()
   }
 
-  getText() {
-    const { username: name } = this.props
-    let text
-    if (name) text = `${name}, выберите`
-    else text = `Выберите`
-    text +=
-      ' свой автомобиль Nissan и узнайте стоимость обслуживания согласно пробегу или году выпуска'
-    return <p>{text}</p>
-  }
-
   getGreeting() {
     const { username: name } = this.props
     const greetingPhrase = 'Здравствуйте'
@@ -64,7 +54,10 @@ class StartView extends React.Component {
               </div>
               <div>
                 {this.getGreeting()}
-                {this.getText()}
+                <p>
+                  Выберите свой автомобиль Nissan и узнайте стоимость
+                  обслуживания согласно пробегу или году выпуска
+                </p>
               </div>
               <Button stretched size="xl" onClick={this.onGoHome}>
                 Рассчитать стоимость ТО
