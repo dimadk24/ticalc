@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Panel, ScreenSpinner, View, Alert } from '@vkontakte/vkui'
 import axios from 'axios'
-import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
+import PanelHeader from '../helpers/PanelHeader'
 import {
   reachGoal,
   isProduction,
@@ -155,10 +155,7 @@ export default class SendRequestView extends Component {
     return (
       <View id={viewId} activePanel={panelId} header popout={popout}>
         <Panel id={panelId}>
-          <HeaderWithBackButton
-            onBackButtonClick={onBack}
-            text="Отправить заявку"
-          />
+          <PanelHeader onBackButtonClick={onBack} text="Отправить заявку" />
           <SendRequestForm
             sendRequest={this.sendRequest}
             initialName={username}

@@ -1,7 +1,7 @@
 import { Button, Cell, Group, Panel, View } from '@vkontakte/vkui'
 import React from 'react'
 import PropTypes from 'prop-types'
-import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
+import PanelHeader from '../helpers/PanelHeader'
 import { reachGoal } from '../helpers/production_utils'
 import './ThankYouView.css'
 
@@ -22,10 +22,7 @@ class ThankYouView extends React.Component {
     return (
       <View id={viewId} activePanel={panelId}>
         <Panel id={panelId}>
-          <HeaderWithBackButton
-            onBackButtonClick={() => onBack()}
-            text="Спасибо"
-          />
+          <PanelHeader onBackButtonClick={() => onBack()} text="Спасибо" />
           <Group>
             <Cell multiline>
               <div>Спасибо!</div>

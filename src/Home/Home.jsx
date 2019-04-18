@@ -24,7 +24,7 @@ import {
   doPostRequest,
   sleep,
 } from '../helpers/helpers'
-import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
+import PanelHeader from '../helpers/PanelHeader'
 import { isProduction, reachGoal } from '../helpers/production_utils'
 import mockModifications from '../_mocks_/modifications'
 import mockCalculationResults from '../_mocks_/calculation_results'
@@ -190,7 +190,7 @@ class Home extends React.Component {
   getPanelHeader = () => {
     const { onBack } = this.props
     return (
-      <HeaderWithBackButton
+      <PanelHeader
         text={this.headerText}
         onBackButtonClick={() => onBack()}
       />

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Cell, Div, List, Panel, Search } from '@vkontakte/vkui'
 import PropTypes from 'prop-types'
-import HeaderWithBackButton from '../helpers/HeaderWithBackButton'
+import PanelHeader from '../helpers/PanelHeader'
 
 function normalizeSearchValue(text, { shouldLowerCase, shouldTrimBoth }) {
   let normalizedText
@@ -63,7 +63,7 @@ class SweetSelect extends React.Component {
     const { id: panelId, backClickHandler, header, onSelect } = this.props
     return (
       <Panel id={panelId}>
-        <HeaderWithBackButton
+        <PanelHeader
           onBackButtonClick={() => backClickHandler()}
           text={header}
           panelHeaderProps={{ noShadow: true }}
