@@ -119,8 +119,13 @@ async function loadResults(model, modification, oldness) {
 class Home extends React.Component {
   static propTypes = {
     onCtaClick: PropTypes.func.isRequired,
-    onBack: PropTypes.func.isRequired,
+    onBack: PropTypes.func,
+    showBackButton: PropTypes.bool.isRequired,
     id: PropTypes.string.isRequired,
+  }
+
+  static defaultProps = {
+    onBack: () => {},
   }
 
   ctaText = `Отправьте заявку, наши сотрудники свяжутся с Вами для записи на техническое обслуживание автомобиля Nissan`
@@ -188,11 +193,12 @@ class Home extends React.Component {
   }
 
   getPanelHeader = () => {
-    const { onBack } = this.props
+    const { onBack, showBackButton } = this.props
     return (
       <PanelHeader
         text={this.headerText}
         onBackButtonClick={() => onBack()}
+        showBackButton={showBackButton}
       />
     )
   }

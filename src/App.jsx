@@ -34,11 +34,22 @@ function convertIdToHashLocation(id) {
 }
 
 class App extends Component {
+  static isOpenedAppFirstTime() {
+    const KEY = 'oldUser'
+    const isOldUser = Boolean(localStorage.getItem(KEY))
+    if (isOldUser) return false
+    localStorage.setItem(KEY, String(true))
+    return true
+  }
+
   constructor(props) {
     super(props)
+    const showStartView = App.isOpenedAppFirstTime()
+    const startView = showStartView ? 'start' : 'home'
     this.state = {
-      activeView: 'start',
+      activeView: startView,
       username: '',
+      showStartView,
     }
     setStartHistoryState()
     this.setGlobalHistoryStateHandler()
@@ -92,7 +103,7 @@ class App extends Component {
   }
 
   render() {
-    const { username, activeView } = this.state
+    const { username, activeView, showStartView } = this.state
     return (
       <ErrorBoundary>
         <Root activeView={activeView}>
@@ -105,6 +116,7 @@ class App extends Component {
             id="home"
             onCtaClick={() => this.goToSendRequest()}
             onBack={() => goBack()}
+            showBackButton={showStartView}
           />
           <SendRequestView
             id="sendRequest"
