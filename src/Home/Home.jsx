@@ -164,7 +164,8 @@ class Home extends React.Component {
     super(props)
     this.state = state
     const { id: viewId } = this.props
-    state.activePanel = `${viewId}main`
+    this.homePanelId = `${viewId}main`
+    state.activePanel = this.homePanelId
     window.onpopstate = () => this.onPopHistoryState()
 
     window.history.replaceState({}, '', `#${viewId}/${viewId}main`)
@@ -504,10 +505,9 @@ class Home extends React.Component {
   render() {
     const { id: viewId } = this.props
     const { activePanel, popout, modifications } = this.state
-    const panelId = `${viewId}main`
     return (
       <View id={viewId} activePanel={activePanel} header popout={popout}>
-        <Panel id={panelId}>
+        <Panel id={this.homePanelId}>
           {this.getPanelHeader()}
           {this.getCalculationSelectGroup()}
           {this.getCalculationResults()}
