@@ -7,7 +7,7 @@ import SendRequestView from './SendRequestView/SendRequestView'
 import StartView from './StartView/StartView'
 import ErrorBoundary from './helpers/ErrorBoundary/ErrorBoundary'
 import ThankYouView from './ThankYouView/ThankYouView'
-import { getUserInfo } from './helpers/helpers'
+import { getUserInfo, isSafari } from './helpers/helpers'
 
 async function getUserName() {
   return (await getUserInfo()).first_name
@@ -23,10 +23,6 @@ function convertHashLocationToId(hash) {
 
 function pushHistoryItem(location) {
   window.history.pushState({}, '', location)
-}
-
-function goBack() {
-  window.history.back()
 }
 
 function convertIdToHashLocation(id) {
@@ -81,6 +77,11 @@ class App extends Component {
     this.setState({ username })
   }
 
+  goBackTo = (viewId) => {
+    if (isSafari()) this.changeView(viewId)
+    else window.history.back()
+  }
+
   changeView(viewId) {
     this.setState({ activeView: viewId })
   }
@@ -115,16 +116,19 @@ class App extends Component {
           <Home
             id="home"
             onCtaClick={() => this.goToSendRequest()}
-            onBack={() => goBack()}
+            onBack={() => this.goBackTo('start')}
             showBackButton={showStartView}
           />
           <SendRequestView
             id="sendRequest"
-            onBack={() => goBack()}
+            onBack={() => this.goBackTo('home')}
             onSentRequest={() => this.goToThankYouView()}
             username={username}
           />
-          <ThankYouView id="thank-you" onBack={() => goBack()} />
+          <ThankYouView
+            id="thank-you"
+            onBack={() => this.goBackTo('sendRequest')}
+          />
         </Root>
       </ErrorBoundary>
     )

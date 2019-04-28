@@ -22,6 +22,7 @@ import {
   convertModifications,
   convertResults,
   doPostRequest,
+  isSafari,
   sleep,
 } from '../helpers/helpers'
 import PanelHeader from '../helpers/PanelHeader'
@@ -52,10 +53,6 @@ const defaultState = {
 }
 
 let state = defaultState
-
-function goBack() {
-  window.history.back()
-}
 
 function reachModelSelectedGoal() {
   reachGoal('selected-model')
@@ -502,6 +499,11 @@ class Home extends React.Component {
     }
   }
 
+  goBack = () => {
+    if (isSafari()) this.changePanel(this.homePanelId)
+    else window.history.back()
+  }
+
   render() {
     const { id: viewId } = this.props
     const { activePanel, popout, modifications } = this.state
@@ -515,21 +517,21 @@ class Home extends React.Component {
         </Panel>
         <SweetSelect
           id="chooseModel"
-          backClickHandler={() => goBack()}
+          backClickHandler={this.goBack}
           header="Модель"
           items={this.models}
           onSelect={this.onModelSelect}
         />
         <SweetSelect
           id="chooseModification"
-          backClickHandler={() => goBack()}
+          backClickHandler={this.goBack}
           header="Модификация"
           items={modifications}
           onSelect={this.onModificationSelect}
         />
         <SweetSelect
           id="chooseOldness"
-          backClickHandler={() => goBack()}
+          backClickHandler={this.goBack}
           header="Пробег или год"
           items={this.oldnesses}
           onSelect={(item) => {

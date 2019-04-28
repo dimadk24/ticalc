@@ -1,5 +1,6 @@
 import connect from '@vkontakte/vkui-connect'
 import axios from 'axios'
+import UAParser from 'ua-parser-js'
 
 function getPrice(string) {
   return Number.parseInt(string, 10) || 0
@@ -80,6 +81,17 @@ function sleep(seconds) {
   })
 }
 
+let _isSafari
+
+function isSafari() {
+  if (typeof _isSafari === 'undefined') {
+    const uaParser = new UAParser()
+    const { name: browser } = uaParser.getBrowser()
+    _isSafari = browser.toLowerCase().includes('safari')
+  }
+  return _isSafari
+}
+
 export {
   convertResults,
   getInfoFromVKConnect,
@@ -87,4 +99,5 @@ export {
   convertModifications,
   doPostRequest,
   sleep,
+  isSafari,
 }
