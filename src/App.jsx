@@ -49,11 +49,11 @@ class App extends Component {
     }
     setStartHistoryState()
     this.setGlobalHistoryStateHandler()
+    this.setOnPopStateEventHandler()
   }
 
   async componentDidMount() {
     VKConnect.send('VKWebAppInit', {})
-    this.setOnPopStateEventHandler()
     const name = await getUserName()
     this.setUserName(name)
   }
