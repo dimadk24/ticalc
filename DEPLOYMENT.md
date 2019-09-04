@@ -5,7 +5,7 @@
 5. Bump npm package version
 6. Update url: update version as the last symbol in the url
 7. In project dir run `yarn build:prod`
-8. Remove from bulid folder:
+8. Remove from build folder:
     1. dev_request.php
     2. static/js/runtime~*.js
     3. static/js/runtime~*.js.map
@@ -18,7 +18,7 @@
 14. Change the url of the app in VK
 15. Validate that app is working inside VK
 16. Validate that it's the last version of the app
-17. Change url in Metrika
+17. Change url in Yandex Metrika
 18. Disconnect from Customer
 19. Revert changes in request.php
 20. Revert **only** homepage field in package.json
