@@ -2,14 +2,14 @@
 
 require_once './recaptcha/autoload.php';
 
-$secret = '6Le77psUAAAAAEiIZv0p88T7GWsjEL1R87vh2v6O';
+$secret = 'TAKE_SECRET_KEY_FROM_ENV_FILE';
 $expectedHostname = $_SERVER['HTTP_HOST'];
 
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 $userIp = $_SERVER['REMOTE_ADDR'];
 
-$history_file = 'ticalc_app_history.json';
+$history_file = 'FILENAME_FROM_ENV';
 if (file_exists($history_file)) {
     $history = file_get_contents($history_file);
     $history = json_decode($history, true);
