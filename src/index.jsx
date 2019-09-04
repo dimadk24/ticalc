@@ -6,9 +6,12 @@ import App from './App'
 import { unregister } from './sw'
 import { isProduction, initProductionUtils } from './helpers/production_utils'
 
-if (isProduction) initProductionUtils()
+let root = document.getElementById('root')
+if (isProduction) initProductionUtils(root)
 
-const root = document.getElementById('root')
+// need to query it again here cause initProductionUtils modifies DOM
+// another way React throws error
+root = document.getElementById('root')
 // Render
 const render = (Component) => {
   ReactDOM.render(

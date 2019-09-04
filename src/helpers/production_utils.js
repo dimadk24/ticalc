@@ -1,4 +1,5 @@
 import Raven from 'raven-js'
+import mVKMiniAppsScrollHelper from '@vkontakte/mvk-mini-apps-scroll-helper'
 
 const { REACT_APP_IS_PROD } = process.env
 const isProduction = Boolean(parseInt(REACT_APP_IS_PROD, 10))
@@ -59,7 +60,8 @@ function getRecaptchaToken() {
   })
 }
 
-function initProductionUtils() {
+function initProductionUtils(rootElement) {
+  mVKMiniAppsScrollHelper(rootElement)
   Raven.config(
     'https://e1f809f399e2427898e1796a4a4d8c64@sentry.io/1280607'
   ).install()

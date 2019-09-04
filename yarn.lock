@@ -1015,6 +1015,11 @@
     es6-object-assign "^1.1.0"
     svg-baker-runtime "^1.4.0"
 
+"@vkontakte/mvk-mini-apps-scroll-helper@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@vkontakte/mvk-mini-apps-scroll-helper/-/mvk-mini-apps-scroll-helper-1.0.3.tgz#5e0654b8d66dcc4e0a96ff223c6c9d63b08dd494"
+  integrity sha512-U7YSZ0/Q9/eSXHmEB8yw0cl+rtjQ5C6ux4LodD3TlBMTo/R3KJso2EAG8/hmj0KfvBSxwReSJ67TN3Hb7AvsLw==
+
 "@vkontakte/vkui-connect-mock@^1.0.61":
   version "1.0.61"
   resolved "https://registry.yarnpkg.com/@vkontakte/vkui-connect-mock/-/vkui-connect-mock-1.0.61.tgz#543c628fc7b5415b82e680b1a994c1313c9ad507"
