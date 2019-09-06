@@ -3,7 +3,7 @@
 3. Setup TimeViewer
 4. Put data from .env into request.php (production request)
 5. Bump npm package version
-6. Update url: update version as the last symbol in the url
+6. Update package.json.homepage field. Set new version as last 2 symbols in the url
 7. In project dir run `yarn build:prod`
 8. Remove from build folder:
     1. dev_request.php
