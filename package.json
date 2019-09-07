@@ -9,9 +9,9 @@
     "url": "https://github.com/dimadk24/ticalc"
   },
   "scripts": {
-    "start": "set \"REACT_APP_IS_PROD=0\" && react-scripts start",
-    "build:prod": "set \"REACT_APP_IS_PROD=1\" && react-scripts build",
-    "build:qa": "set \"REACT_APP_IS_PROD=0\" && react-scripts build",
+    "start": "cross-env REACT_APP_IS_PROD=0 react-scripts start",
+    "build:prod": "cross-env REACT_APP_IS_PROD=1 react-scripts build",
+    "build:qa": "cross-env REACT_APP_IS_PROD=0 react-scripts build",
     "deploy": "gh-pages -d build",
     "predeploy": "yarn build:qa",
     "test": "jest",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "babel-jest": "^23.6.0",
+    "cross-env": "^5.2.1",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^4.0.0",
