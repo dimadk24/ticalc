@@ -1,7 +1,7 @@
 {
   "name": "ticalc",
   "homepage": "https://dimadk24.github.io/ticalc/",
-  "version": "1.10.0",
+  "version": "1.12.0",
   "description": "",
   "main": "index.js",
   "repository": {
