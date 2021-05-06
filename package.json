@@ -35,7 +35,7 @@
     "react-dom": "npm:@hot-loader/react-dom",
     "react-hot-loader": "^4.7.1",
     "react-scripts": "^2.1.5",
-    "ua-parser-js": "^0.7.19"
+    "ua-parser-js": "^0.7.24"
   },
   "devDependencies": {
     "babel-jest": "^23.6.0",
